@@ -20,7 +20,7 @@ require_once '../config/database.php';
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">SGSI - VetLab</a>
+        <a class="navbar-brand" href="../public/admin.php">SGSI - VetLab</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -28,32 +28,32 @@ require_once '../config/database.php';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Cargar Insumos</a>
+                    <a class="nav-link active" aria-current="page" href="../public/admin/cargar_insumos.php">Cargar Insumos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Crear órden de compra</a>
+                    <a class="nav-link" href="../public/admin/crear_orden_compra.php">Crear órden de compra</a>
                 </li>
                 <li class="nav-item dropdown">
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Mantener
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item" href="#">Mantener insumos</a></li>
-                        <li><a class="dropdown-item" href="#">Mantener proveedores</a></li>
-                        <li><a class="dropdown-item" href="#">Mantener perfiles de muestra</a></li>
+                        <li><a class="dropdown-item" href="../public/admin/mantener_insumos.php">Mantener insumos</a></li>
+                        <li><a class="dropdown-item" href="../public/admin/mantener_proveedores.php">Mantener proveedores</a></li>
+                        <li><a class="dropdown-item" href="../public/admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Listado de insumos</a>
+                    <a class="nav-link" href="../public/admin/listado_insumos.php">Listado de insumos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Listado de métricas</a>
+                    <a class="nav-link" href="../public/admin/listado_metricas.php">Listado de métricas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Gestionar perfiles de usuario</a>
+                    <a class="nav-link" href="../public/admin/gestionar_usuarios.php">Gestionar perfiles de usuario</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mostrar registros</a>
+                    <a class="nav-link" href="../public/admin/mostrar_registros.php">Mostrar registros</a>
                 </li>
             </ul>
         </div>
