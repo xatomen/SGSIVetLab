@@ -1,7 +1,7 @@
 <?php 
 
 // Conexión a la BD
-require_once '../config/database.php';
+// require_once '../config/database.php';
 
 ?>
 
