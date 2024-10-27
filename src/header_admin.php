@@ -2,6 +2,7 @@
 
 // Conexión a la BD
 // require_once '../config/database.php';
+$url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 ?>
 
@@ -18,46 +19,73 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="../public/admin.php">SGSI - VetLab</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<!--  -->
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../public/admin/cargar_insumos.php">Cargar Insumos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/admin/crear_orden_compra.php">Crear órden de compra</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+<div class="row m-2">
+        <div class="col-lg-2 col-12">
+            <div class="card m-1 p-3 text-bg-dark">
+                <span class="fs-4 text-center">SGSI - VetLab</span>
+                <img src="http://localhost/SGSIVetLab/src/VetLab.png" alt="">
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin.php"){echo "active";}?>">
+                        Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php"){echo "active";}?>">
+                        Cargar insumos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
+                        Crear órdenes de compra
+                        </a>
+                    </li>
+                    <div class="dropdown">
+                        <a class="nav-link text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
                         Mantener
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item" href="../public/admin/mantener_insumos.php">Mantener insumos</a></li>
-                        <li><a class="dropdown-item" href="../public/admin/mantener_proveedores.php">Mantener proveedores</a></li>
-                        <li><a class="dropdown-item" href="../public/admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/admin/listado_insumos.php">Listado de insumos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/admin/listado_metricas.php">Listado de métricas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/admin/gestionar_usuarios.php">Gestionar perfiles de usuario</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../public/admin/mostrar_registros.php">Mostrar registros</a>
-                </li>
-            </ul>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php">Mantener insumos</a></li>
+                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php">Mantener proveedores</a></li>
+                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
+                        </ul>
+                        </div>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
+                        Listado de insumos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/listado_metricas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_metricas.php"){echo "active";}?>">
+                        Listado de métricas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
+                        Gestionar perfiles de usuario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php"){echo "active";}?>">
+                        Mostrar registros
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white bg-danger">
+                        Cerrar sesión y salir
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
+<!--  -->
   
-    </div>
-</nav>
-<div>
+<div class="col-md col-12">
+    <div class="card m-1 p-3">
