@@ -2,6 +2,70 @@
     require_once '../../config/database.php';
     require_once '../../src/header_admin.php';
 
+    $txtID = (isset($_POST['txtID']))?$_POST['txtID']:"";
+    $txtNombreAgregar = (isset($_POST['txtNombreAgregar']))?$_POST['txtNombreAgregar']:"";
+    $txtStockMinimoAgregar = (isset($_POST['txtStockMinimoAgregar']))?$_POST['txtStockMinimoAgregar']:"";
+    $txtNombreEditar = (isset($_POST['txtNombreEditar']))?$_POST['txtNombreEditar']:"";
+    $txtStockMinimoEditar = (isset($_POST['txtStockMinimoEditar']))?$_POST['txtStockMinimoEditar']:"";
+
+    $accion = (isset($_POST['accion']))?$_POST['accion']:"";
+
+    switch ($accion){
+        
+        case "Seleccionar":
+            $sentenciaSQL=$conn->prepare("SELECT * FROM insumo WHERE ID=:ID");
+            $sentenciaSQL->bindParam(':ID',$txtID);
+            $sentenciaSQL->execute();
+            $ListaSel=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+    
+            $txtID = $ListaSel['ID'];
+            $txtNombreEditar = $ListaSel['NOMBRE'];
+            $txtStockMinimoEditar = $ListaSel['STOCK_MINIMO'];
+            break;
+    
+        case "Editar":
+            $mensaje = "Insumo editado satisfactoriamente";
+            $sentenciaSQL = $conn->prepare("UPDATE insumo SET NOMBRE=:NOMBRE, STOCK_MINIMO=:STOCK_MINIMO WHERE ID=:ID");
+            $sentenciaSQL->bindParam(':STOCK_MINIMO', $txtStockMinimoEditar);
+            $sentenciaSQL->bindParam(':NOMBRE', $txtNombreEditar);
+            $sentenciaSQL->bindParam(':ID', $txtID);
+            $sentenciaSQL->execute();
+            $txtID="";
+            $txtNombreEditar="";
+            $txtStockMinimoEditar="";
+            header("Location: mantener_insumos.php");
+            exit();
+    
+        case "Agregar":
+            $mensaje = "Insumo agregado satisfactoriamente";
+            //Obtenemos el último índice y la última posición
+            $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS lastIndex FROM insumo");
+            $sentenciaSQL->execute();
+            $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $lastindex = $resultado['lastIndex']+1;
+    
+            $sentenciaSQL = $conn->prepare("INSERT INTO insumo (ID, NOMBRE, STOCK_MINIMO) VALUES (:ID, :NOMBRE, :STOCK_MINIMO)");
+            $sentenciaSQL->bindParam(":ID", $lastindex);
+            $sentenciaSQL->bindParam(':NOMBRE', $txtNombreAgregar);
+            $sentenciaSQL->bindParam(':STOCK_MINIMO', $txtStockMinimoAgregar);
+            $sentenciaSQL->execute();
+            header("Location: mantener_insumos.php");
+            exit();
+    
+        case "Eliminar":
+            $mensaje = "Insumo eliminado satisfactoriamente";
+            $sentenciaSQL = $conn->prepare("DELETE FROM insumo WHERE ID=:ID");
+            $sentenciaSQL->bindParam(":ID",$txtID);
+            $sentenciaSQL->execute();
+            header("Location: mantener_insumos.php");
+            exit();
+    
+    }
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
+    $sentenciaSQL->execute();
+    $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 
 
 
@@ -20,14 +84,14 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="txtID" class="form-label">Nombre insumo</label>
-                                    <input type="text" class="form-control" name="txtTitulo1" id="txtTitulo1" placeholder="Ingrese el nombre del insumo">
+                                    <input type="text" class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre del insumo">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3">
-                                <label for="txtStockMinimo" class="form-label">Stock mínimo</label>
-                                <input class="form-control" name="txtDescripcion1" id="txtDescripcion1" placeholder="Ingrese el stock mínimo"></input>
+                                <label for="txtStockMinimoAgregar" class="form-label">Stock mínimo</label>
+                                <input class="form-control" name="txtStockMinimoAgregar" id="txtStockMinimoAgregar" placeholder="Ingrese el stock mínimo"></input>
                             </div>
                         </div>
                         <div class="row">
@@ -57,15 +121,15 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="txtTitulo" class="form-label">Nombre insumo</label>
-                                    <input type="text" class="form-control" name="txtTitulo" id="txtTitulo" value="<?php echo $txtTitulo?>" placeholder="Ingrese el título">
+                                    <label for="txtNombreEditar" class="form-label">Nombre insumo</label>
+                                    <input type="text" class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el título">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3">
-                                <label for="txtDescripcion" class="form-label">Stock mínimo</label>
-                                <input class="form-control" name="txtDescripcion" id="txtDescripcion" value="<?php echo $txtDescripcion?>" placeholder="Ingrese la descripción"></input>
+                                <label for="txtStockMinimoEditar" class="form-label">Stock mínimo</label>
+                                <input class="form-control" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $txtStockMinimoEditar?>" placeholder="Ingrese la descripción"></input>
                             </div>
                         </div>
                         <div class="row">
@@ -95,78 +159,18 @@
                     <td>Stock mínimo</td>
                     <td>Editar elemento</td>
                 </tr>
-                <?php foreach($listaProductos as $lista){?>
+                <?php foreach($listaInsumos as $lista){?>
                 <tr>
-                    <td><?php echo $lista['POSICION_PRODUCTO'] ?></td>
-                    <td><?php echo $lista['ID_PRODUCTO'] ?></td>
-                    <td><?php echo $lista['TITULO_PRODUCTO'] ?></td>
-                    <td><?php echo $lista['DESCRIPCION_PRODUCTO'] ?></td>
-                    <td>
-                        <?php foreach($listaImagenes as $lista2) { if($lista2['ID_PRODUCTO']==$lista['ID_PRODUCTO']){?>
-                            <div class="row border">
-                                <div class="col">
-                                    <img src="<?php echo $lista2['IMAGEN'] ?>" style="max-width:200px;">
-                                </div>
-                                <div class="col">
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
-                                        <ul class="dropdown-menu">
-                                            <form method="POST">
-                                                <div class="row m-1"><input type="hidden" name="txtID2" id="txtID2" value="<?php echo $lista2['ID_IMG_PRODUCTO'] ?>"></input></div>
-                                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista2['ID_PRODUCTO'] ?>"></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Activar" class="btn btn-success" <?php if($lista2['MOSTRAR_IMAGEN']==1){echo "disabled";}?>></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Desactivar" class="btn btn-success" <?php if($lista2['MOSTRAR_IMAGEN']==0){echo "disabled";}?>></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Subir" class="btn btn-primary" <?php if($lista2['POSICION_IMG']==1){echo "disabled";}?>></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Bajar" class="btn btn-primary"></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Seleccionar" class="btn btn-info"></input></div>
-                                                <div class="row m-1"><input type="submit" name="accion_imagen" value="Eliminar" class="btn btn-danger"></input></div>
-                                            </form>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php } } ?>
-                            <div class="dropdown text-center">
-                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Agregar imágen</a>
-                                <ul class="dropdown-menu">
-                                    <div class="card p-3 shadow">
-                                        <h4 class="text-center">Agregar imágen</h4>
-                                        <hr>
-                                        <form method="POST">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="mb-3">
-                                                        <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID_PRODUCTO'] ?>"></input>
-                                                        <label for="txtLinkImagen" class="form-label">Link imágen</label>
-                                                        <input type="text" class="form-control" name="txtLinkImagen" id="txtLinkImagen" placeholder="Ingrese el link">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="text-center">
-                                                    <input class="btn btn-warning" type="submit" value="Agregar" name="accion_imagen">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <?php if($lista['MOSTRAR_PRODUCTO']==0){ ?> <p class="bg-danger text-white text-center rounded-pill"> <?php echo "No"; ?></p> <?php }?>
-                        <?php if($lista['MOSTRAR_PRODUCTO']==1){ ?> <p class="bg-success text-white text-center rounded-pill"> <?php echo "Si"; ?></p> <?php }?>
-                    </td>
+                    <td><?php echo $lista['ID'] ?></td>
+                    <td><?php echo $lista['Nombre'] ?></td>
+                    <td><?php echo $lista['Cantidad'] ?></td>
+                    <td><?php echo $lista['Stock_minimo'] ?></td>
                     <td>
                         <form method="POST">
                             <div class="row border">
                                 <!-- <div class="col-3"></div> -->
                                 <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID_PRODUCTO'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Activar" class="btn btn-success" <?php if($lista['MOSTRAR_PRODUCTO']==1){echo "disabled";}?>></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Desactivar" class="btn btn-success" <?php if($lista['MOSTRAR_PRODUCTO']==0){echo "disabled";}?>></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Subir" class="btn btn-primary" <?php if($lista['POSICION_PRODUCTO']==1){echo "disabled";}?>></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Bajar" class="btn btn-primary"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
                                 </div>
