@@ -1,6 +1,6 @@
 <?php
-    require_once '../../config/database.php';
-    require_once '../../src/header_admin.php';
+    include_once("../../config/database.php");
+    include_once("../../src/header_admin.php");
 
     $txtID = (isset($_POST['txtID']))?$_POST['txtID']:"";
     $txtNombreAgregar = (isset($_POST['txtNombreAgregar']))?$_POST['txtNombreAgregar']:"";
@@ -65,9 +65,6 @@
     $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
     $sentenciaSQL->execute();
     $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-
-
-
 
 ?>
 <!-- Agregar y modificar -->
@@ -185,5 +182,5 @@
     </div>
 
 <?php
-    require_once '../../src/footer.php'
+    include_once("../../src/footer.php");
 ?>

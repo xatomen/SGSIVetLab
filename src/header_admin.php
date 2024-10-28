@@ -1,12 +1,8 @@
 <?php 
-
 // Conexión a la BD
 // require_once '../config/database.php';
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,17 +25,17 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin.php"){echo "active";}?>">
+                        <a href="../admin.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin.php"){echo "active";}?>">
                         Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php"){echo "active";}?>">
+                        <a href="../admin/cargar_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php"){echo "active";}?>">
                         Cargar insumos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
+                        <a href="../admin/crear_orden_compra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
                         Crear órdenes de compra
                         </a>
                     </li>
@@ -48,28 +44,28 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                         Mantener
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php">Mantener insumos</a></li>
-                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php">Mantener proveedores</a></li>
-                            <li><a class="dropdown-item" href="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
+                            <li><a class="dropdown-item" href="../admin/mantener_insumos.php">Mantener insumos</a></li>
+                            <li><a class="dropdown-item" href="../admin/mantener_proveedores.php">Mantener proveedores</a></li>
+                            <li><a class="dropdown-item" href="../admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
                         </ul>
                         </div>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
+                        <a href="../admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
                         Listado de insumos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/listado_metricas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_metricas.php"){echo "active";}?>">
+                        <a href="../admin/listado_metricas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_metricas.php"){echo "active";}?>">
                         Listado de métricas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
+                        <a href="../admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
                         Gestionar perfiles de usuario
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php"){echo "active";}?>">
+                        <a href="../admin/mostrar_registros.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php"){echo "active";}?>">
                         Mostrar registros
                         </a>
                     </li>
