@@ -70,18 +70,19 @@
         case "Editar":
             // $mensaje = "Proveedor editado satisfactoriamente";
             $sentenciaSQL = $conn->prepare("UPDATE perfil_muestra SET Tipo_de_muestra=:Tipo_de_muestra, ID_Area=:ID_Area WHERE ID=:ID");
+            echo $txtID;
+            echo $txtIDAreaEditar;
+            echo $txtTipoMuestraEditar;
             $sentenciaSQL->bindParam(':Tipo_de_muestra', $txtTipoMuestraEditar);
             $sentenciaSQL->bindParam(':ID_Area', $txtIDAreaEditar);
             $sentenciaSQL->bindParam(':ID', $txtID);
             $sentenciaSQL->execute();
             $txtID="";
-            $txtRutEditar = "";
-            $txtNombreEditar = "";
-            $txtCorreoEditar = "";
-            $txtTelefonoEditar = "";
-            $txtDireccionEditar = "";
-            header("Location: mantener_perfiles_muestra.php");
-            exit();
+            $txtIDAreaEditar="";
+            $txtTipoMuestraEditar="";
+            // header("Location: mantener_perfiles_muestra.php");
+            // exit();
+            break;
     
         case "Agregar":
             // $mensaje = "Proveedor agregado satisfactoriamente";
@@ -122,6 +123,10 @@
     $sentenciaSQL = $conn->prepare("SELECT * FROM componentes_perfil_muestra;");
     $sentenciaSQL->execute();
     $componentes=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL = $conn->prepare("SELECT * FROM area");
+    $sentenciaSQL->execute();
+    $listaAreas = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!-- Agregar y modificar -->
 <div class="row justify-content-around">
@@ -133,16 +138,6 @@
                     <h4 class="text-center">Agregar perfil de muestra</h4>
                     <hr>
                     <form method="POST">
-                        <!-- ID -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
-                                </div>
-                            </div>
-                            <div class="col"></div>
-                        </div>
                         <!-- Tipo de muestra -->
                         <div class="row">
                             <div class="mb-3">
@@ -154,7 +149,12 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtIDAreaAgregar" class="form-label">Área</label>
-                                <input class="form-control" name="txtIDAreaAgregar" id="txtIDAreaAgregar" placeholder="Seleccione el área"></input>
+                                <!-- <input class="form-control" name="txtIDAreaAgregar" id="txtIDAreaAgregar" placeholder="Seleccione el área"></input> -->
+                                <select id="insumosList" name="txtIDAreaAgregar" class="form-control">
+                                    <?php foreach ($listaAreas as $area): ?>
+                                        <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                         <!-- Botón agregar -->
@@ -179,7 +179,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
+                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID" disabled>
                                 </div>
                             </div>
                             <div class="col"></div>
@@ -188,14 +188,19 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtTipoMuestraEditar" class="form-label">Tipo de muestra</label>
-                                <input class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" placeholder="Ingrese el tipo de muestra"></input>
+                                <input class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $txtTipoMuestraEditar?>" placeholder="Ingrese el tipo de muestra"></input>
                             </div>
                         </div>
                         <!-- ID Área -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtIDAreaEditar" class="form-label">Área</label>
-                                <input class="form-control" name="txtIDAreaEditar" id="txtIDAreaEditar" placeholder="Seleccione el área"></input>
+                                <!-- <input class="form-control" name="txtIDAreaEditar" id="txtIDAreaEditar" placeholder="Seleccione el área"></input> -->
+                                <select id="insumosList" name="txtIDAreaEditar" class="form-control">
+                                    <?php foreach ($listaAreas as $area): ?>
+                                        <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                         <!-- Editar -->
@@ -292,13 +297,32 @@
                                         <div class="row m-1">
                                             <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>">
                                         </div>
+                                        <!-- Script de búsqueda -->
+                                        <script>
+                                            // Filtrar insumos al escribir en el campo de búsqueda
+                                            document.getElementById('buscarInsumo').addEventListener('input', function() {
+                                                const searchTerm = this.value.toLowerCase();
+                                                const options = document.querySelectorAll('#insumosList option');
+                                                options.forEach(option => {
+                                                    const text = option.textContent.toLowerCase();
+                                                    option.style.display = text.includes(searchTerm) ? '' : 'none';
+                                                });
+                                            });
+                                        </script>
                                         <div class="row m-1">
-                                            <label for="txtIDInsumo" class="form-label">ID Insumo</label>
-                                            <input type="text" name="txtIDInsumo" id="txtIDInsumo" value="">
+                                            <label for="txtIDInsumo" class="form-label">Insumo</label>
+                                            <!-- Campo de búsqueda -->
+                                            <input type="text" id="buscarInsumo" class="form-control mb-2" placeholder="Filtrar listado">
+                                            <!-- Listado de insumos filtrado por búsqueda -->
+                                            <select id="insumosList" name="txtIDInsumo" class="form-control">
+                                                <?php foreach ($insumos as $insumo): ?>
+                                                    <option value="<?php echo $insumo['ID_Insumo']; ?>"><?php echo $insumo['Nombre']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <div class="row m-1">
                                             <label for="txtCantidadInsumo" class="form-label">Cantidad</label>
-                                            <input type="text" name="txtCantidadInsumo" id="txtCantidadInsumo" value="">
+                                            <input type="text" name="txtCantidadInsumo" class="form-control mb-2" id="txtCantidadInsumo" value="">
                                         </div>
                                         <div class="row m-1">
                                             <input type="submit" name="accion_componente" value="Añadir" class="btn btn-success">
