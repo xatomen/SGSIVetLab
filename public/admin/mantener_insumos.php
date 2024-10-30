@@ -19,8 +19,8 @@
             $ListaSel=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
     
             $txtID = $ListaSel['ID'];
-            $txtNombreEditar = $ListaSel['NOMBRE'];
-            $txtStockMinimoEditar = $ListaSel['STOCK_MINIMO'];
+            $txtNombreEditar = $ListaSel['Nombre'];
+            $txtStockMinimoEditar = $ListaSel['Stock_minimo'];
             break;
     
         case "Editar":
@@ -110,7 +110,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
+                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID" disabled>
                                 </div>
                             </div>
                             <div class="col"></div>
@@ -119,7 +119,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="txtNombreEditar" class="form-label">Nombre insumo</label>
-                                    <input type="text" class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el título">
+                                    <input type="text" class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el nombre del insumo">
                                 </div>
                             </div>
                         </div>
@@ -168,6 +168,8 @@
                                 <!-- <div class="col-3"></div> -->
                                 <div class="col">
                                     <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $lista['Nombre'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $lista['Stock_minimo'] ?>"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
                                 </div>
