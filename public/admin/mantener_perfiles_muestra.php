@@ -70,19 +70,19 @@
         case "Editar":
             // $mensaje = "Proveedor editado satisfactoriamente";
             $sentenciaSQL = $conn->prepare("UPDATE perfil_muestra SET Tipo_de_muestra=:Tipo_de_muestra, ID_Area=:ID_Area WHERE ID=:ID");
-            echo $txtID;
-            echo $txtIDAreaEditar;
-            echo $txtTipoMuestraEditar;
+            // echo $txtID;
+            // echo $txtIDAreaEditar;
+            // echo $txtTipoMuestraEditar;
             $sentenciaSQL->bindParam(':Tipo_de_muestra', $txtTipoMuestraEditar);
             $sentenciaSQL->bindParam(':ID_Area', $txtIDAreaEditar);
             $sentenciaSQL->bindParam(':ID', $txtID);
             $sentenciaSQL->execute();
-            $txtID="";
-            $txtIDAreaEditar="";
-            $txtTipoMuestraEditar="";
-            // header("Location: mantener_perfiles_muestra.php");
-            // exit();
-            break;
+            // $txtID="";
+            // $txtIDAreaEditar="";
+            // $txtTipoMuestraEditar="";
+            header("Location: mantener_perfiles_muestra.php");
+            exit();
+            // break;
     
         case "Agregar":
             // $mensaje = "Proveedor agregado satisfactoriamente";
@@ -112,7 +112,7 @@
 
     // $sentenciaSQL= $conn->prepare("SELECT perfil_muestra.ID AS ID, perfil_muestra.Tipo_de_muestra AS Tipo_de_muestra, perfil_muestra.ID_Area AS ID_Area_PM, area.ID AS ID_Area_A, area.Area AS Area FROM perfil_muestra, area WHERE ID_Area_PM = ID_Area_A;");
     // $sentenciaSQL= $conn->prepare("SELECT * FROM perfil_muestra, area WHERE perfil_muestra.ID_Area = area.ID;");
-    $sentenciaSQL = $conn->prepare("SELECT perfil_muestra.ID AS PerfilID, perfil_muestra.Tipo_de_muestra, area.Area FROM perfil_muestra INNER JOIN area ON perfil_muestra.ID_Area = area.ID;");
+    $sentenciaSQL = $conn->prepare("SELECT perfil_muestra.ID AS PerfilID, perfil_muestra.Tipo_de_muestra, perfil_muestra.ID_Area, area.Area FROM perfil_muestra INNER JOIN area ON perfil_muestra.ID_Area = area.ID;");
     $sentenciaSQL->execute();
     $listaPerfilMuestra=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
@@ -188,19 +188,19 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtTipoMuestraEditar" class="form-label">Tipo de muestra</label>
-                                <input class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $txtTipoMuestraEditar?>" placeholder="Ingrese el tipo de muestra"></input>
+                                <input type="text" class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $txtTipoMuestraEditar?>" placeholder="Ingrese el tipo de muestra">
                             </div>
                         </div>
                         <!-- ID Área -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtIDAreaEditar" class="form-label">Área</label>
-                                <!-- <input class="form-control" name="txtIDAreaEditar" id="txtIDAreaEditar" placeholder="Seleccione el área"></input> -->
-                                <select id="insumosList" name="txtIDAreaEditar" class="form-control">
+                                <input type="text" class="form-control" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $txtIDAreaEditar?>" placeholder="Seleccione el área">
+                                <!-- <select id="txtIDAreaEditar" name="txtIDAreaEditar" class="form-control">
                                     <?php foreach ($listaAreas as $area): ?>
-                                        <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+                                        <option value="<?php echo /*$txtIDAreaEditar;*/$area['ID']; ?>"><?php echo /*$txtIDAreaEditar;*/$area['Area']; ?></option>
                                     <?php endforeach; ?>
-                                </select>
+                                </select> -->
                             </div>
                         </div>
                         <!-- Editar -->
@@ -221,7 +221,7 @@
     <div class="card row m-5 shadow overflow-scroll">
         <table class="table table-bordered">
             <thead>
-                <h4 class="p-2">Listado de proveedores</h4>
+                <h4 class="p-2">Listado de perfiles de muestra</h4>
             </thead>
             <tbody>
                 <tr>
@@ -338,7 +338,9 @@
                             <div class="row border">
                                 <!-- <div class="col-3"></div> -->
                                 <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="text" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="text" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $lista['Tipo_de_muestra'] ?>"></input></div>
+                                    <div class="row m-1"><input type="text" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion_perfil" value="Seleccionar" class="btn btn-info"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger"></input></div>
                                 </div>
