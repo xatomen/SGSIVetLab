@@ -75,10 +75,10 @@
             $sentenciaSQL->bindParam(':Contrasenha', $txtContraseniaAgregar);
             $sentenciaSQL->bindParam(':TipoUsuario', $txtTipoUsuario);
             $sentenciaSQL->bindParam(':ID', $lastindexCred);
-            echo $txtUsuarioAgregar;
-            echo $txtContraseniaAgregar;
-            echo $txtTipoUsuario;
-            echo $lastindexCred;
+            // echo $txtUsuarioAgregar;
+            // echo $txtContraseniaAgregar;
+            // echo $txtTipoUsuario;
+            // echo $lastindexCred;
             $sentenciaSQL->execute();
 
             $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS lastIndex FROM administrador");

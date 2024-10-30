@@ -25,9 +25,9 @@
     
         case "Editar":
             $mensaje = "Insumo editado satisfactoriamente";
-            $sentenciaSQL = $conn->prepare("UPDATE insumo SET NOMBRE=:NOMBRE, STOCK_MINIMO=:STOCK_MINIMO WHERE ID=:ID");
-            $sentenciaSQL->bindParam(':STOCK_MINIMO', $txtStockMinimoEditar);
-            $sentenciaSQL->bindParam(':NOMBRE', $txtNombreEditar);
+            $sentenciaSQL = $conn->prepare("UPDATE insumo SET Nombre=:Nombre, Stock_minimo=:Stock_minimo WHERE ID=:ID");
+            $sentenciaSQL->bindParam(':Stock_minimo', $txtStockMinimoEditar);
+            $sentenciaSQL->bindParam(':Nombre', $txtNombreEditar);
             $sentenciaSQL->bindParam(':ID', $txtID);
             $sentenciaSQL->execute();
             $txtID="";
@@ -110,7 +110,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID" disabled>
+                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
                                 </div>
                             </div>
                             <div class="col"></div>
