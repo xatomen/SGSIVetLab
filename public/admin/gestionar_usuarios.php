@@ -4,15 +4,17 @@
 
     $txtID = (isset($_POST['txtID']))?$_POST['txtID']:"";
     $txtIDCredencial = (isset($_POST['txtIDCredencial']))?$_POST['txtIDCredencial']:"";
+    $txtIDArea = (isset($_POST['txtIDArea']))?$_POST['txtIDArea']:"";
 
     $txtNombreAgregar = (isset($_POST['txtNombreAgregar']))?$_POST['txtNombreAgregar']:"";
     $txtUsuarioAgregar = (isset($_POST['txtUsuarioAgregar']))?$_POST['txtUsuarioAgregar']:"";
     $txtContraseniaAgregar = (isset($_POST['txtContraseniaAgregar']))?$_POST['txtContraseniaAgregar']:"";
+    $txtAreaAgregar = (isset($_POST['txtAreaAgregar']))?$_POST['txtAreaAgregar']:"";
 
     $txtNombreEditar = (isset($_POST['txtNombreEditar']))?$_POST['txtNombreEditar']:"";
     $txtUsuarioEditar = (isset($_POST['txtUsuarioEditar']))?$_POST['txtUsuarioEditar']:"";
     $txtContraseniaEditar = (isset($_POST['txtContraseniaEditar']))?$_POST['txtContraseniaEditar']:"";
-    
+    $txtAreaEditar = (isset($_POST['txtAreaEditar']))?$_POST['txtAreaEditar']:"";
 
     $accion = (isset($_POST['accion']))?$_POST['accion']:"";
 
@@ -64,7 +66,7 @@
         case "Agregar":
             // $mensaje = "Proveedor agregado satisfactoriamente";
             //Obtenemos el último índice y la última posición
-            $txtTipoUsuario = "Administrador";
+            $txtTipoUsuario = "Usuario";
             $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS lastIndex FROM credenciales");
             $sentenciaSQL->execute();
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
@@ -75,41 +77,49 @@
             $sentenciaSQL->bindParam(':Contrasenha', $txtContraseniaAgregar);
             $sentenciaSQL->bindParam(':TipoUsuario', $txtTipoUsuario);
             $sentenciaSQL->bindParam(':ID', $lastindexCred);
-            // echo $txtUsuarioAgregar;
-            // echo $txtContraseniaAgregar;
-            // echo $txtTipoUsuario;
-            // echo $lastindexCred;
             $sentenciaSQL->execute();
 
-            $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS lastIndex FROM administrador");
+            $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS lastIndex FROM empleado");
             $sentenciaSQL->execute();
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $lastindexAdm = $resultado['lastIndex']+1;
-            $sentenciaSQL = $conn->prepare("INSERT INTO administrador (ID, Nombre, ID_Credenciales) VALUES (:ID, :Nombre, :ID_Credenciales)");
+            $lastindexEmp = $resultado['lastIndex']+1;
+
+            $sentenciaSQL = $conn->prepare("INSERT INTO empleado (ID, Nombre, ID_Credenciales, ID_Area) VALUES (:ID, :Nombre, :ID_Credenciales, :ID_Area)");
             $sentenciaSQL->bindParam(':Nombre', $txtNombreAgregar);
             $sentenciaSQL->bindParam(':ID_Credenciales', $lastindexCred);
-            $sentenciaSQL->bindParam(':ID', $lastindexAdm);
-
+            $sentenciaSQL->bindParam(':ID_Area', $txtAreaAgregar);
+            $sentenciaSQL->bindParam(':ID', $lastindexEmp);
+            $sentenciaSQL->execute();
+            
             header("Location: gestionar_usuarios.php");
             exit();
     
         case "Eliminar":
             // $mensaje = "Proveedor eliminado satisfactoriamente";
-            $sentenciaSQL = $conn->prepare("DELETE FROM proveedor WHERE ID=:ID");
+            $sentenciaSQL = $conn->prepare("DELETE FROM empleado WHERE ID=:ID");
             $sentenciaSQL->bindParam(":ID",$txtID);
             $sentenciaSQL->execute();
-            header("Location: mantener_proveedores.php");
+
+            $sentenciaSQL = $conn->prepare("DELETE FROM credenciales WHERE ID=:ID");
+            $sentenciaSQL->bindParam(":ID",$txtIDCredencial);
+            $sentenciaSQL->execute();
+
+            header("Location: gestionar_usuarios.php");
             exit();
     
     }
 
-    $sentenciaSQL= $conn->prepare("SELECT * FROM credenciales, administrador");
+    $sentenciaSQL= $conn->prepare("SELECT * FROM empleado");
     $sentenciaSQL->execute();
-    $listaAdministradores=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+    $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-    // $sentenciaSQL= $conn->prepare("SELECT * FROM credenciales, empleado, area WHERE credenciales.ID = empleado.ID AND empleado.ID_Area = area.ID");
-    // $sentenciaSQL->execute();
-    // $listaUsuarios=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+    $sentenciaSQL= $conn->prepare("SELECT * FROM credenciales");
+    $sentenciaSQL->execute();
+    $listaCredenciales=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM area");
+    $sentenciaSQL->execute();
+    $listaAreas=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!-- Agregar y modificar -->
@@ -127,6 +137,13 @@
                             <div class="mb-3">
                                 <label for="txtNombreAgregar" class="form-label">Nombre</label>
                                 <input class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre"></input>
+                            </div>
+                        </div>
+                        <!-- Area -->
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="txtAreaAgregar" class="form-label">Área</label>
+                                <input class="form-control" name="txtAreaAgregar" id="txtAreaAgregar" placeholder="Ingrese el área"></input>
                             </div>
                         </div>
                         <!-- Usuario -->
@@ -177,6 +194,13 @@
                                 <input class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el nombre"></input>
                             </div>
                         </div>
+                        <!-- Area -->
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="txtAreaEditar" class="form-label">Área</label>
+                                <input class="form-control" name="txtAreaEditar" id="txtAreaEditar" placeholder="Ingrese el área"></input>
+                            </div>
+                        </div>
                         <!-- Usuario -->
                         <div class="row">
                             <div class="mb-3">
@@ -209,43 +233,6 @@
     <div class="card row m-5 shadow overflow-scroll">
         <table class="table table-bordered">
             <thead>
-                <h4 class="p-2">Listado de administradores</h4>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>Nombre</td>
-                    <td>Usuario</td>
-                    <td>Contraseña</td>
-                </tr>
-                <?php foreach($listaAdministradores as $lista){?>
-                <tr>
-                    <td><?php echo $lista['ID'] ?></td>
-                    <td><?php echo $lista['Nombre']?></td>
-                    <td><?php echo $lista['Usuario'] ?></td>
-                    <td><?php echo $lista['Contrasenha'] ?></td>
-                    <td>
-                        <form method="POST">
-                            <div class="row border">
-                                <!-- <div class="col-3"></div> -->
-                                <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
-                                </div>
-                                <!-- <div class="col-3"></div> -->
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-                <?php }?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
-            <thead>
                 <h4 class="p-2">Listado de usuarios</h4>
             </thead>
             <tbody>
@@ -260,15 +247,23 @@
                 <tr>
                     <td><?php echo $lista['ID'] ?></td>
                     <td><?php echo $lista['Nombre']?></td>
-                    <td><?php echo $lista['Usuario'] ?></td>
-                    <td><?php echo $lista['Contrasenha'] ?></td>
-                    <td><?php echo $lista['ID_Area'] ?></td>
+                    <?php foreach($listaCredenciales as $credencial){if($lista['ID_Credenciales']==$credencial['ID']){?>
+                    <td><?php echo $credencial['Usuario'] ?></td>
+                    <td><?php echo $credencial['Contrasenha'] ?></td>
+                    <?php } } ?>
+                    <?php foreach($listaAreas as $area){if($lista['ID_Area']==$area['ID']){?>
+                    <td><?php echo $area['ID'] ?></td>
+                    <td><?php echo $area['Area'] ?></td>
+                    <?php } } ?>
+                    
                     <td>
                         <form method="POST">
                             <div class="row border">
                                 <!-- <div class="col-3"></div> -->
                                 <div class="col">
                                     <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
                                 </div>
