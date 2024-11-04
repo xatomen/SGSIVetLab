@@ -72,10 +72,10 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindexCred = $resultado['lastIndex']+1;
     
-            $sentenciaSQL = $conn->prepare("INSERT INTO credenciales (ID, Usuario, Contrasenha, TipoUsuario) VALUES (:ID, :Usuario, :Contrasenha, :TipoUsuario)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO credenciales (ID, Usuario, Contrasenha, Tipo_Usuario) VALUES (:ID, :Usuario, :Contrasenha, :Tipo_Usuario)");
             $sentenciaSQL->bindParam(':Usuario', $txtUsuarioAgregar);
             $sentenciaSQL->bindParam(':Contrasenha', $txtContraseniaAgregar);
-            $sentenciaSQL->bindParam(':TipoUsuario', $txtTipoUsuario);
+            $sentenciaSQL->bindParam(':Tipo_Usuario', $txtTipoUsuario);
             $sentenciaSQL->bindParam(':ID', $lastindexCred);
             $sentenciaSQL->execute();
 
@@ -129,7 +129,7 @@
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
             <div class="col">
                 <div class="card p-3 shadow">
-                    <h4 class="text-center">Agregar administrador</h4>
+                    <h4 class="text-center">Agregar usuario</h4>
                     <hr>
                     <form method="POST">
                         <!-- Nombre -->
@@ -174,7 +174,7 @@
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
             <div class="col">
                 <div class="card p-3 shadow">
-                    <h4 class="text-center">Editar administrador seleccionado</h4>
+                    <h4 class="text-center">Editar usuario seleccionado</h4>
                     <hr>
                     <form method="POST">
                         <!-- ID -->
@@ -215,10 +215,13 @@
                                 <input class="form-control" name="txtContraseniaEditar" id="txtContraseniaEditar" value="<?php echo $txtContraseniaEditar?>" placeholder="Ingrese la contraseña"></input>
                             </div>
                         </div>
-                        <!-- Editar -->
+                        <!-- Editar y Deseleccionar -->
                         <div class="row">
-                            <div class="text-center">
+                            <div class="col text-center">
                                 <input class="btn btn-warning" type="submit" value="Editar" name="accion">
+                            </div>
+                            <div class="col text-center">
+                                <input class="btn btn-info" type="submit" value="Deseleccionar" name="accion">
                             </div>
                         </div>
                     </form>
