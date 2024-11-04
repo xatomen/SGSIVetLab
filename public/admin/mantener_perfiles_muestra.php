@@ -25,11 +25,11 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
 
-            $sentenciaSQL = $conn->prepare("INSERT INTO componentes_perfil_muestra (ID_Componentes_perfil_muestra, Cantidad, ID_Muestra, insumo_ID) VALUES (:ID_Componentes_perfil_muestra, :Cantidad, :ID_Muestra, :insumo_ID);");
+            $sentenciaSQL = $conn->prepare("INSERT INTO componentes_perfil_muestra (ID_Componentes_perfil_muestra, Cantidad, ID_Muestra, ID_Insumo) VALUES (:ID_Componentes_perfil_muestra, :Cantidad, :ID_Muestra, :ID_Insumo);");
             $sentenciaSQL->bindParam(":ID_Componentes_perfil_muestra", $lastindex);
             $sentenciaSQL->bindParam(":Cantidad",$txtCantidadInsumo);
             $sentenciaSQL->bindParam(":ID_Muestra",$txtID);
-            $sentenciaSQL->bindParam(":insumo_ID",$txtIDInsumo);
+            $sentenciaSQL->bindParam(":ID_Insumo",$txtIDInsumo);
             $sentenciaSQL->execute();
             header("Location: mantener_perfiles_muestra.php");
             exit();
@@ -178,8 +178,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID" disabled>
+                                    <!-- <label for="txtID" class="form-label">ID</label> -->
+                                    <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
                                 </div>
                             </div>
                             <div class="col"></div>
@@ -203,10 +203,13 @@
                                 </select> -->
                             </div>
                         </div>
-                        <!-- Editar -->
+                        <!-- Editar y Deseleccionar -->
                         <div class="row">
-                            <div class="text-center">
+                            <div class="col text-center">
                                 <input class="btn btn-warning" type="submit" value="Editar" name="accion_perfil">
+                            </div>
+                            <div class="col text-center">
+                                <input class="btn btn-info" type="submit" value="Deseleccionar" name="accion_perfil">
                             </div>
                         </div>
                     </form>
@@ -238,7 +241,7 @@
                     <td>
                         <?php foreach($componentes as $componente){
                             foreach($insumos as $insumo){
-                                if($componente['ID_Muestra'] == $lista['PerfilID'] && $componente['insumo_ID'] == $insumo['ID_Insumo']){ ?>
+                                if($componente['ID_Muestra'] == $lista['PerfilID'] && $componente['ID_Insumo'] == $insumo['ID_Insumo']){ ?>
                         <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -257,7 +260,7 @@
                                         <form method="POST">
                                             <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
                                             <div class="row m-1"><input type="hidden" name="txtIDMuestra" id="txtIDMuestra" value="<?php echo $componente['ID_Muestra'] ?>"></input></div>
-                                            <div class="row m-1"><input type="hidden" name="txtIDInsumo" id="txtIDInsumo" value="<?php echo $componente['insumo_ID'] ?>"></input></div>
+                                            <div class="row m-1"><input type="hidden" name="txtIDInsumo" id="txtIDInsumo" value="<?php echo $componente['ID_Insumo'] ?>"></input></div>
                                             <div class="row m-1"><input type="hidden" name="txtIDComponentePerfilMuestra" id="txtIDComponentePerfilMuestra" value="<?php echo $componente['ID_Componentes_perfil_muestra'] ?>"></input></div>
                                             <!-- Submenú para editar cantidad de insumos -->
                                             <div class="row m-1 dropdown text-center">
@@ -338,9 +341,9 @@
                             <div class="row border">
                                 <!-- <div class="col-3"></div> -->
                                 <div class="col">
-                                    <div class="row m-1"><input type="text" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="text" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $lista['Tipo_de_muestra'] ?>"></input></div>
-                                    <div class="row m-1"><input type="text" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $lista['Tipo_de_muestra'] ?>"></input></div>
+                                    <div class="row m-1"><input type="hidden" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion_perfil" value="Seleccionar" class="btn btn-info"></input></div>
                                     <div class="row m-1"><input type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger"></input></div>
                                 </div>
