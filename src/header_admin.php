@@ -2,6 +2,16 @@
 // Conexión a la BD
 // require_once '../config/database.php';
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+
+// session_start();
+
+// echo $_SESSION['Usuario'];
+
+// session_start();
+// if(empty($_SESSION['ID'])){
+    // header('location: ../index.php');
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +22,55 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     <title>SGSI Administrador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background-color: #80BFFF;
+        }
+        
+    </style>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
 </head>
 <body>
 
 <!--  -->
-
 <div class="row m-2">
         <div class="col-lg-2 col-12">
             <div class="card m-1 p-3 text-bg-dark">
@@ -39,16 +93,19 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                         Crear órdenes de compra
                         </a>
                     </li>
-                    <div class="dropdown">
-                        <a class="nav-link text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-                        Mantener
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="../admin/mantener_insumos.php">Mantener insumos</a></li>
-                            <li><a class="dropdown-item" href="../admin/mantener_proveedores.php">Mantener proveedores</a></li>
-                            <li><a class="dropdown-item" href="../admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
-                        </ul>
-                        </div>
+
+                    <li>
+                        <a href="../admin/mantener_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php"){echo "active";}?>">Mantener insumos</a>
+                    </li>
+
+                    <li>
+                        <a href="../admin/mantener_proveedores.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php"){echo "active";}?>">Mantener proveedores</a>
+                    </li>
+
+                    <li>
+                        <a href="../admin/mantener_perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php"){echo "active";}?>">Mantener perfiles de muestra</a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="../admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
                         Listado de insumos
@@ -58,6 +115,11 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                         <a href="../admin/listado_metricas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_metricas.php"){echo "active";}?>">
                         Listado de métricas
                         </a>
+                    </li>
+                    <!-- <li class="nav-item"> -->
+                        <!-- <a href="../admin/gestionar_administradores.php" class="nav-link text-white <?php //if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_administradores.php"){echo "active";}?>"> -->
+                        <!-- Gestionar perfiles de administradores -->
+                        <!-- </a> -->
                     </li>
                     <li class="nav-item">
                         <a href="../admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
@@ -69,11 +131,16 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                         Mostrar registros
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="../admin/imprimir_etiquetas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php"){echo "active";}?>">
+                        Imprimir etiquetas
+                        </a>
+                    </li>
                 </ul>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white bg-danger">
+                        <a href="../src/controlador_sesion.php" class="nav-link text-white bg-danger">
                         Cerrar sesión y salir
                         </a>
                     </li>
@@ -85,3 +152,15 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
   
 <div class="col-md col-12">
     <div class="card m-1 p-3">
+
+<!-- Botón dropdown -->
+<!-- <div class="dropdown">
+        <a class="nav-link text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+            Mantener
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="../admin/mantener_insumos.php">Mantener insumos</a></li>
+            <li><a class="dropdown-item" href="../admin/mantener_proveedores.php">Mantener proveedores</a></li>
+            <li><a class="dropdown-item" href="../admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
+        </ul>
+    </div> -->
