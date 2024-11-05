@@ -4,6 +4,10 @@
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 session_start();
+
+echo $_SESSION['Usuario'];
+
+
 if(empty($_SESSION['ID'])){
     header('location: ../index.php');
 }
@@ -37,17 +41,17 @@ if(empty($_SESSION['ID'])){
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="../user.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user.php"){echo "active";}?>">
+                        <a href="http://localhost/SGSIVetLab/public/user.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user.php"){echo "active";}?>">
                         Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../user/utilizar_stock.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/utilizar_stock.php"){echo "active";}?>">
+                        <a href="http://localhost/SGSIVetLab/public/user/utilizar_stock.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/utilizar_stock.php"){echo "active";}?>">
                         Utilizar stock
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../user/perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/perfiles_muestra.php"){echo "active";}?>">
+                        <a href="http://localhost/SGSIVetLab/public/user/perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/perfiles_muestra.php"){echo "active";}?>">
                         Perfiles de muestra
                         </a>
                     </li>
@@ -55,7 +59,7 @@ if(empty($_SESSION['ID'])){
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white bg-danger">
+                        <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white bg-danger">
                         Cerrar sesión y salir
                         </a>
                     </li>
