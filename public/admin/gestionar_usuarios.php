@@ -21,13 +21,14 @@
     switch ($accion){
         
         case "Seleccionar":
-            $sentenciaSQL=$conn->prepare("SELECT * FROM administrador WHERE ID=:ID");
+            $sentenciaSQL=$conn->prepare("SELECT * FROM empleado WHERE ID=:ID");
             $sentenciaSQL->bindParam(':ID',$txtID);
             $sentenciaSQL->execute();
             $ListaSel=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
     
             $txtID = $ListaSel['ID'];
             $txtNombreEditar = $ListaSel['Nombre'];
+            $txtAreaEditar = $ListaSel['ID_Area'];
             $txtIDCredencial = $ListaSel['ID_Credenciales'];
 
             $sentenciaSQL=$conn->prepare("SELECT * FROM credenciales WHERE ID=:ID");
@@ -42,8 +43,9 @@
     
         case "Editar":
             // $mensaje = "Proveedor editado satisfactoriamente";
-            $sentenciaSQL = $conn->prepare("UPDATE administrador SET Nombre=:Nombre WHERE ID=:ID");
+            $sentenciaSQL = $conn->prepare("UPDATE empleado SET Nombre=:Nombre, ID_Area=:ID_Area WHERE ID=:ID");
             $sentenciaSQL->bindParam(':Nombre', $txtNombreEditar);
+            $sentenciaSQL->bindParam(':ID_Area', $txtAreaEditar);
             $sentenciaSQL->bindParam(':ID', $txtID);
             $sentenciaSQL->execute();
 
@@ -57,6 +59,7 @@
             $txtNombreEditar = "";
             $txtIDCredencial = "";
             $txtUsuarioEditar = "";
+            $txtAreaEditar = "";
             $txtContraseniaEditar = "";
 
             header("Location: gestionar_usuarios.php");
@@ -198,7 +201,7 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtAreaEditar" class="form-label">Área</label>
-                                <input class="form-control" name="txtAreaEditar" id="txtAreaEditar" placeholder="Ingrese el área"></input>
+                                <input class="form-control" name="txtAreaEditar" id="txtAreaEditar" value="<?php echo $txtAreaEditar?>" placeholder="Ingrese el área"></input>
                             </div>
                         </div>
                         <!-- Usuario -->
