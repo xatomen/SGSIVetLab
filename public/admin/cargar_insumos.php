@@ -59,7 +59,7 @@
             $sentenciaSQL->bindParam(':ID', $txtID); 
             $sentenciaSQL->execute();
 
-            header("Location: mantener_insumos.php");
+            header("Location: http://localhost/SGSIVetLab/public/admin/cargar_insumos.php");
             exit();
     
     }
