@@ -36,7 +36,6 @@
     $listaAreas = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
 <!-- Listado -->
     <div class="card row m-5 shadow overflow-scroll">
         <table class="table table-bordered">
