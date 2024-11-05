@@ -155,13 +155,3 @@
 <?php
     include_once("../../src/footer.php");
 ?>
-
-                                    <!-- <select id="txtID" name="txtID" class="form-control">
-                                        <option value="">Seleccione el insumo</option>
-                                        <?php foreach ($listaInsumos as $insumo): ?>
-                                        <option value="<?php echo $insumo['ID']; ?>" <?php echo ($insumo['ID'] == $txtID) ? 'selected' : ''; ?>>
-                                            <?php echo $insumo['Nombre']; ?>
-                                        </option>
-                                        <?php endforeach; ?>
-                                    </select> -->
-
