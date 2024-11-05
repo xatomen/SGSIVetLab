@@ -36,7 +36,7 @@
 
     switch ($accion){
         
-        case "Crear Órden":
+        case "Crear Orden":
 
             // Obtenemos el índice de la última órden de compra
             $sentenciaSQL = $conn->prepare("SELECT MAX(Num_Orden_de_Compra) AS lastIndex FROM orden_de_compra");
@@ -138,6 +138,20 @@
     $sentenciaSQL->execute();
     $listaRegistrosOrdenCompra = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
+    // Total orden de compra
+    $totalOrdenCompra = 0;
+    if ($txtNumOrden) {
+        $sentenciaSQL = $conn->prepare("
+            SELECT SUM(Cantidad * Precio) AS Total 
+            FROM registro_orden_de_compra 
+            WHERE ID_Orden_Compra = :ID_Orden_Compra
+        ");
+        $sentenciaSQL->bindParam(':ID_Orden_Compra', $txtNumOrden);
+        $sentenciaSQL->execute();
+        $resultadoTotal = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+        $totalOrdenCompra = $resultadoTotal['Total'];
+    }
+
 ?>
 
 <!-- Creación de la órden de compra -->
@@ -162,10 +176,10 @@
                 </div>
             </div>
             
-            <!-- Creamos una órden de compra -->
+            <!-- Creamos una orden de compra -->
             <div class="row">
                 <div class="text-center">
-                    <input class="btn btn-warning" type="submit" value="Crear Órden" name="accion">
+                    <input class="btn btn-warning" type="submit" value="Crear Orden" name="accion">
                 </div>
             </div>
         </div>
@@ -234,8 +248,11 @@
     </form>
 </div>
 
-<!-- Seleccionar los insumos -->
+<!-- Orden de compra -->
 <div class="card row m-5 shadow overflow-scroll">
+    <!-- <table class="table table-bordered">
+        <thead></thead>
+    </table> -->
     <table class="table table-bordered">
         <thead>
             <h4 class="p-2">Insumos en la lista</h4>
@@ -255,8 +272,8 @@
                 <td><?php echo $registro['Cantidad'] ?></td>
                 <td><?php echo $registro['Descripcion'] ?></td>
                 <td><?php echo $registro['Presentacion'] ?></td>
-                <td><?php echo $registro['Precio'] ?></td>
-                <td><?php echo $registro['Cantidad']*$registro['Precio'] ?></td>
+                <td><?php echo number_format($registro['Precio'], 0) ?></td>
+                <td><?php echo number_format($registro['Cantidad']*$registro['Precio'], 0) ?></td>
                 <td>
                 
                     <form method="POST">
@@ -270,8 +287,39 @@
             </tr>
             <?php } } } ?>
             <?php } ?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td><?php echo number_format($totalOrdenCompra, 0); ?></td>
+                <td></td>
+            </tr>
+            <tr>
+            <td></td>
+                <td></td>
+                <td></td>
+                <td>IVA (19%)</td>
+                <td><?php echo number_format($totalOrdenCompra*0.19, 0); ?></td>
+                <td></td>
+            </tr>
+            <tr>
+            <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td><?php echo number_format($totalOrdenCompra * 1.19, 0); ?></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <form method="POST" action="descargar_orden.php">
+        <input type="hidden" name="txtNumOrden" value="<?php echo $txtNumOrden; ?>">
+        <button type="submit" name="download_pdf">Descargar PDF</button>
+    </form>
 </div>
 
 <?php
