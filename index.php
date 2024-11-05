@@ -6,7 +6,7 @@ require_once './config/database.php';
 // Ejemplo de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $pass = $_POST['password'];
+    $password = $_POST['password'];
 
     // Consultar la base de datos
     $stmt = $conn->prepare("SELECT * FROM Credenciales WHERE Usuario = :username");
@@ -14,11 +14,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $user = $stmt->fetch();
 
-    if ($user && password_verify($pass, $user['password'])) {
+    echo $user['Usuario'];
+    echo $user['Contrasenha'];
+
+    if ($user && $password==$user['Contrasenha']) {
         // Inicio de sesión exitoso
         session_start();
-        $_SESSION['user_id'] = $user['id'];
-        header('Location: pagina_principal.php');
+        $_SESSION['ID'] = $user['ID'];
+        $_SESSION['Usuario'] = $user['Usuario'];
+        // header('Location: pagina_principal.php');
+
+        // Verificar el tipo de usuario y redirigir
+        if ($user['Tipo_Usuario'] == 'Administrador') {
+            header('Location: ./public/admin.php');
+        } elseif ($user['Tipo_Usuario'] == 'Usuario') {
+            header('Location: ./public/user.php');
+        } else {
+            echo "Tipo de usuario desconocido";
+        }
+        exit;
+
     } else {
         // Inicio de sesión fallido
         echo "Usuario o contraseña incorrectos";
@@ -40,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container w-25 text-center align-middle">
     <div class="card">
-        <form method="POST" action="database.php">
+        <form method="POST" action="">
             <div class="md m-3">
-                <label for="exampleInputEmail1" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="user" name="user">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="username" name="username">
             </div>
             <div class="md m-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="pass" name="pass" required>
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="md m-3">
                 <button type="submit" class="btn btn-primary">Iniciar sesión</button>
