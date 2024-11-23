@@ -250,7 +250,7 @@
                                 <td>Cantidad</td>
                                 <td>Acción</td>
                             </tr>
-                        </thead>    
+                        </thead>
                             <tbody>
                                 <tr>
                                     <td><?php echo $insumo['ID_Insumo']?></td>
