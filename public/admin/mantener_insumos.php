@@ -110,20 +110,20 @@
 
     }
 
-    // $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
-    // $sentenciaSQL->execute();
-    // $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-
-    $orderColumn = isset($_GET['orderColumn']) ? $_GET['orderColumn'] : 'Nombre'; // Columna por defecto
-    $orderType = isset($_GET['orderType']) && $_GET['orderType'] === 'DESC' ? 'DESC' : 'ASC'; // Tipo de orden por defecto
-
-    // Consulta SQL dinámica
-    $sentenciaSQL = $conn->prepare("SELECT * FROM insumo ORDER BY $orderColumn $orderType");
+    $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
     $sentenciaSQL->execute();
-    $listaInsumos = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+    $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-    // Cambiar el orden para el próximo clic
-    $nextOrderType = ($orderType === 'ASC') ? 'DESC' : 'ASC';
+    // $orderColumn = isset($_GET['orderColumn']) ? $_GET['orderColumn'] : 'Nombre'; // Columna por defecto
+    // $orderType = isset($_GET['orderType']) && $_GET['orderType'] === 'DESC' ? 'DESC' : 'ASC'; // Tipo de orden por defecto
+
+    // // Consulta SQL dinámica
+    // $sentenciaSQL = $conn->prepare("SELECT * FROM insumo ORDER BY $orderColumn $orderType");
+    // $sentenciaSQL->execute();
+    // $listaInsumos = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    // // Cambiar el orden para el próximo clic
+    // $nextOrderType = ($orderType === 'ASC') ? 'DESC' : 'ASC';
     
     $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
     $sentenciaSQL->execute();
@@ -234,7 +234,8 @@
       </div>
       <div class="modal-body">
         <form method="POST">
-          <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
+          <!-- <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID"> -->
+          <input type="hidden" class="form-control" name="txtID" id="txtID" placeholder="ID">
           <!-- Inserción de datos -->
           <div class="row">
             <!-- Columna izquierda -->
@@ -322,6 +323,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     var agregarProveedorModal = document.getElementById('agregarProveedorModal');
     agregarProveedorModal.addEventListener('show.bs.modal', function(event) {
+      var button = event.relatedTarget;
       var id = button.getAttribute('data-id');
 
       var modalID = agregarProveedorModal.querySelector('#txtID');
@@ -400,20 +402,22 @@
                     <form method="POST">
                         <div class="row border">
                             <div class="col">
-                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $insumo['ID'] ?>"></input></div>
+                                <!-- <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $insumo['ID'] ?>"></input></div> -->
+                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input></div>
                                 <div class="d-flex flex-column">
-                                    <button type="button" class="btn btn-success w-auto mb-2" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
+                                    <!-- Botón para abrir el modal de agregar proveedor -->
+                                    <button type="button" class="btn btn-success w-auto mb-2" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
+                                            data-id="<?php echo $insumo['ID'] ?>">
+                                      <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
+                                    </button>
+                                    <!-- Botón para abrir el modal de modificar insumo -->
+                                    <button type="button" class="btn btn-warning w-auto mb-2" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
                                             data-id="<?php echo $insumo['ID'] ?>"
                                             data-nombre="<?php echo $insumo['Nombre'] ?>"
                                             data-stock-minimo="<?php echo $insumo['Stock_minimo'] ?>">
                                       <i class="fas fa-edit"></i> <!-- Ícono de editar -->
-                                    </button>
-                                    <!-- Botón para abrir el modal de agregar proveedor -->
-                                    <button type="button" class="btn btn-warning w-auto mb-2" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
-                                            data-id="<?php echo $insumo['ID'] ?>">
-                                      <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
                                     </button>
                                     <button type="submit" name="accion" value="Eliminar" class="btn btn-danger w-auto">
                                       <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
@@ -439,15 +443,6 @@
         // Filtrado personalizado usando la búsqueda integrada de DataTables
         document.getElementById('buscarInsumo').addEventListener('input', function() {
             table.search(this.value).draw();
-        });
-
-        // Manejo del modal de agregar proveedor
-        var agregarProveedorModal = document.getElementById('agregarProveedorModal');
-        agregarProveedorModal.addEventListener('show.bs.modal', function(event) {
-            var button = event.relatedTarget;
-            var id = button.getAttribute('data-id');
-            var modalID = agregarProveedorModal.querySelector('#txtID');
-            modalID.value = id;
         });
     });
 </script>
