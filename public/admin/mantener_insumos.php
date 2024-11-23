@@ -110,9 +110,20 @@
 
     }
 
-    $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
+    // $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
+    // $sentenciaSQL->execute();
+    // $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $orderColumn = isset($_GET['orderColumn']) ? $_GET['orderColumn'] : 'Nombre'; // Columna por defecto
+    $orderType = isset($_GET['orderType']) && $_GET['orderType'] === 'DESC' ? 'DESC' : 'ASC'; // Tipo de orden por defecto
+
+    // Consulta SQL dinámica
+    $sentenciaSQL = $conn->prepare("SELECT * FROM insumo ORDER BY $orderColumn $orderType");
     $sentenciaSQL->execute();
-    $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+    $listaInsumos = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    // Cambiar el orden para el próximo clic
+    $nextOrderType = ($orderType === 'ASC') ? 'DESC' : 'ASC';
     
     $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
     $sentenciaSQL->execute();
@@ -127,236 +138,319 @@
     $listaAreas=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<!-- Agregar y modificar -->
-<div class="row justify-content-around">
-        
-        <div class="col-xl"></div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Agregar insumo</h4>
-                    <hr>
-                    <form method="POST">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="txtNombreAgregar" class="form-label">Nombre insumo</label>
-                                    <input type="text" class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre del insumo">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtStockMinimoAgregar" class="form-label">Stock mínimo</label>
-                                <input class="form-control" name="txtStockMinimoAgregar" id="txtStockMinimoAgregar" placeholder="Ingrese el stock mínimo"></input>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-center">
-                                <input class="btn btn-warning" type="submit" value="Agregar" name="accion">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Editar insumo seleccionado</h4>
-                    <hr>
-                    <form method="POST">
-                        <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="txtNombreEditar" class="form-label">Nombre insumo</label>
-                                    <input type="text" class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el nombre del insumo">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtStockMinimoEditar" class="form-label">Stock mínimo</label>
-                                <input class="form-control" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $txtStockMinimoEditar?>" placeholder="Ingrese la descripción"></input>
-                            </div>
-                        </div>
-                        <!-- Editar y Deseleccionar -->
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="btn btn-warning" type="submit" value="Editar" name="accion">
-                            </div>
-                            <div class="col text-center">
-                                <input class="btn btn-info" type="submit" value="Deseleccionar" name="accion">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <form method="POST">
-                        <h4 class="text-center">Agregar proveedor para el insumo seleccionado</h4>
-                        <hr>
-                        <!-- <label for="txtID" class="form-label">ID</label> -->
-                        <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
-                        <!-- Inserción de datos -->
-                        <div class="row">
-                            <!-- Columna izquierda -->
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="txtIDProveedor" class="form-label">Seleccionar proveedor</label>
-                                            <select id="txtIDProveedor" name="txtIDProveedor" class="form-control">
-                                                <option value="">Seleccione un proveedor</option>
-                                                <?php foreach ($listaProveedores as $proveedor): ?>
-                                                    <option value="<?php echo $proveedor['ID']; ?>" <?php echo ($proveedor['ID'] == $txtIDProveedor) ? 'selected' : ''; ?>>
-                                                        <?php echo $proveedor['Nombre']; ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="coL">
-                                        <div class="mb-3">
-                                            <label for="txtIDArea" class="form-label">Seleccionar área</label>
-                                            <select id="txtIDArea" name="txtIDArea" class="form-control">
-                                                <option value="">Seleccione un área</option>
-                                                <?php foreach ($listaAreas as $area): ?>
-                                                    <option value="<?php echo $area['ID']; ?>" <?php echo ($area['ID'] == $txtIDArea) ? 'selected' : ''; ?>>
-                                                        <?php echo $area['Area']; ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Código -->
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="txtCodigoAgregar" class="form-label">Codigo</label>
-                                            <input type="text" class="form-control" name="txtCodigoAgregar" id="txtCodigoAgregar" value="<?php echo $txtCodigoAgregar?>" placeholder="Ingrese el código">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Columna derecha -->
-                            <div class="col">
-                                <!-- Descripción -->
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="txtDescripcionAgregar" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control" name="txtDescripcionAgregar" id="txtDescripcionAgregar" value="<?php echo $txtDescripcionAgregar?>" placeholder="Ingrese la descripción">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Presentación -->
-                                <div class="row">
-                                    <div class="mb-3">
-                                        <label for="txtPresentacionAgregar" class="form-label">Presentación</label>
-                                        <input class="form-control" name="txtPresentacionAgregar" id="txtPresentacionAgregar" value="<?php echo $txtPresentacionAgregar?>" placeholder="Ingrese la presentación"></input>
-                                    </div>
-                                </div>
-                                <!-- Precio -->
-                                <div class="row">
-                                    <div class="mb-3">
-                                        <label for="txtPrecioAgregar" class="form-label">Precio</label>
-                                        <input class="form-control" name="txtPrecioAgregar" id="txtPrecioAgregar" value="<?php echo $txtPrecioAgregar?>" placeholder="Ingrese el precio"></input>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                        <!-- Agregar -->
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl"></div>
+<!-- Modal Agregar Insumo -->
+<div class="modal fade" id="agregarInsumoModal" tabindex="-1" aria-labelledby="agregarInsumoModalLabel" aria-hidden= "true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarInsumoModalLabel">Agregar insumo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label for="txtNombreAgregar" class="form-label">Nombre insumo</label>
+            <input type="text" class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre del insumo">
+          </div>
+          <div class="mb-3">
+            <label for="txtStockMinimoAgregar" class="form-label">Stock mínimo</label>
+            <input class="form-control" name="txtStockMinimoAgregar" id="txtStockMinimoAgregar" placeholder="Ingrese el stock mínimo">
+          </div>
+          <div class="text-center">
+            <input class="btn btn-warning" type="submit" value="Agregar" name="accion">
+          </div>
+        </form>
+      </div>
     </div>
-<!-- Fin -->
+  </div>
+</div>
+
+<!-- Modal Editar Insumo -->
+<div class="modal fade" id="editarInsumoModal" tabindex="-1" aria-labelledby="editarInsumoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarInsumoModalLabel">Editar insumo seleccionado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <input type="hidden" class="form-control" name="txtID" id="txtID" placeholder="ID">
+          <div class="mb-3">
+            <label for="txtNombreEditar" class="form-label">Nombre insumo</label>
+            <input type="text" class="form-control" name="txtNombreEditar" id="txtNombreEditar" placeholder="Ingrese el nombre del insumo">
+          </div>
+          <div class="mb-3">
+            <label for="txtStockMinimoEditar" class="form-label">Stock mínimo</label>
+            <input class="form-control" name="txtStockMinimoEditar" id="txtStockMinimoEditar" placeholder="Ingrese la descripción">
+          </div>
+          <div class="row">
+            <div class="col text-center">
+              <input class="btn btn-warning" type="submit" value="Editar" name="accion">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var editarInsumoModal = document.getElementById('editarInsumoModal');
+    editarInsumoModal.addEventListener('show.bs.modal', function(event) {
+      var button = event.relatedTarget;
+      var id = button.getAttribute('data-id');
+      var nombre = button.getAttribute('data-nombre');
+      var stockMinimo = button.getAttribute('data-stock-minimo');
+
+      var modalID = editarInsumoModal.querySelector('#txtID');
+      var modalNombre = editarInsumoModal.querySelector('#txtNombreEditar');
+      var modalStockMinimo = editarInsumoModal.querySelector('#txtStockMinimoEditar');
+
+      modalID.value = id;
+      modalNombre.value = nombre;
+      modalStockMinimo.value = stockMinimo;
+    });
+  });
+</script>
+
+<!-- Incluye los archivos de Bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Incluye los archivos de DataTables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<!-- Modal Agregar Proveedor -->
+<div class="modal fade" id="agregarProveedorModal" tabindex="-1" aria-labelledby="agregarProveedorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarProveedorModalLabel">Agregar proveedor para el insumo seleccionado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
+          <!-- Inserción de datos -->
+          <div class="row">
+            <!-- Columna izquierda -->
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="txtIDProveedor" class="form-label">Seleccionar proveedor</label>
+                    <select id="txtIDProveedor" name="txtIDProveedor" class="form-control">
+                      <option value="">Seleccione un proveedor</option>
+                      <?php foreach ($listaProveedores as $proveedor): ?>
+                        <option value="<?php echo $proveedor['ID']; ?>" <?php echo ($proveedor['ID'] == $txtIDProveedor) ? 'selected' : ''; ?>>
+                          <?php echo $proveedor['Nombre']; ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="txtIDArea" class="form-label">Seleccionar área</label>
+                    <select id="txtIDArea" name="txtIDArea" class="form-control">
+                      <option value="">Seleccione un área</option>
+                      <?php foreach ($listaAreas as $area): ?>
+                        <option value="<?php echo $area['ID']; ?>" <?php echo ($area['ID'] == $txtIDArea) ? 'selected' : ''; ?>>
+                          <?php echo $area['Area']; ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- Código -->
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="txtCodigoAgregar" class="form-label">Codigo</label>
+                    <input type="text" class="form-control" name="txtCodigoAgregar" id="txtCodigoAgregar" value="<?php echo $txtCodigoAgregar?>" placeholder="Ingrese el código">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Columna derecha -->
+            <div class="col">
+              <!-- Descripción -->
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="txtDescripcionAgregar" class="form-label">Descripción</label>
+                    <input type="text" class="form-control" name="txtDescripcionAgregar" id="txtDescripcionAgregar" value="<?php echo $txtDescripcionAgregar?>" placeholder="Ingrese la descripción">
+                  </div>
+                </div>
+              </div>
+              <!-- Presentación -->
+              <div class="row">
+                <div class="mb-3">
+                  <label for="txtPresentacionAgregar" class="form-label">Presentación</label>
+                  <input class="form-control" name="txtPresentacionAgregar" id="txtPresentacionAgregar" value="<?php echo $txtPresentacionAgregar?>" placeholder="Ingrese la presentación"></input>
+                </div>
+              </div>
+              <!-- Precio -->
+              <div class="row">
+                <div class="mb-3">
+                  <label for="txtPrecioAgregar" class="form-label">Precio</label>
+                  <input class="form-control" name="txtPrecioAgregar" id="txtPrecioAgregar" value="<?php echo $txtPrecioAgregar?>" placeholder="Ingrese el precio"></input>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Agregar -->
+          <div class="row">
+            <div class="col text-center">
+              <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var agregarProveedorModal = document.getElementById('agregarProveedorModal');
+    agregarProveedorModal.addEventListener('show.bs.modal', function(event) {
+      var id = button.getAttribute('data-id');
+
+      var modalID = agregarProveedorModal.querySelector('#txtID');
+
+      modalID.value = id;
+    });
+  });
+</script>
+
+<!-- Incluye los archivos de Bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Incluye los archivos de DataTables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <!-- Listado -->
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
-            <thead>
-                <h4 class="p-2">Listado de insumos</h4>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>Nombre insumo</td>
-                    <td>Cantidad</td>
-                    <td>Stock mínimo</td>
-                    <td></td>
-                    <td>Editar elemento</td>
-                </tr>
-                <?php foreach($listaInsumos as $insumo){?>
-                <tr>
-                    <td><?php echo $insumo['ID'] ?></td>
-                    <td><?php echo $insumo['Nombre'] ?></td>
-                    <td><?php echo $insumo['Cantidad'] ?></td>
-                    <td><?php echo $insumo['Stock_minimo'] ?></td>
-                    <td>
-                        <table class="table table-bordered">
-                            <thead>
-                                <td>Proveedor</td>
-                                <td>Código Insumo</td>
-                                <td>Descripción</td>
-                                <td>Presentación</td>
-                                <td>Precio</td>
-                            </thead>
-                            <tbody>
-                    <?php foreach($listaProveedores as $proveedor){ ?>
-                    <?php foreach($listaProvee as $provee){ ?>
-                    <?php if($insumo['ID']==$provee['ID_Insumo'] && $proveedor['ID']==$provee['ID_Proveedor']){ ?>
-                                <tr>
-                                    <td><?php echo $proveedor['Nombre'] ?></td>
-                                    <td><?php echo $provee['Codigo_Insumo'] ?></td>
-                                    <td><?php echo $provee['Descripcion'] ?></td>
-                                    <td><?php echo $provee['Presentacion'] ?></td>
-                                    <td><?php echo $provee['Precio'] ?></td>
-                                </tr>
-                    <?php } ?>
-                    <?php } ?>
-                    <?php } ?>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td>
-                        <form method="POST">
-                            <div class="row border">
-                                <!-- <div class="col-3"></div> -->
-                                <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $insumo['ID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
-                                </div>
-                                <!-- <div class="col-3"></div> -->
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-                <?php }?>
-            </tbody>
-        </table>
+<div class="card row m-5 shadow p-3">
+    <h4 class="p-2">Listado de insumos</h4>
+    <hr>
+    <div class="p-2">
+        <!-- Botón para abrir el modal -->
+        <button type="button" class="btn btn-primary w-auto" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal">
+            Agregar insumo
+        </button>
     </div>
+    
+    <table id="tablaInsumos" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre insumo</th>
+                <th>Cantidad</th>
+                <th>Stock mínimo</th>
+                <th></th>
+                <th>Editar elemento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($listaInsumos as $insumo){?>
+            <tr>
+                <td><?php echo $insumo['ID'] ?></td>
+                <td><?php echo $insumo['Nombre'] ?></td>
+                <td><?php echo $insumo['Cantidad'] ?></td>
+                <td><?php echo $insumo['Stock_minimo'] ?></td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Proveedor</th>
+                                <th>Código Insumo</th>
+                                <th>Descripción</th>
+                                <th>Presentación</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($listaProveedores as $proveedor){ ?>
+                            <?php foreach($listaProvee as $provee){ ?>
+                            <?php if($insumo['ID']==$provee['ID_Insumo'] && $proveedor['ID']==$provee['ID_Proveedor']){ ?>
+                            <tr>
+                                <td><?php echo $proveedor['Nombre'] ?></td>
+                                <td><?php echo $provee['Codigo_Insumo'] ?></td>
+                                <td><?php echo $provee['Descripcion'] ?></td>
+                                <td><?php echo $provee['Presentacion'] ?></td>
+                                <td><?php echo $provee['Precio'] ?></td>
+                            </tr>
+                            <?php } ?>
+                            <?php } ?>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <form method="POST">
+                        <div class="row border">
+                            <div class="col">
+                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $insumo['ID'] ?>"></input></div>
+                                <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input></div>
+                                <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input></div>
+                                <div class="d-flex flex-column">
+                                    <button type="button" class="btn btn-success w-auto mb-2" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
+                                            data-id="<?php echo $insumo['ID'] ?>"
+                                            data-nombre="<?php echo $insumo['Nombre'] ?>"
+                                            data-stock-minimo="<?php echo $insumo['Stock_minimo'] ?>">
+                                      <i class="fas fa-edit"></i> <!-- Ícono de editar -->
+                                    </button>
+                                    <!-- Botón para abrir el modal de agregar proveedor -->
+                                    <button type="button" class="btn btn-warning w-auto mb-2" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
+                                            data-id="<?php echo $insumo['ID'] ?>">
+                                      <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
+                                    </button>
+                                    <button type="submit" name="accion" value="Eliminar" class="btn btn-danger w-auto">
+                                      <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializa DataTables
+        var table = $('#tablaInsumos').DataTable({
+            "order": [[0, "asc"]]
+        });
+
+        // Filtrado personalizado usando la búsqueda integrada de DataTables
+        document.getElementById('buscarInsumo').addEventListener('input', function() {
+            table.search(this.value).draw();
+        });
+
+        // Manejo del modal de agregar proveedor
+        var agregarProveedorModal = document.getElementById('agregarProveedorModal');
+        agregarProveedorModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var modalID = agregarProveedorModal.querySelector('#txtID');
+            modalID.value = id;
+        });
+    });
+</script>
 
 <?php
     include_once("../../src/footer.php");
