@@ -125,6 +125,9 @@
     $listaAreas=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 <!-- Agregar y modificar -->
 <div class="row justify-content-around">
 
@@ -169,6 +172,8 @@
   </div>
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <!-- Listado -->
 <div class="card row m-5 shadow overflow-scroll">
     <!-- Botón para abrir el modal -->
@@ -179,7 +184,7 @@
         Agregar usuario
         </button>
     </div>
-    <table class="table table-bordered">
+    <table id="tablaUsuarios" class="table table-bordered">
         <thead>    
             <tr>
                 <th>ID</th>
@@ -187,6 +192,7 @@
                 <th>Usuario</th>
                 <th>Contraseña</th>
                 <th>Área</th>
+                <th>Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -199,7 +205,6 @@
                 <td><?php echo $credencial['Contrasenha'] ?></td>
                 <?php } } ?>
                 <?php foreach($listaAreas as $area){if($lista['ID_Area']==$area['ID']){?>
-                <td><?php echo $area['ID'] ?></td>
                 <td><?php echo $area['Area'] ?></td>
                 <?php } } ?>
                 
@@ -210,25 +215,29 @@
                                 <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
-                                <!-- Botón para abrir el modal -->
+                                <!-- Íconos para acciones -->
                                 <div class="row m-2">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
                                             data-id="<?php echo $lista['ID'] ?>"
                                             data-nombre="<?php echo $lista['Nombre'] ?>"
                                             data-id-credencial="<?php echo $credencial['ID'] ?>"
                                             data-usuario="<?php echo $credencial['Usuario'] ?>"
                                             data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
                                             data-area="<?php echo $area['ID'] ?>">
-                                    Editar usuario seleccionado
-                                    </button>    
+                                        <i class="fas fa-edit"></i>
+                                    </button>
                                 </div>
-                                <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
+                                <div class="row m-2">
+                                    <button type="submit" class="btn btn-danger" name="accion" value="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </td>
             </tr>
-            <?php }?>
+            <?php } ?>
         </tbody>
     </table>
 </div>
@@ -326,6 +335,12 @@ document.addEventListener('DOMContentLoaded', function() {
         modalTxtContraseniaEditar.value = userContrasenia;
         modalTxtAreaEditar.value = userArea;
     });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#tablaUsuarios').DataTable();
 });
 </script>
 
