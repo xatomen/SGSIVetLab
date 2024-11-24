@@ -215,14 +215,14 @@
                         <div class="row text-center">
                             <!-- Botón para abrir el modal -->
                             <div class="col">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
-                                Agregar Insumo
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                                    <i class="fas fa-plus"></i> <!-- Icono de agregar -->
                                 </button>
                             </div>
                             <!-- Botón para abrir el modal de la lista -->
                             <div class="col">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listaInsumosModal<?php echo $orden['Num_Orden_de_Compra']; ?>">
-                                Ver Lista de Insumos
+                                    <i class="fa-regular fa-eye"></i> <!-- Icono de lista -->
                                 </button>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                                                     <form method="POST">
                                                         <div class="col">
                                                         <div class="row m-1"><input type="hidden" name="txtRegOrdenCompra" id="txtRegOrdenCompra" value="<?php echo $registro['Num_Registro_Orden_de_Compra'] ?>"></input></div>
-                                                        <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
+                                                        <div class="row m-1"><button type="submit" name="accion" value="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i></button></div> <!-- Icono de eliminar -->
                                                         </div>
                                                     </form>
                                                     </td>
@@ -303,7 +303,8 @@
                                                     <input type="hidden" name="txtNumOrden" value="<?php echo $txtNumOrden; ?>">
                                                     <!-- Botón Descargar PDF -->
                                                     <button type="submit" name="download_pdf" class="btn btn-primary">
-                                                        <i class="fas fa-file-pdf"></i> Descargar PDF
+                                                        <i class="fas fa-file-pdf"></i> <!-- Icono de PDF -->
+                                                        Descargar orden de compra
                                                     </button>
                                                 </form>
                                             </div>    
@@ -322,9 +323,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST">
-                                            <h4 class="text-center">Agregar insumo</h4>
-                                            <hr>
+                                        <form method="POST" action="crear_orden_compra.php">
                                             <!-- Seleccionamos el insumo a agregar -->
                                             <div class="row">
                                                 <div class="col mb-3">
@@ -340,19 +339,16 @@
                                                 </select>
                                                 </div>
                                             </div>
-                                            <!-- Cantidad -->
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                <label for="txtCantidad" class="form-label">Cantidad</label>
-                                                <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
+                                                    <label for="txtCantidad" class="form-label">Cantidad</label>
+                                                    <input type="number" id="txtCantidad" name="txtCantidad" class="form-control" required>
                                                 </div>
                                             </div>
-                                            <!-- Cargar -->
+                                            <input type="hidden" name="txtNumOrden" value="<?php echo $orden['Num_Orden_de_Compra']; ?>">
                                             <div class="row">
-                                                <!-- <label for="txtNumOrden" class="form-label">N° Orden</label> -->
-                                                <input type="hidden" class="form-control" name="txtNumOrden" id="txtNumOrden" value="<?php echo $orden['Num_Orden_de_Compra'] ?>" readonly>
-                                                <div class="text-center">
-                                                <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
+                                                <div class="col text-center">
+                                                    <button type="submit" name="accion" value="Agregar Insumo" class="btn btn-primary">Agregar insumo</button> <!-- Icono de agregar -->
                                                 </div>
                                             </div>
                                         </form>
