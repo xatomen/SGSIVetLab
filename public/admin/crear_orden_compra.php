@@ -160,7 +160,7 @@
     <div class="col-3 card p-3 m-2">
         <form method="POST">
             <!-- Seleccionar proveedor -->
-            <h3 class="text-center">Proveedor</h3>
+            <h4 class="text-center">Proveedor</h4>
             <hr>
             <p>Seleccione el proveedor:</p>
             <div class="row m-2">
@@ -194,9 +194,10 @@
     </div>
 
     <!-- Ordenes de compra -->
-    <div class="card col m-2 shadow">
+    <div class="card col p-3 m-2 shadow">
         <table id="ordenesCompraTable" class="table table-bordered">
-            <h4 class="p-2">Órdenes de compra</h4>
+            <h4>Órdenes de compra</h4>
+            <hr>
             <thead>    
                 <tr>
                     <th>N° de orden</th>
@@ -232,13 +233,29 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="listaInsumosModalLabel">Insumos en la lista</h5>
+                                    <h5 class="modal-title" id="listaInsumosModalLabel">Órdenes de compra</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="card row m-5 shadow">
+                                    <div class="card row m-2 p-2 shadow">
                                         <table class="table table-bordered">
-                                            <h4 class="p-2">Insumos en la lista N°<?php echo $orden['Num_Orden_de_Compra']; ?></h4>
+                                            <h4 class="p-2">Orden de compra N°<?php echo $orden['Num_Orden_de_Compra']; ?></h4>
+                                            <hr>
+                                            <h5 class="text-center">Información del proveedor</h5>
+                                            <hr>
+                                            <?php foreach($listaProveedores as $proveedor){?>
+                                                <?php if($orden['ID_Proveedor']==$proveedor['ID']){?>
+                                            <!-- Mostrar información del proveedor -->
+                                            <p>Nombre: <?php echo $proveedor['Nombre']?></p>
+                                            <p>RUT: <?php echo $proveedor['RUT']?></p>
+                                            <p>Fono: <?php echo $proveedor['Telefono']?></p>
+                                            <p>Correo: <?php echo $proveedor['Correo']?></p>
+                                            <p>Dirección: <?php echo $proveedor['Direccion']?></p>
+                                            <p>Comuna: <?php echo $proveedor['Comuna']?></p>
+                                            <p>Ciudad: <?php echo $proveedor['Ciudad']?></p>
+                                            <p>Giro: <?php echo $proveedor['Giro']?></p>
+                                            <?php }}?>
+                                            <hr>
                                             <thead>    
                                                 <tr>
                                                     <th>Cantidad</th>
