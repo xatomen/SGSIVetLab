@@ -368,18 +368,19 @@
                     <td><?php echo $lista['Tipo_de_muestra'] ?></td>
                     <td><?php echo $lista['Area'] ?></td>
                     <td>
+                    <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Nombre</th>
+                                  <th>Cantidad</t>
+                                  <th>Acción</th>
+                              </tr>
+                          </thead>
                         <?php foreach($componentes as $componente){
                             foreach($insumos as $insumo){
                                 if($componente['ID_Muestra'] == $lista['PerfilID'] && $componente['ID_Insumo'] == $insumo['ID_Insumo']){ ?>
-                        <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Cantidad</t>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
+                        
                             <tbody>
                                 <tr>
                                     <td><?php echo $insumo['ID_Insumo']?></td>
@@ -406,11 +407,12 @@
                                         </form>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                            
                         <?php }
                             }
                         } ?>
+                        </tbody>
+                        </table>
                     </td>
                     <td>
                         <form method="POST">
