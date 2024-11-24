@@ -128,111 +128,203 @@
     $sentenciaSQL->execute();
     $listaAreas = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<!-- Agregar y modificar -->
-<div class="row justify-content-around">
-        <!-- Agregar -->
-        <div class="col-xl"></div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Agregar perfil de muestra</h4>
-                    <hr>
-                    <form method="POST">
-                        <!-- Tipo de muestra -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtTipoMuestraAgregar" class="form-label">Tipo de muestra</label>
-                                <input class="form-control" name="txtTipoMuestraAgregar" id="txtTipoMuestraAgregar" placeholder="Ingrese el tipo de muestra"></input>
-                            </div>
-                        </div>
-                        <!-- ID Área -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtIDAreaAgregar" class="form-label">Área</label>
-                                <!-- <input class="form-control" name="txtIDAreaAgregar" id="txtIDAreaAgregar" placeholder="Seleccione el área"></input> -->
-                                <select id="insumosList" name="txtIDAreaAgregar" class="form-control">
-                                    <?php foreach ($listaAreas as $area): ?>
-                                        <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- Botón agregar -->
-                        <div class="row">
-                            <div class="text-center">
-                                <input class="btn btn-warning" type="submit" value="Agregar" name="accion_perfil">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="agregarPerfilModal" tabindex="-1" aria-labelledby="agregarPerfilModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarPerfilModalLabel">Agregar perfil de muestra</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <!-- Tipo de muestra -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtTipoMuestraAgregar" class="form-label">Tipo de muestra</label>
+              <input class="form-control" name="txtTipoMuestraAgregar" id="txtTipoMuestraAgregar" placeholder="Ingrese el tipo de muestra"></input>
             </div>
-        </div>
-        <!-- Editar -->
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Editar perfil de muestra seleccionado</h4>
-                    <hr>
-                    <form method="POST">
-                        <!-- ID -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <!-- <label for="txtID" class="form-label">ID</label> -->
-                                    <input type="hidden" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
-                                </div>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        <!-- Tipo de muestra -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtTipoMuestraEditar" class="form-label">Tipo de muestra</label>
-                                <input type="text" class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $txtTipoMuestraEditar?>" placeholder="Ingrese el tipo de muestra">
-                            </div>
-                        </div>
-                        <!-- ID Área -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtIDAreaEditar" class="form-label">Área</label>
-                                <input type="text" class="form-control" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $txtIDAreaEditar?>" placeholder="Seleccione el área">
-                                <!-- <select id="txtIDAreaEditar" name="txtIDAreaEditar" class="form-control">
-                                    <?php foreach ($listaAreas as $area): ?>
-                                        <option value="<?php echo /*$txtIDAreaEditar;*/$area['ID']; ?>"><?php echo /*$txtIDAreaEditar;*/$area['Area']; ?></option>
-                                    <?php endforeach; ?>
-                                </select> -->
-                            </div>
-                        </div>
-                        <!-- Editar y Deseleccionar -->
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="btn btn-warning" type="submit" value="Editar" name="accion_perfil">
-                            </div>
-                            <div class="col text-center">
-                                <input class="btn btn-info" type="submit" value="Deseleccionar" name="accion_perfil">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+          </div>
+          <!-- ID Área -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtIDAreaAgregar" class="form-label">Área</label>
+              <select id="insumosList" name="txtIDAreaAgregar" class="form-control">
+                <?php foreach ($listaAreas as $area): ?>
+                  <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
-        </div>
-        <div class="col-xl"></div>
+          </div>
+          <!-- Botón agregar -->
+          <div class="row">
+            <div class="text-center">
+              <input class="btn btn-warning" type="submit" value="Agregar" name="accion_perfil">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-<!-- Fin -->
+  </div>
+</div>
+
+
+
+<!-- Modal de edición -->
+<div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarPerfilModalLabel">Editar perfil de muestra seleccionado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <!-- ID -->
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <input type="hidden" class="form-control" name="txtID" id="txtID" placeholder="ID">
+              </div>
+            </div>
+            <div class="col"></div>
+          </div>
+          <!-- Tipo de muestra -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtTipoMuestraEditar" class="form-label">Tipo de muestra</label>
+              <input type="text" class="form-control" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $txtTipoMuestraEditar?>" placeholder="Ingrese el tipo de muestra">
+            </div>
+          </div>
+          <!-- ID Área -->
+          <div class="row">
+            <div class="mb-3">
+            <label for="txtIDAreaEditar" class="form-label">Seleccionar área</label>
+                    <select id="txtIDAreaEditar" name="txtIDAreaEditar" class="form-control">
+                      <option value="">Seleccione un área</option>
+                      <?php foreach ($listaAreas as $area): ?>
+                        <option value="<?php echo $area['ID']; ?>" <?php echo ($area['ID'] == $txtIDAreaEditar) ? 'selected' : ''; ?>>
+                          <?php echo $area['Area']; ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+            </div>
+          </div>
+          <!-- Editar y Deseleccionar -->
+          <div class="row">
+            <div class="col text-center">
+              <input class="btn btn-warning" type="submit" value="Editar" name="accion_perfil">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var editarPerfilModal = document.getElementById('editarPerfilModal');
+  editarPerfilModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var id = button.getAttribute('data-id');
+    var tipo = button.getAttribute('data-tipo');
+    var area = button.getAttribute('data-area');
+
+    var modal = this;
+    modal.querySelector('.modal-body #txtID').value = id;
+    modal.querySelector('.modal-body #txtTipoMuestraEditar').value = tipo;
+    modal.querySelector('.modal-body #txtIDAreaEditar').value = area;
+  });
+</script>
+
+<!-- Modal de añadir componente -->
+<div class="modal fade" id="añadirComponenteModal" tabindex="-1" aria-labelledby="añadirComponenteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="añadirComponenteModalLabel">Añadir componente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="row m-1">
+            <input type="hidden" name="txtID" id="txtID" value="">
+          </div>
+          <!-- Script de búsqueda -->
+          <script>
+            // Filtrar insumos al escribir en el campo de búsqueda
+            document.getElementById('buscarInsumo').addEventListener('input', function() {
+              const searchTerm = this.value.toLowerCase();
+              const options = document.querySelectorAll('#insumosList option');
+              options.forEach(option => {
+                const text = option.textContent.toLowerCase();
+                option.style.display = text.includes(searchTerm) ? '' : 'none';
+              });
+            });
+          </script>
+          <div class="row m-1">
+            <label for="txtIDInsumo" class="form-label">Insumo</label>
+            <!-- Campo de búsqueda -->
+            <input type="text" id="buscarInsumo" class="form-control mb-2" placeholder="Filtrar listado">
+            <!-- Listado de insumos filtrado por búsqueda -->
+            <select id="insumosList" name="txtIDInsumo" class="form-control">
+              <?php foreach ($insumos as $insumo): ?>
+                <option value="<?php echo $insumo['ID_Insumo']; ?>"><?php echo $insumo['Nombre']; ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="row m-1">
+            <label for="txtCantidadInsumo" class="form-label">Cantidad</label>
+            <input type="text" name="txtCantidadInsumo" class="form-control mb-2" id="txtCantidadInsumo" value="">
+          </div>
+          <div class="row m-1">
+            <input type="submit" name="accion_componente" value="Añadir" class="btn btn-success">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var añadirComponenteModal = document.getElementById('añadirComponenteModal');
+  añadirComponenteModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var id = button.getAttribute('data-id');
+
+    var modal = this;
+    modal.querySelector('.modal-body #txtID').value = id;
+  });
+</script>
 
 <!-- Listado -->
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
+    <div class="card row m-5 shadow">
+        <table id="tablaPerfilesMuestra" class="table table-bordered">
+            <h4 class="p-2">Listado de perfiles de muestra</h4>
+            <hr>
+            <div class="p-2">
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarPerfilModal">
+                Agregar perfil de muestra
+                </button>
+            </div>
             <thead>
-                <h4 class="p-2">Listado de perfiles de muestra</h4>
-            </thead>
-            <tbody>
                 <tr>
-                    <td>ID</td>
-                    <td>Tipo de muestra</td>
-                    <td>Área</td>
-                    <td>Componentes</td>
+                    <th>ID</th>
+                    <th>Tipo de muestra</t>
+                    <th>Área</th>
+                    <th>Componentes</th>
+                    <th>Acción</th>
                 </tr>
+            </thead>
+            <hr>
+            <tbody>
                 <?php foreach($listaPerfilMuestra as $lista){?>
                 <tr>
                     <td><?php echo $lista["PerfilID"] ?></td>
@@ -245,10 +337,10 @@
                         <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td>ID</td>
-                                <td>Nombre</td>
-                                <td>Cantidad</td>
-                                <td>Acción</td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</t>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                             <tbody>
@@ -339,15 +431,33 @@
                     <td>
                         <form method="POST">
                             <div class="row border">
-                                <!-- <div class="col-3"></div> -->
                                 <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $lista['Tipo_de_muestra'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion_perfil" value="Seleccionar" class="btn btn-info"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger"></input></div>
+                                    <div class="row m-1">
+                                        <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input>
+                                    </div>
+                                    <div class="row m-1">
+                                        <input type="hidden" name="txtTipoMuestraEditar" id="txtTipoMuestraEditar" value="<?php echo $lista['Tipo_de_muestra'] ?>"></input>
+                                    </div>
+                                    <div class="row m-1">
+                                        <input type="hidden" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input>
+                                    </div>
+                                    <div class="row m-1">
+                                        <button type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Botón para abrir el modal de edición -->
+                                    <div class="row m-1">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarPerfilModal" data-id="<?php echo $lista['PerfilID']; ?>" data-tipo="<?php echo $lista['Tipo_de_muestra']; ?>" data-area="<?php echo $lista['ID_Area']; ?>">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Botón para abrir el modal de añadir componente -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#añadirComponenteModal" data-id="<?php echo $lista['PerfilID']; ?>">
+                                    Añadir componente
+                                    </button>
                                 </div>
-                                <!-- <div class="col-3"></div> -->
                             </div>
                         </form>
                     </td>
@@ -356,6 +466,14 @@
             </tbody>
         </table>
     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $('#tablaPerfilesMuestra').DataTable({
+            "order": [[0, "asc"]]
+        });
+    });
+</script>
 
 <?php
     include_once("../../src/footer.php");
