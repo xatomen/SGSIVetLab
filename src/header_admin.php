@@ -46,42 +46,13 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
     </script>
-
+    <style>
+        .nav-link:hover {
+            background-color: #495057;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -95,68 +66,77 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin.php"){echo "active";}?>">
-                        Inicio
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php"){echo "active";}?>">
-                        Cargar insumos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
-                        Crear órdenes de compra
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php"){echo "active";}?>">Mantener insumos</a>
-                    </li>
-
-                    <li>
-                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php"){echo "active";}?>">Mantener proveedores</a>
-                    </li>
-
-                    <li>
-                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php"){echo "active";}?>">Mantener perfiles de muestra</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
-                        Listado de insumos
+                            <i class="fas fa-home"></i> Inicio
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin/listado_metricas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_metricas.php"){echo "active";}?>">
-                        Listado de métricas
+                            <i class="fas fa-chart-line"></i>   Listado de métricas
                         </a>
                     </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/listado_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/listado_insumos.php"){echo "active";}?>">
+                            <i class="fas fa-list"></i> Listado de insumos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/cargar_insumos.php"){echo "active";}?>">
+                            <i class="fas fa-upload"></i>   Cargar insumos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php"){echo "active";}?>">
+                            <i class="fas fa-boxes"></i>    Gestionar insumos
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_muestra.php"){echo "active";}?>">
+                            <i class="fas fa-vials"></i>    Gestionar perfiles de muestra
+                        </a>
+                    </li>
+                    <hr>
+                    <li>
+                        <a href="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php"){echo "active";}?>">
+                            <i class="fas fa-truck"></i>    Gestionar proveedores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
+                            <i class="fas fa-file-alt"></i> Crear órdenes de compra
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php"){echo "active";}?>">
+                            <i class="fas fa-print"></i>    Imprimir etiquetas
+                        </a>
+                    </li>
+                    
+                    <hr>
+                    
                     <!-- <li class="nav-item"> -->
                         <!-- <a href="../admin/gestionar_administradores.php" class="nav-link text-white <?php //if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_administradores.php"){echo "active";}?>"> -->
                         <!-- Gestionar perfiles de administradores -->
                         <!-- </a> -->
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
-                        Gestionar perfiles de usuario
+                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_usuario.php"){echo "active";}?>">
+                            <i class="fas fa-user"></i> Gestionar perfiles de usuario
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php"){echo "active";}?>">
-                        Mostrar registros
+                            <i class="fas fa-list-alt"></i> Mostrar registros
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php"){echo "active";}?>">
-                        Imprimir etiquetas
-                        </a>
-                    </li>
+                    
                 </ul>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white bg-danger">
-                        Cerrar sesión y salir
+                            <i class="fas fa-door-open"></i> Cerrar sesión y salir
                         </a>
                     </li>
                 </ul>
