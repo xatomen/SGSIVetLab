@@ -303,6 +303,43 @@
   });
 </script>
 
+<!-- Modal de editar cantidad -->
+<div class="modal fade" id="editarCantidadModal" tabindex="-1" aria-labelledby="editarCantidadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarCantidadModalLabel">Editar cantidad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="row m-1">
+            <input type="hidden" name="txtIDComponentePerfilMuestra" id="txtIDComponentePerfilMuestra" value="">
+          </div>
+          <div class="row m-1">
+            <label for="txtCantidadInsumo" class="form-label">Cantidad</label>
+            <input type="text" name="txtCantidadInsumo" class="form-control mb-2" id="txtCantidadInsumo" value="">
+          </div>
+          <div class="row m-1">
+            <input type="submit" name="accion_componente" value="Editar" class="btn btn-warning">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var editarCantidadModal = document.getElementById('editarCantidadModal');
+  editarCantidadModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var id = button.getAttribute('data-id');
+
+    var modal = this;
+    modal.querySelector('.modal-body #txtIDComponentePerfilMuestra').value = id;
+  });
+</script>
+
 <!-- Listado -->
     <div class="card row m-5 shadow">
         <table id="tablaPerfilesMuestra" class="table table-bordered">
@@ -371,7 +408,10 @@
                                                     </div>
                                                 </ul>
                                             </div>
-                                            <!--  -->
+                                            <!-- Botón para abrir el modal de editar cantidad -->
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarCantidadModal" data-id="<?php echo $componente['ID_Componentes_perfil_muestra']; ?>">
+                                              <i class="fas fa-edit"></i>
+                                            </button>
                                             <div class="row m-1"><input type="submit" name="accion_componente" value="Eliminar" class="btn btn-danger"></input></div>
                                         </form>
                                     </td>
@@ -381,52 +421,6 @@
                         <?php }
                             }
                         } ?>
-                        <!-- Submenú para agregar componente al perfil de muestra -->
-                        <div class="dropdown text-center">
-                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Añadir componente</a>
-                            <ul class="dropdown-menu">
-                                <div class="card p-3">
-                                    <h4>Añadir componente</h4>
-                                    <hr>
-                                    <form method="POST">
-                                        <div class="row m-1">
-                                            <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>">
-                                        </div>
-                                        <!-- Script de búsqueda -->
-                                        <script>
-                                            // Filtrar insumos al escribir en el campo de búsqueda
-                                            document.getElementById('buscarInsumo').addEventListener('input', function() {
-                                                const searchTerm = this.value.toLowerCase();
-                                                const options = document.querySelectorAll('#insumosList option');
-                                                options.forEach(option => {
-                                                    const text = option.textContent.toLowerCase();
-                                                    option.style.display = text.includes(searchTerm) ? '' : 'none';
-                                                });
-                                            });
-                                        </script>
-                                        <div class="row m-1">
-                                            <label for="txtIDInsumo" class="form-label">Insumo</label>
-                                            <!-- Campo de búsqueda -->
-                                            <input type="text" id="buscarInsumo" class="form-control mb-2" placeholder="Filtrar listado">
-                                            <!-- Listado de insumos filtrado por búsqueda -->
-                                            <select id="insumosList" name="txtIDInsumo" class="form-control">
-                                                <?php foreach ($insumos as $insumo): ?>
-                                                    <option value="<?php echo $insumo['ID_Insumo']; ?>"><?php echo $insumo['Nombre']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="row m-1">
-                                            <label for="txtCantidadInsumo" class="form-label">Cantidad</label>
-                                            <input type="text" name="txtCantidadInsumo" class="form-control mb-2" id="txtCantidadInsumo" value="">
-                                        </div>
-                                        <div class="row m-1">
-                                            <input type="submit" name="accion_componente" value="Añadir" class="btn btn-success">
-                                        </div>
-                                    </form>
-                                </div>
-                            </ul>
-                        </div>
-                        <!--  -->
                     </td>
                     <td>
                         <form method="POST">
@@ -454,9 +448,11 @@
                                     </div>
 
                                     <!-- Botón para abrir el modal de añadir componente -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#añadirComponenteModal" data-id="<?php echo $lista['PerfilID']; ?>">
-                                    Añadir componente
-                                    </button>
+                                    <div class="row m-1">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#añadirComponenteModal" data-id="<?php echo $lista['PerfilID']; ?>">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
