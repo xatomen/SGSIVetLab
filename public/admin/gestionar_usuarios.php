@@ -129,50 +129,7 @@
 <div class="row justify-content-around">
         <!-- Agregar -->
         <div class="col-xl"></div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Agregar usuario</h4>
-                    <hr>
-                    <form method="POST">
-                        <!-- Nombre -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtNombreAgregar" class="form-label">Nombre</label>
-                                <input class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre"></input>
-                            </div>
-                        </div>
-                        <!-- Area -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtAreaAgregar" class="form-label">Área</label>
-                                <input class="form-control" name="txtAreaAgregar" id="txtAreaAgregar" placeholder="Ingrese el área"></input>
-                            </div>
-                        </div>
-                        <!-- Usuario -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtUsuarioAgregar" class="form-label">Nombre de usuario</label>
-                                <input class="form-control" name="txtUsuarioAgregar" id="txtUsuarioAgregar" placeholder="Ingrese el nombre de usuario"></input>
-                            </div>
-                        </div>
-                        <!-- Contraseña -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtContraseniaAgregar" class="form-label">Contraseña</label>
-                                <input class="form-control" name="txtContraseniaAgregar" id="txtContraseniaAgregar" placeholder="Ingrese la contraseña"></input>
-                            </div>
-                        </div>
-                        <!-- Botón agregar -->
-                        <div class="row">
-                            <div class="text-center">
-                                <input class="btn btn-warning" type="submit" value="Agregar" name="accion">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- Editar -->
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
             <div class="col">
@@ -281,52 +238,155 @@
 </div>
 
 <!-- Listado -->
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
-            <h4 class="p-2">Listado de usuarios</h4>
-            <thead>    
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</t>
-                    <th>Usuario</t>
-                    <th>Contraseña</th>
-                    <th>Área</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($listaUsuarios as $lista){?>
-                <tr>
-                    <td><?php echo $lista['ID'] ?></td>
-                    <td><?php echo $lista['Nombre']?></td>
-                    <?php foreach($listaCredenciales as $credencial){if($lista['ID_Credenciales']==$credencial['ID']){?>
-                    <td><?php echo $credencial['Usuario'] ?></td>
-                    <td><?php echo $credencial['Contrasenha'] ?></td>
-                    <?php } } ?>
-                    <?php foreach($listaAreas as $area){if($lista['ID_Area']==$area['ID']){?>
-                    <td><?php echo $area['ID'] ?></td>
-                    <td><?php echo $area['Area'] ?></td>
-                    <?php } } ?>
-                    
-                    <td>
-                        <form method="POST">
-                            <div class="row border">
-                                <!-- <div class="col-3"></div> -->
-                                <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Seleccionar" class="btn btn-info"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
-                                </div>
-                                <!-- <div class="col-3"></div> -->
+<div class="card row m-5 shadow overflow-scroll">
+    <table class="table table-bordered">
+        <h4 class="p-2">Listado de usuarios</h4>
+        <thead>    
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Contraseña</th>
+                <th>Área</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($listaUsuarios as $lista){?>
+            <tr>
+                <td><?php echo $lista['ID'] ?></td>
+                <td><?php echo $lista['Nombre']?></td>
+                <?php foreach($listaCredenciales as $credencial){if($lista['ID_Credenciales']==$credencial['ID']){?>
+                <td><?php echo $credencial['Usuario'] ?></td>
+                <td><?php echo $credencial['Contrasenha'] ?></td>
+                <?php } } ?>
+                <?php foreach($listaAreas as $area){if($lista['ID_Area']==$area['ID']){?>
+                <td><?php echo $area['ID'] ?></td>
+                <td><?php echo $area['Area'] ?></td>
+                <?php } } ?>
+                
+                <td>
+                    <form method="POST">
+                        <div class="row border">
+                            <div class="col">
+                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
+                                <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
+                                <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
+                                <!-- Botón para abrir el modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
+                                        data-id="<?php echo $lista['ID'] ?>"
+                                        data-nombre="<?php echo $lista['Nombre'] ?>"
+                                        data-id-credencial="<?php echo $credencial['ID'] ?>"
+                                        data-usuario="<?php echo $credencial['Usuario'] ?>"
+                                        data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
+                                        data-area="<?php echo $area['ID'] ?>">
+                                Editar usuario seleccionado
+                                </button>
+                                <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
                             </div>
-                        </form>
-                    </td>
-                </tr>
-                <?php }?>
-            </tbody>
-        </table>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            <?php }?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarUsuarioModalLabel">Editar usuario seleccionado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <!-- ID -->
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label for="txtID" class="form-label">ID</label>
+                <input type="text" class="form-control" name="txtID" id="modalTxtID" placeholder="ID" readonly>
+              </div>
+            </div>
+            <div class="col"></div>
+          </div>
+          <!-- Nombre -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtNombreEditar" class="form-label">Nombre</label>
+              <input class="form-control" name="txtNombreEditar" id="modalTxtNombreEditar" placeholder="Ingrese el nombre"></input>
+            </div>
+          </div>
+          <!-- Area -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtAreaEditar" class="form-label">Área</label>
+              <input class="form-control" name="txtAreaEditar" id="modalTxtAreaEditar" placeholder="Ingrese el área"></input>
+            </div>
+          </div>
+          <!-- ID Credencial -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtIDCredencial" class="form-label">ID Credencial</label>
+              <input class="form-control" name="txtIDCredencial" id="modalTxtIDCredencial" placeholder="ID Credencial" readonly></input>
+            </div>
+          </div>
+          <!-- Usuario -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtUsuarioEditar" class="form-label">Nombre de usuario</label>
+              <input class="form-control" name="txtUsuarioEditar" id="modalTxtUsuarioEditar" placeholder="Ingrese el nombre de usuario"></input>
+            </div>
+          </div>
+          <!-- Contraseña -->
+          <div class="row">
+            <div class="mb-3">
+              <label for="txtContraseniaEditar" class="form-label">Contraseña</label>
+              <input class="form-control" name="txtContraseniaEditar" id="modalTxtContraseniaEditar" placeholder="Ingrese la contraseña"></input>
+            </div>
+          </div>
+          <!-- Editar y Deseleccionar -->
+          <div class="row">
+            <div class="col text-center">
+              <input class="btn btn-warning" type="submit" value="Editar" name="accion">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var editarUsuarioModal = document.getElementById('editarUsuarioModal');
+    editarUsuarioModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var userId = button.getAttribute('data-id');
+        var userName = button.getAttribute('data-nombre');
+        var userIdCredencial =button.getAttribute('data-id-credencial');
+        var userUsuario = button.getAttribute('data-usuario');
+        var userContrasenia = button.getAttribute('data-contrasenia');
+        var userArea = button.getAttribute('data-area');
+
+        var modalTxtID = editarUsuarioModal.querySelector('#modalTxtID');
+        var modalTxtNombreEditar = editarUsuarioModal.querySelector('#modalTxtNombreEditar');
+        var modalTxtIDCredencial = editarUsuarioModal.querySelector('#modalTxtIDCredencial');
+        var modalTxtUsuarioEditar = editarUsuarioModal.querySelector('#modalTxtUsuarioEditar');
+        var modalTxtContraseniaEditar = editarUsuarioModal.querySelector('#modalTxtContraseniaEditar');
+        var modalTxtAreaEditar = editarUsuarioModal.querySelector('#modalTxtAreaEditar');
+
+        modalTxtID.value = userId;
+        modalTxtNombreEditar.value = userName;
+        modalTxtIDCredencial.value = userIdCredencial;
+        modalTxtUsuarioEditar.value = userUsuario;
+        modalTxtContraseniaEditar.value = userContrasenia;
+        modalTxtAreaEditar.value = userArea;
+    });
+});
+</script>
 
 <?php
     include_once("../../src/footer.php");
