@@ -127,75 +127,7 @@
 ?>
 <!-- Agregar y modificar -->
 <div class="row justify-content-around">
-        <!-- Agregar -->
-        <div class="col-xl"></div>
-        
-        <!-- Editar -->
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="col">
-                <div class="card p-3 shadow">
-                    <h4 class="text-center">Editar usuario seleccionado</h4>
-                    <hr>
-                    <form method="POST">
-                        <!-- ID -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="txtID" class="form-label">ID</label>
-                                    <input type="text" class="form-control" name="txtID" id="txtID" value="<?php echo $txtID?>" placeholder="ID">
-                                </div>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        <!-- Nombre -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtNombreEditar" class="form-label">Nombre</label>
-                                <input class="form-control" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $txtNombreEditar?>" placeholder="Ingrese el nombre"></input>
-                            </div>
-                        </div>
-                        <!-- Area -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtAreaEditar" class="form-label">Área</label>
-                                <input class="form-control" name="txtAreaEditar" id="txtAreaEditar" value="<?php echo $txtAreaEditar?>" placeholder="Ingrese el área"></input>
-                            </div>
-                        </div>
-                        <!-- Usuario -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtUsuarioEditar" class="form-label">Nombre de usuario</label>
-                                <input class="form-control" name="txtUsuarioEditar" id="txtUsuarioEditar" value="<?php echo $txtUsuarioEditar?>" placeholder="Ingrese el nombre de usuario"></input>
-                            </div>
-                        </div>
-                        <!-- Contraseña -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="txtContraseniaEditar" class="form-label">Contraseña</label>
-                                <input class="form-control" name="txtContraseniaEditar" id="txtContraseniaEditar" value="<?php echo $txtContraseniaEditar?>" placeholder="Ingrese la contraseña"></input>
-                            </div>
-                        </div>
-                        <!-- Editar y Deseleccionar -->
-                        <div class="row">
-                            <div class="col text-center">
-                                <input class="btn btn-warning" type="submit" value="Editar" name="accion">
-                            </div>
-                            <div class="col text-center">
-                                <input class="btn btn-info" type="submit" value="Deseleccionar" name="accion">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl"></div>
-    </div>
-<!-- Fin -->
 
-<!-- Botón para abrir el modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
-  Agregar usuario
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
@@ -239,8 +171,15 @@
 
 <!-- Listado -->
 <div class="card row m-5 shadow overflow-scroll">
+    <!-- Botón para abrir el modal -->
+    <h4 class="p-2">Listado de usuarios</h4>
+    <hr>
+    <div class="m-2">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+        Agregar usuario
+        </button>
+    </div>
     <table class="table table-bordered">
-        <h4 class="p-2">Listado de usuarios</h4>
         <thead>    
             <tr>
                 <th>ID</th>
@@ -272,15 +211,17 @@
                                 <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
                                 <!-- Botón para abrir el modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
-                                        data-id="<?php echo $lista['ID'] ?>"
-                                        data-nombre="<?php echo $lista['Nombre'] ?>"
-                                        data-id-credencial="<?php echo $credencial['ID'] ?>"
-                                        data-usuario="<?php echo $credencial['Usuario'] ?>"
-                                        data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
-                                        data-area="<?php echo $area['ID'] ?>">
-                                Editar usuario seleccionado
-                                </button>
+                                <div class="row m-2">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
+                                            data-id="<?php echo $lista['ID'] ?>"
+                                            data-nombre="<?php echo $lista['Nombre'] ?>"
+                                            data-id-credencial="<?php echo $credencial['ID'] ?>"
+                                            data-usuario="<?php echo $credencial['Usuario'] ?>"
+                                            data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
+                                            data-area="<?php echo $area['ID'] ?>">
+                                    Editar usuario seleccionado
+                                    </button>    
+                                </div>
                                 <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
                             </div>
                         </div>
