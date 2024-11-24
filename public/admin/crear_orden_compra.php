@@ -192,76 +192,6 @@
         </form>
     </div>
 
-    <!-- Modal agregar Insumo a la Orden de Compra-->
-    <div class="modal fade" id="agregarInsumoModal" tabindex="-1" aria-labelledby="agregarInsumoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="agregarInsumoModalLabel">Agregar insumo</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="POST">
-            <h4 class="text-center">Agregar insumo</h4>
-            <hr>
-            <!-- Seleccionamos la órden de compra -->
-            <div class="row">
-                <div class="col mb-3">
-                <p>Seleccione el número de órden de compra:</p>
-                <select id="txtNumOrden" name="txtNumOrden" class="form-control" onchange="this.form.submit()">
-                    <option value="">Seleccione la órden de compra</option>
-                    <?php foreach ($listaOrdenCompra as $orden): ?>
-                    <option value="<?php echo $orden['Num_Orden_de_Compra']; ?>">
-                        <?php echo "N° ".$orden['Num_Orden_de_Compra']." - Fecha (".$orden['Fecha'].")"; ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-                </div>
-            </div>
-            <!-- Seleccionamos el insumo a agregar -->
-            <div class="row">
-                <div class="col mb-3">
-                <label for="txtIDInsumo" class="form-label">Seleccione el insumo a agregar a la lista</label>
-                <select id="txtIDInsumo" name="txtIDInsumo" class="form-control">
-                    <option value="">Seleccione un insumo</option>
-                    <?php foreach ($listaInsumosProvee as $provee){ ?>
-                    <?php if($provee['ID_Proveedor']==$orden['ID_Proveedor']){ ?>
-                    <option value="<?php echo $provee['Codigo_Insumo']; ?>">
-                        <?php echo $provee['Codigo_Insumo']. " - ". $provee['Descripcion']; ?>
-                    </option>
-                    <?php }} ?>
-                </select>
-                </div>
-            </div>
-            <!-- Cantidad -->
-            <div class="row">
-                <div class="col mb-3">
-                <label for="txtCantidad" class="form-label">Cantidad</label>
-                <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
-                </div>
-            </div>
-            <!-- Cargar -->
-            <div class="row">
-                <div class="text-center">
-                <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
-                </div>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
-    </div>
-
-    <script>
-    var agregarInsumoModal = document.getElementById('agregarInsumoModal');
-    agregarInsumoModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var numOrden = button.getAttribute('data-id');
-        var selectNumOrden = agregarInsumoModal.querySelector('#txtNumOrden');
-        selectNumOrden.value = numOrden;
-    });
-    </script>
-
     <!-- Ordenes de compra -->
     <div class="card col m-2 shadow">
         <table class="table table-bordered">
@@ -282,7 +212,7 @@
                     <td><?php foreach($listaProveedores as $proveedor){if($orden['ID_Proveedor']==$proveedor['ID']){echo $proveedor['Nombre'];}}?></td>
                     <td>
                         <!-- Botón para abrir el modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
                         Agregar Insumo
                         </button>
                         <!-- Botón para abrir el modal de la lista -->
@@ -371,6 +301,51 @@
                                         </div>    
                                     </div>
                                 </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- Modal agregar Insumo a la Orden de Compra-->
+                        <div class="modal fade" id="agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" tabindex="-1" aria-labelledby="agregarInsumoModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="agregarInsumoModalLabel">Agregar insumo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="POST">
+                                <h4 class="text-center">Agregar insumo</h4>
+                                <hr>
+                                <!-- Seleccionamos el insumo a agregar -->
+                                <div class="row">
+                                    <div class="col mb-3">
+                                    <label for="txtIDInsumo" class="form-label">Seleccione el insumo a agregar a la lista</label>
+                                    <select id="txtIDInsumo" name="txtIDInsumo" class="form-control">
+                                        <option value="">Seleccione un insumo</option>
+                                        <?php foreach ($listaInsumosProvee as $provee){ ?>
+                                        <?php if($provee['ID_Proveedor']==$orden['ID_Proveedor']){ ?>
+                                        <option value="<?php echo $provee['Codigo_Insumo']; ?>">
+                                            <?php echo $provee['Codigo_Insumo']. " - ". $provee['Descripcion']; ?>
+                                        </option>
+                                        <?php }} ?>
+                                    </select>
+                                    </div>
+                                </div>
+                                <!-- Cantidad -->
+                                <div class="row">
+                                    <div class="col mb-3">
+                                    <label for="txtCantidad" class="form-label">Cantidad</label>
+                                    <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
+                                    </div>
+                                </div>
+                                <!-- Cargar -->
+                                <div class="row">
+                                    <div class="text-center">
+                                    <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
+                                    </div>
+                                </div>
+                                </form>
                             </div>
                             </div>
                         </div>
