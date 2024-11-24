@@ -195,7 +195,7 @@
 
     <!-- Ordenes de compra -->
     <div class="card col m-2 shadow">
-        <table class="table table-bordered">
+        <table id="ordenesCompraTable" class="table table-bordered">
             <h4 class="p-2">Órdenes de compra</h4>
             <thead>    
                 <tr>
@@ -365,6 +365,16 @@
 
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#ordenesCompraTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+            }
+        });
+    });
+</script>
 
 <?php
     include_once("../../src/footer.php");
