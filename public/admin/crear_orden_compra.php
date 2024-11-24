@@ -154,243 +154,235 @@
 
 ?>
 
-<!-- Creación de la órden de compra -->
-<div class="row justify-content-around">
-    <form method="POST" class="d-flex flex-row gap-3">
-        <div class="col-xl"></div>
-        <!-- Seleccionar proveedor -->
-        <div class="col-5 card p-3 m-2">
+<!-- Creación de la orden de compra -->
+<div class="row">
+    <div class="col-3 card p-3 m-2">
+        <form method="POST">
+            <!-- Seleccionar proveedor -->
             <h3 class="text-center">Proveedor</h3>
             <hr>
+            <p>Seleccione el proveedor:</p>
+            <div class="row m-2">
+                <select id="txtIDProveedor" name="txtIDProveedor" class="form-control" onchange="this.form.submit()">
+                    <option value="">Seleccione un proveedor</option>
+                    <?php foreach ($listaProveedores as $proveedor): ?>
+                        <option value="<?php echo $proveedor['ID']; ?>" <?php echo ($proveedor['ID'] == $txtIDProveedor) ? 'selected' : ''; ?>>
+                            <?php echo $proveedor['Nombre']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <!-- Creamos una orden de compra -->
+            <div class="row m-2 text-center">
+                <input class="btn btn-warning" type="submit" value="Crear Orden" name="accion">
+            </div>
+            <div class="row card m-2 p-4">
+                <h5 class="text-center">Información del proveedor</h5>
+                <hr>
+                <!-- Mostrar información del proveedor -->
+                <p>Nombre: <?php echo $datosProveedor ? $datosProveedor['Nombre'] : ''; ?></p>
+                <p>RUT: <?php echo $datosProveedor ? $datosProveedor['RUT'] : ''; ?></p>
+                <p>Fono: <?php echo $datosProveedor ? $datosProveedor['Telefono'] : ''; ?></p>
+                <p>Correo: <?php echo $datosProveedor ? $datosProveedor['Correo'] : ''; ?></p>
+                <p>Dirección: <?php echo $datosProveedor ? $datosProveedor['Direccion'] : ''; ?></p>
+                <p>Comuna: <?php echo $datosProveedor ? $datosProveedor['Comuna'] : ''; ?></p>
+                <p>Ciudad: <?php echo $datosProveedor ? $datosProveedor['Ciudad'] : ''; ?></p>
+                <p>Giro: <?php echo $datosProveedor ? $datosProveedor['Giro'] : ''; ?></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal agregar Insumo a la Orden de Compra-->
+    <div class="modal fade" id="agregarInsumoModal" tabindex="-1" aria-labelledby="agregarInsumoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="agregarInsumoModalLabel">Agregar insumo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="POST">
+            <h4 class="text-center">Agregar insumo</h4>
+            <hr>
+            <!-- Seleccionamos la órden de compra -->
             <div class="row">
-                <div class="col">    
-                    <p>Seleccione el proveedor:</p>
-                    <div class="col mb-3">
-                        <select id="txtIDProveedor" name="txtIDProveedor" class="form-control" onchange="this.form.submit()">
-                            <option value="">Seleccione un proveedor</option>
-                            <?php foreach ($listaProveedores as $proveedor): ?>
-                                <option value="<?php echo $proveedor['ID']; ?>" <?php echo ($proveedor['ID'] == $txtIDProveedor) ? 'selected' : ''; ?>>
-                                    <?php echo $proveedor['Nombre']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <!-- Creamos una orden de compra -->
-                    <div class="col text-center">
-                        <input class="btn btn-warning" type="submit" value="Crear Orden" name="accion">
-                    </div>
-                </div>
-                <div class="col">
-                    <!-- Mostrar información del proveedor -->
-                    <p>Nombre: <?php echo $datosProveedor ? $datosProveedor['Nombre'] : ''; ?></p>
-                    <p>RUT: <?php echo $datosProveedor ? $datosProveedor['RUT'] : ''; ?></p>
-                    <p>Fono: <?php echo $datosProveedor ? $datosProveedor['Telefono'] : ''; ?></p>
-                    <p>Correo: <?php echo $datosProveedor ? $datosProveedor['Correo'] : ''; ?></p>
-                    <p>Dirección: <?php echo $datosProveedor ? $datosProveedor['Direccion'] : ''; ?></p>
-                    <p>Comuna: <?php echo $datosProveedor ? $datosProveedor['Comuna'] : ''; ?></p>
-                    <p>Ciudad: <?php echo $datosProveedor ? $datosProveedor['Ciudad'] : ''; ?></p>
-                    <p>Giro: <?php echo $datosProveedor ? $datosProveedor['Giro'] : ''; ?></p>
+                <div class="col mb-3">
+                <p>Seleccione el número de órden de compra:</p>
+                <select id="txtNumOrden" name="txtNumOrden" class="form-control" onchange="this.form.submit()">
+                    <option value="">Seleccione la órden de compra</option>
+                    <?php foreach ($listaOrdenCompra as $orden): ?>
+                    <option value="<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                        <?php echo "N° ".$orden['Num_Orden_de_Compra']." - Fecha (".$orden['Fecha'].")"; ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
                 </div>
             </div>
+            <!-- Seleccionamos el insumo a agregar -->
+            <div class="row">
+                <div class="col mb-3">
+                <label for="txtIDInsumo" class="form-label">Seleccione el insumo a agregar a la lista</label>
+                <select id="txtIDInsumo" name="txtIDInsumo" class="form-control">
+                    <option value="">Seleccione un insumo</option>
+                    <?php foreach ($listaInsumosProvee as $provee){ ?>
+                    <?php if($provee['ID_Proveedor']==$orden['ID_Proveedor']){ ?>
+                    <option value="<?php echo $provee['Codigo_Insumo']; ?>">
+                        <?php echo $provee['Codigo_Insumo']. " - ". $provee['Descripcion']; ?>
+                    </option>
+                    <?php }} ?>
+                </select>
+                </div>
+            </div>
+            <!-- Cantidad -->
+            <div class="row">
+                <div class="col mb-3">
+                <label for="txtCantidad" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
+                </div>
+            </div>
+            <!-- Cargar -->
+            <div class="row">
+                <div class="text-center">
+                <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
+                </div>
+            </div>
+            </form>
         </div>
-    </form>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="agregarInsumoModal" tabindex="-1" aria-labelledby="agregarInsumoModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="agregarInsumoModalLabel">Agregar insumo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="POST">
-          <h4 class="text-center">Agregar insumo</h4>
-          <hr>
-          <!-- Seleccionamos la órden de compra -->
-          <div class="row">
-            <div class="col mb-3">
-              <p>Seleccione el número de órden de compra:</p>
-              <select id="txtNumOrden" name="txtNumOrden" class="form-control" onchange="this.form.submit()">
-                <option value="">Seleccione la órden de compra</option>
-                <?php foreach ($listaOrdenCompra as $orden): ?>
-                  <option value="<?php echo $orden['Num_Orden_de_Compra']; ?>">
-                    <?php echo "N° ".$orden['Num_Orden_de_Compra']." - Fecha (".$orden['Fecha'].")"; ?>
-                  </option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-          <!-- Seleccionamos el insumo a agregar -->
-          <div class="row">
-            <div class="col mb-3">
-              <label for="txtIDInsumo" class="form-label">Seleccione el insumo a agregar a la lista</label>
-              <select id="txtIDInsumo" name="txtIDInsumo" class="form-control">
-                <option value="">Seleccione un insumo</option>
-                <?php foreach ($listaInsumosProvee as $provee){ ?>
-                  <?php if($provee['ID_Proveedor']==$orden['ID_Proveedor']){ ?>
-                  <option value="<?php echo $provee['Codigo_Insumo']; ?>">
-                    <?php echo $provee['Codigo_Insumo']. " - ". $provee['Descripcion']; ?>
-                  </option>
-                <?php }} ?>
-              </select>
-            </div>
-          </div>
-          <!-- Cantidad -->
-          <div class="row">
-            <div class="col mb-3">
-              <label for="txtCantidad" class="form-label">Cantidad</label>
-              <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
-            </div>
-          </div>
-          <!-- Cargar -->
-          <div class="row">
-            <div class="text-center">
-              <input class="btn btn-warning" type="submit" value="Agregar Insumo" name="accion">
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
-<script>
-  var agregarInsumoModal = document.getElementById('agregarInsumoModal');
-  agregarInsumoModal.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var numOrden = button.getAttribute('data-id');
-    var selectNumOrden = agregarInsumoModal.querySelector('#txtNumOrden');
-    selectNumOrden.value = numOrden;
-  });
-</script>
+    <script>
+    var agregarInsumoModal = document.getElementById('agregarInsumoModal');
+    agregarInsumoModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var numOrden = button.getAttribute('data-id');
+        var selectNumOrden = agregarInsumoModal.querySelector('#txtNumOrden');
+        selectNumOrden.value = numOrden;
+    });
+    </script>
 
-<!-- Ordenes de compra -->
-<div class="card row m-5 shadow">
-    <table class="table table-bordered">
-        <h4 class="p-2">Órdenes de compra</h4>
-        <thead>    
-            <tr>
-                <th>Número de orden</th>
-                <th>Fecha</th>
-                <th>Proveedor</th>
-                <th>Acción</th>
-                <th>Orden</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($listaOrdenCompra as $orden){ ?>
-            <tr>
-                <td><?php echo $orden['Num_Orden_de_Compra'] ?></td>
-                <td><?php echo $orden['Fecha'] ?></td>
-                <td><?php foreach($listaProveedores as $proveedor){if($orden['ID_Proveedor']==$proveedor['ID']){echo $proveedor['Nombre'];}}?></td>
-                <td>
-                    <!-- Botón para abrir el modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
-                    Agregar Insumo
-                    </button>
-                    <!-- Botón para abrir el modal de la lista -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listaInsumosModal" data-id="<?php echo $orden['Num_Orden_de_Compra'] ?>">
-                    Ver Lista de Insumos
-                    </button>
-                </td>
-                <td>
-                    <table class="table table-bordered">
-                        <h4 class="p-2">Insumos en la lista</h4>
-                        <thead>    
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Descripcion</th>
-                                <th>Presentacion</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php echo $orden['Num_Orden_de_Compra']; ?>
-                            <?php foreach($listaRegistrosOrdenCompra as $registro){
-                                if($orden['Num_Orden_de_Compra'] == $registro['ID_Orden_Compra']){
-                                    $totalInsumo = $registro['Cantidad']*$registro['Precio'];
-                                    $totalOrdenCompra += $totalInsumo;
-                            ?>
-                            <tr>
-                                <td><?php echo $registro['Cantidad'] ?></td>
-                                <td><?php echo $registro['Descripcion'] ?></td>
-                                <td><?php echo $registro['Presentacion'] ?></td>
-                                <td><?php echo number_format($registro['Precio'], 0) ?></td>
-                                <td><?php echo number_format($registro['Cantidad']*$registro['Precio'], 0) ?></td>
-                                <td>
-                                <form method="POST">
-                                    <div class="col">
-                                    <div class="row m-1"><input type="hidden" name="txtRegOrdenCompra" id="txtRegOrdenCompra" value="<?php echo $registro['Num_Registro_Orden_de_Compra'] ?>"></input></div>
-                                    <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
+    <!-- Ordenes de compra -->
+    <div class="card col m-2 shadow">
+        <table class="table table-bordered">
+            <h4 class="p-2">Órdenes de compra</h4>
+            <thead>    
+                <tr>
+                    <th>N° de orden</th>
+                    <th>Fecha de creación</th>
+                    <th>Proveedor</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($listaOrdenCompra as $orden){ ?>
+                <tr>
+                    <td><?php echo $orden['Num_Orden_de_Compra'] ?></td>
+                    <td><?php echo $orden['Fecha'] ?></td>
+                    <td><?php foreach($listaProveedores as $proveedor){if($orden['ID_Proveedor']==$proveedor['ID']){echo $proveedor['Nombre'];}}?></td>
+                    <td>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                        Agregar Insumo
+                        </button>
+                        <!-- Botón para abrir el modal de la lista -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listaInsumosModal<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                        Ver Lista de Insumos
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="listaInsumosModal<?php echo $orden['Num_Orden_de_Compra']; ?>" tabindex="-1" aria-labelledby="listaInsumosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="listaInsumosModalLabel">Insumos en la lista</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card row m-5 shadow">
+                                    <table class="table table-bordered">
+                                        <h4 class="p-2">Insumos en la lista N°<?php echo $orden['Num_Orden_de_Compra']; ?></h4>
+                                        <thead>    
+                                            <tr>
+                                                <th>Cantidad</th>
+                                                <th>Descripcion</th>
+                                                <th>Presentacion</th>
+                                                <th>Precio</th>
+                                                <th>Total</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($listaRegistrosOrdenCompra as $registro){
+                                                if($orden['Num_Orden_de_Compra'] == $registro['ID_Orden_Compra']){
+                                                    $totalInsumo = $registro['Cantidad']*$registro['Precio'];
+                                                    $totalOrdenCompra += $totalInsumo;
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $registro['Cantidad'] ?></td>
+                                                <td><?php echo $registro['Descripcion'] ?></td>
+                                                <td><?php echo $registro['Presentacion'] ?></td>
+                                                <td><?php echo number_format($registro['Precio'], 0) ?></td>
+                                                <td><?php echo number_format($registro['Cantidad']*$registro['Precio'], 0) ?></td>
+                                                <td>
+                                                <form method="POST">
+                                                    <div class="col">
+                                                    <div class="row m-1"><input type="hidden" name="txtRegOrdenCompra" id="txtRegOrdenCompra" value="<?php echo $registro['Num_Registro_Orden_de_Compra'] ?>"></input></div>
+                                                    <div class="row m-1"><input type="submit" name="accion" value="Eliminar" class="btn btn-danger"></input></div>
+                                                    </div>
+                                                </form>
+                                                </td>
+                                            </tr>
+                                            <?php } } ?>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total</td>
+                                                <td><?php echo number_format($totalOrdenCompra, 0); ?></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>IVA (19%)</td>
+                                                <td><?php echo number_format($totalOrdenCompra*0.19, 0); ?></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total</td>
+                                                <td><?php echo number_format($totalOrdenCompra * 1.19, 0); ?></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col">
+                                            <form method="POST" action="descargar_orden.php" class="d-flex flex-row gap-3">
+                                                <input type="hidden" name="txtNumOrden" value="<?php echo $txtNumOrden; ?>">
+                                                <!-- Botón Descargar PDF -->
+                                                <button type="submit" name="download_pdf" class="btn btn-primary">
+                                                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                                                </button>
+                                            </form>
+                                        </div>    
                                     </div>
-                                </form>
-                                </td>
-                            </tr>
-                            <?php } } ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td><?php echo number_format($totalOrdenCompra, 0); ?></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>IVA (19%)</td>
-                                <td><?php echo number_format($totalOrdenCompra*0.19, 0); ?></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td><?php echo number_format($totalOrdenCompra * 1.19, 0); ?></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="listaInsumosModal" tabindex="-1" aria-labelledby="listaInsumosModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="listaInsumosModalLabel">Insumos en la lista</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="card row m-5 shadow">
-          
-        </div>
-      </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
-  </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        <form method="POST" action="descargar_orden.php" class="d-flex flex-row gap-3">
-            <input type="hidden" name="txtNumOrden" value="<?php echo $txtNumOrden; ?>">
-            <!-- Botón Descargar PDF -->
-            <button type="submit" name="download_pdf" class="btn btn-primary">
-                <i class="fas fa-file-pdf"></i> Descargar PDF
-            </button>
-        </form>
-    </div>    
+
 </div>
 
 <?php
