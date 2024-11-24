@@ -235,20 +235,65 @@
     </div>
 <!-- Fin -->
 
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+  Agregar usuario
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarUsuarioModalLabel">Agregar usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label for="txtNombreAgregar" class="form-label">Nombre</label>
+            <input class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre"></input>
+          </div>
+          <!-- Area -->
+          <div class="mb-3">
+            <label for="txtAreaAgregar" class="form-label">Área</label>
+            <input class="form-control" name="txtAreaAgregar" id="txtAreaAgregar" placeholder="Ingrese el área"></input>
+          </div>
+          <!-- Usuario -->
+          <div class="mb-3">
+            <label for="txtUsuarioAgregar" class="form-label">Nombre de usuario</label>
+            <input class="form-control" name="txtUsuarioAgregar" id="txtUsuarioAgregar" placeholder="Ingrese el nombre de usuario"></input>
+          </div>
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="txtContraseniaAgregar" class="form-label">Contraseña</label>
+            <input class="form-control" name="txtContraseniaAgregar" id="txtContraseniaAgregar" placeholder="Ingrese la contraseña"></input>
+          </div>
+          <!-- Botón agregar -->
+          <div class="text-center">
+            <input class="btn btn-warning" type="submit" value="Agregar" name="accion">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Listado -->
     <div class="card row m-5 shadow overflow-scroll">
         <table class="table table-bordered">
-            <thead>
-                <h4 class="p-2">Listado de usuarios</h4>
+            <h4 class="p-2">Listado de usuarios</h4>
+            <thead>    
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</t>
+                    <th>Usuario</t>
+                    <th>Contraseña</th>
+                    <th>Área</th>
+                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>Nombre</td>
-                    <td>Usuario</td>
-                    <td>Contraseña</td>
-                    <td>Área</td>
-                </tr>
                 <?php foreach($listaUsuarios as $lista){?>
                 <tr>
                     <td><?php echo $lista['ID'] ?></td>
