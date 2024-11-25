@@ -397,7 +397,7 @@
         </button>
     </div>
     
-    <table id="tablaInsumos" class="table table-bordered">
+    <table id="tablaInsumos" class="table">
         <thead>
             <tr>
                 <th>ID</th>
