@@ -175,7 +175,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <!-- Listado -->
-<div class="card row m-5 shadow overflow-scroll">
+<div class="card row m-2 p-2 shadow overflow-scroll">
     <!-- Botón para abrir el modal -->
     <h4 class="p-2">Listado de usuarios</h4>
     <hr>
@@ -184,7 +184,7 @@
         Agregar usuario
         </button>
     </div>
-    <table id="tablaUsuarios" class="table table-bordered">
+    <table id="tablaUsuarios" class="table">
         <thead>    
             <tr>
                 <th>ID</th>
@@ -209,29 +209,25 @@
                 <?php } } ?>
                 
                 <td>
-                    <form method="POST">
-                        <div class="row border">
-                            <div class="col">
-                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input></div>
-                                <div class="row m-1"><input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input></div>
-                                <div class="row m-1"><input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input></div>
+                    <form method="POST" class="m-0">
+                        <div class="row m-0">
+                            <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['ID'] ?>"></input>
+                            <input type="hidden" name="txtIDCredencial" id="txtIDCredencial" value="<?php echo $credencial['ID'] ?>"></input>
+                            <input type="hidden" name="txtIDArea" id="txtIDArea" value="<?php echo $area['ID'] ?>"></input>
+                            <div class="btn-group m-0" role="group">
                                 <!-- Íconos para acciones -->
-                                <div class="row m-2">
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
-                                            data-id="<?php echo $lista['ID'] ?>"
-                                            data-nombre="<?php echo $lista['Nombre'] ?>"
-                                            data-id-credencial="<?php echo $credencial['ID'] ?>"
-                                            data-usuario="<?php echo $credencial['Usuario'] ?>"
-                                            data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
-                                            data-area="<?php echo $area['ID'] ?>">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </div>
-                                <div class="row m-2">
-                                    <button type="submit" class="btn btn-danger" name="accion" value="Eliminar">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal"
+                                        data-id="<?php echo $lista['ID'] ?>"
+                                        data-nombre="<?php echo $lista['Nombre'] ?>"
+                                        data-id-credencial="<?php echo $credencial['ID'] ?>"
+                                        data-usuario="<?php echo $credencial['Usuario'] ?>"
+                                        data-contrasenia="<?php echo $credencial['Contrasenha'] ?>"
+                                        data-area="<?php echo $area['ID'] ?>">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm" name="accion" value="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </div>
                         </div>
                     </form>
