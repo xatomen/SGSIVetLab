@@ -415,6 +415,7 @@
                 <th>ID</th>
                 <th>Nombre insumo</th>
                 <th>Cantidad</th>
+                <th>Área</th>
                 <th>Stock mínimo</th>
                 <th></th>
                 <th>Editar elemento</th>
@@ -425,6 +426,16 @@
             <tr>
                 <td><?php echo $insumo['ID'] ?></td>
                 <td><?php echo $insumo['Nombre'] ?></td>
+                <td>
+                  <?php 
+                  foreach($listaAreas as $area) {
+                    if($area['ID'] == $insumo['ID_Area']) {
+                    echo $area['Area'];
+                    break;
+                    }
+                  }
+                  ?>
+                </td>
                 <td><?php echo $insumo['Cantidad'] ?></td>
                 <td><?php echo $insumo['Stock_minimo'] ?></td>
                 <td>
