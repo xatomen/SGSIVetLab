@@ -455,8 +455,9 @@
                                                 <i class="fas fa-edit"></i> <!-- Ícono de editar -->
                                             </button>
                                             <button type="submit" name="accion_insumo_proveedor" value="Eliminar" class="btn btn-danger">
-                                                <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
+                                              <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
                                             </button>
+                                            <input type="hidden" name="txtIDProvee" value="<?php echo $provee['ID_Provee']; ?>">
                                         </div>
                                     </form>
                                     <!-- Modal para editar insumo proveedor -->
