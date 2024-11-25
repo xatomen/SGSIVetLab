@@ -105,7 +105,7 @@
 
 ?>
 <!-- Agregar y modificar -->
-<div class="row justify-content-around">
+<div class="row m-2 justify-content-around">
         
         <div class="col-xl"></div>
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
@@ -169,24 +169,9 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
-        
-        <div class="col-xl"></div>
-    </div>
-
-    
-<!-- Fin -->
-
-<!-- Incluye las librerías de DataTables -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
-<!-- Listado -->
-<div class="row">
-    <div class="col-5 card p-2">
+        <div class="col-5 card p-2">
         <table id="insumosTable" class="table">
             <h4 class="p-2">Listado de insumos</h4>
             <hr>
@@ -228,7 +213,21 @@
             </tbody>
         </table>
     </div>
-    <div class="col-7 card p-2">
+        <div class="col-xl"></div>
+</div>
+
+    
+<!-- Fin -->
+
+<!-- Incluye las librerías de DataTables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<!-- Listado -->
+<div class="row m-2 text-center">
+    
+    <div class="col card p-2">
         <table class="table" id="registroInsumosTable">
             <h4 class="p-2">Registros de insumos</h4>
             <hr>
@@ -242,6 +241,7 @@
                     <th>Cantidad</th>
                     <th>Administrador</th>
                     <th>Proveedor</th>
+                    <th>Imprimir</th>
                 </tr>
             </thead>
             <tbody>
@@ -271,6 +271,21 @@
                                 }
                             ?>
                         </td>
+                        <td>
+                            <div class="row m-0">
+                            <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+                                <svg id="barcode-<?php echo $registro['ID_Registro_Insumo']; ?>" class="hidden-barcode"></svg>
+                                <script>
+                                    JsBarcode("#barcode-<?php echo $registro['ID_Registro_Insumo']; ?>", "<?php echo $registro['Codigo_unico']; ?>", {
+                                        format: "CODE128",
+                                        displayValue: true
+                                    });
+                                </script>
+                                <button class="print-button text-center" onclick="printBarcode('<?php echo $registro['ID_Registro_Insumo']; ?>')">
+                                    <i class="fas fa-print"></i> Imprimir
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -278,6 +293,29 @@
     </div>
     
 </div>
+
+<style>
+.print-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.print-button i {
+    margin-right: 5px;
+}
+
+.hidden-barcode {
+    display: none;
+}
+</style>
 
 <!-- Inicializa DataTables -->
 <script>
@@ -288,6 +326,19 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#registroInsumosTable').DataTable();
 });
+
+function printBarcode(id) {
+    var barcode = document.getElementById('barcode-' + id).outerHTML;
+    var newWindow = window.open('', '', 'width=600,height=400');
+    newWindow.document.write('<html><head><title>Imprimir Código de Barras</title>');
+    newWindow.document.write('<style>@media print { svg { width: 100%; height: auto; } }</style>');
+    newWindow.document.write('</head><body>');
+    newWindow.document.write(barcode);
+    newWindow.document.write('</body></html>');
+    newWindow.document.close();
+    newWindow.print();
+}
+
 </script>
 
 <?php
