@@ -397,7 +397,7 @@
         </button>
     </div>
     
-    <table id="tablaInsumos" class="table">
+    <table id="tablaInsumos" class="table ">
         <thead>
             <tr>
                 <th>ID</th>
@@ -457,8 +457,8 @@
                                             <button type="submit" name="accion_insumo_proveedor" value="Eliminar" class="btn btn-danger btn-sm">
                                               <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
                                             </button>
-                                            <input type="hidden" name="txtIDProvee" value="<?php echo $provee['ID_Provee']; ?>">
                                         </div>
+                                        <input type="hidden" name="txtIDProvee" value="<?php echo $provee['ID_Provee']; ?>">
                                     </form>
                                     <!-- Modal para editar insumo proveedor -->
                                     <div class="modal fade" id="editarInsumoProveedorModal<?php echo $provee['ID_Provee']?>" tabindex="-1" aria-labelledby="editarInsumoProveedorModalLabel" aria-hidden="true">
@@ -518,12 +518,11 @@
                 </td>
                 <td>
                     <form method="POST">
-                        <div class="row border">
-                            <div class="col">
-                                <div class="row m-1"><input type="hidden" name="txtID" id="txtID"></input></div>
-                                <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input></div>
-                                <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input></div>
-                                <div class="row">
+                        <div class="row m-0">
+                                <input type="hidden" name="txtID" id="txtID"></input>
+                                <input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input>
+                                <input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input>
+                                <div class="row m-0">
                                   <div class="btn-group" role="group">
                                       <!-- Botón para abrir el modal de agregar proveedor -->
                                       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
@@ -542,8 +541,7 @@
                                       </button>
                                   </div>
                                 </div>
-                            </div>
-                        </div>
+                          </div>
                     </form>
                 </td>
             </tr>
