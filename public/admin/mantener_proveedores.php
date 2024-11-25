@@ -367,8 +367,8 @@
                 <td><?php echo $lista['Giro'] ?></td>
                 <td>
                     <form method="POST" class="row m-0">
+                            <input type="hidden" name="txtID" id="txtIDEliminar" class="m-0">
                             <div class="btn-group m-0" role="group">
-                                <input type="hidden" name="txtID" id="txtIDEliminar" class="m-0">
                                     <!-- Botón para abrir el modal de edición -->
                                     <button type="button" class="btn btn-warning btn-sm m-0" data-bs-toggle="modal" data-bs-target="#editarProveedorModal"
                                             data-id="<?php echo $lista['ID'] ?>"
