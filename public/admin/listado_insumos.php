@@ -9,6 +9,10 @@
     $sentenciaSQL= $conn->prepare("SELECT * FROM provee");
     $sentenciaSQL->execute();
     $listaProvee=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM area");
+    $sentenciaSQL->execute();
+    $listaArea=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Incluye las librerías de DataTables -->
@@ -36,7 +40,15 @@
             <tr>
                 <td><?php echo $lista['ID'] ?></td>
                 <td><?php echo $lista['Nombre'] ?></td>
-                <td><?php echo $lista['ID_Area'] ?></td>
+                <td>
+                    <?php
+                        foreach($listaArea as $area){
+                            if($area['ID']==$lista['ID_Area']){
+                                echo $area['Area'];
+                            }
+                        }
+                    ?>
+                </td>
                 <td><?php echo $lista['Cantidad'] ?></td>
                 <td><?php echo $lista['Stock_minimo'] ?></td>
                 <td>
@@ -44,7 +56,7 @@
                         <thead>
                             <tr>
                                 <th>Código Proveedor</th>
-                                <th>Código Área</th>
+                                <th>Área</th>
                                 <th>Descripción</th>
                                 <th>Presentación</th>
                                 <th>Cantidad</th>
@@ -52,19 +64,22 @@
                         </thead>
                         <tbody>
                             <?php foreach($listaProvee as $provee){?>
-                                <?php if($provee['ID_insumo']==$lista['ID']){?>
-                                <tr>
-                                    <?php foreach($listaProvee as $provee){?>
-                                        <?php if($provee['ID_insumo']==$lista['ID']){?>
-                                            <td><?php echo $provee['ID_Proveedor'] ?></td>
-                                            <td><?php echo $provee['ID_Area'] ?></td>
-                                            <td><?php echo $provee['Descripcion'] ?></td>
-                                            <td><?php echo $provee['Presentacion'] ?></td>
-                                            <td><?php echo $provee['Cantidad'] ?></td>
-                                        <?php } ?>
-                                    <?php } ?>
-                                    
-                                </tr>
+                                <?php if($provee['ID_Insumo']==$lista['ID']){?>
+                                    <tr>
+                                    <td><?php echo $provee['ID_Proveedor'] ?></td>
+                                    <td>
+                                        <?php
+                                            foreach($listaArea as $area){
+                                                if($area['ID']==$provee['ID_Area']){
+                                                    echo $area['Area'];
+                                                }
+                                            }
+                                        ?>
+                                    </td>
+                                    <td><?php echo $provee['Descripcion'] ?></td>
+                                    <td><?php echo $provee['Presentacion'] ?></td>
+                                    <td><?php echo $provee['Cantidad'] ?></td>
+                                    </tr>
                                 <?php } ?>
                             <?php } ?>
                         </tbody>
