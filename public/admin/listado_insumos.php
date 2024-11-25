@@ -13,6 +13,15 @@
     $sentenciaSQL= $conn->prepare("SELECT * FROM area");
     $sentenciaSQL->execute();
     $listaArea=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
+    $sentenciaSQL->execute();
+    $listaProveedores=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM registro_insumo");
+    $sentenciaSQL->execute();
+    $listaRegistro=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- Incluye las librerías de DataTables -->
@@ -21,72 +30,113 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <!-- Listado -->
-<div class="card row m-2 p-2 shadow">
+<div class="card col-9 row m-2 p-2 shadow">
     <table id="insumosTable" class="table">
         <thead>
             <h4 class="p-2">Listado de insumos</h4>
             <hr>
             <tr>
-                <th>ID</th>
-                <th>Nombre insumo</th>
-                <th>Área</th>
-                <th>Cantidad</th>
-                <th>Stock mínimo</th>
-                <th>Insumos</th>
+                <td>Codigo Insumo</td>
+                <td>Insumo</td>
+                <td>Cantidad</td>
+                <td>Precio</td>
+                <td>Descripción</td>
+                <td>Presentación</td>
+                <td>Área</td>
+                <td>Proveedor</td>
+                <td>Acciones</td>
             </tr>
         </thead>
         <tbody>
-            <?php foreach($listaInsumos as $lista){?>
-            <tr>
-                <td><?php echo $lista['ID'] ?></td>
-                <td><?php echo $lista['Nombre'] ?></td>
-                <td>
-                    <?php
-                        foreach($listaArea as $area){
-                            if($area['ID']==$lista['ID_Area']){
-                                echo $area['Area'];
+            <?php foreach($listaProvee as $provee){ ?>
+                <tr>
+                    <td><?php echo $provee['Codigo_Insumo'] ?></td>
+                    <td>
+                        <?php 
+                            foreach($listaInsumos as $insumo) {
+                                if($insumo['ID'] == $provee['ID_Insumo']) {
+                                    echo $insumo['Nombre'];
+                                    break;
+                                }
                             }
-                        }
-                    ?>
-                </td>
-                <td><?php echo $lista['Cantidad'] ?></td>
-                <td><?php echo $lista['Stock_minimo'] ?></td>
-                <td>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Código Proveedor</th>
-                                <th>Área</th>
-                                <th>Descripción</th>
-                                <th>Presentación</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($listaProvee as $provee){?>
-                                <?php if($provee['ID_Insumo']==$lista['ID']){?>
+                        ?>
+                    </td>
+                    <td><?php echo $provee['Cantidad'] ?></td>
+                    <td><?php echo $provee['Precio'] ?></td>
+                    <td><?php echo $provee['Descripcion'] ?></td>
+                    <td><?php echo $provee['Presentacion'] ?></td>
+                    <td>
+                        <?php 
+                            foreach($listaArea as $area) {
+                                if($area['ID'] == $provee['ID_Area']) {
+                                    echo $area['Area'];
+                                    break;
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                            foreach($listaProveedores as $proveedor) {
+                                if($proveedor['ID'] == $provee['ID_Proveedor']) {
+                                    echo $proveedor['Nombre'];
+                                    break;
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroModal<?php echo $provee['ID_Provee'] ?>">
+                        Abrir Registro
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="registroModal<?php echo $provee['ID_Provee'] ?>" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="registroModalLabel">Listado de Insumos</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card p-4">
+                                <table class="table" id="registroTable">
+                                    <thead>
                                     <tr>
-                                    <td><?php echo $provee['ID_Proveedor'] ?></td>
-                                    <td>
-                                        <?php
-                                            foreach($listaArea as $area){
-                                                if($area['ID']==$provee['ID_Area']){
-                                                    echo $area['Area'];
-                                                }
-                                            }
-                                        ?>
-                                    </td>
-                                    <td><?php echo $provee['Descripcion'] ?></td>
-                                    <td><?php echo $provee['Presentacion'] ?></td>
-                                    <td><?php echo $provee['Cantidad'] ?></td>
+                                        <th>N° Registro</th>
+                                        <th>Código único</th>
+                                        <th>N° Lote</th>
+                                        <th>Cantidad</th>
+                                        <th>Fecha recibo</th>
+                                        <th>Fecha vencimeinto</th>
                                     </tr>
-                                <?php } ?>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <?php }?>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($listaRegistro as $registro){
+                                        if($registro['ID_Provee'] == $provee['ID_Provee']){ ?>
+                                        <tr>
+                                            <td><?php echo $registro['ID_Registro_Insumo'] ?></td>
+                                            <td><?php echo $registro['Codigo_unico'] ?></td>
+                                            <td><?php echo $registro['Numero_lote'] ?></td>
+                                            <td><?php echo $registro['Cantidad'] ?></td>
+                                            <td><?php echo $registro['Fecha_recibo'] ?></td>
+                                            <td><?php echo $registro['Fecha_vencimiento'] ?></td>
+                                        </tr>
+                                    <?php } } ?>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
         </tbody>
     </table>
 </div>
@@ -94,6 +144,10 @@
 <script>
     $(document).ready( function () {
         $('#insumosTable').DataTable();
+    });
+
+    $(document).ready( function () {
+        $('#registroTable').DataTable();
     });
 </script>
 
