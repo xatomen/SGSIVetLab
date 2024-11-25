@@ -121,7 +121,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                         <!-- </a> -->
                     </li>
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_perfiles_usuario.php"){echo "active";}?>">
+                        <a href="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
                             <i class="fas fa-user"></i> Gestionar perfiles de usuario
                         </a>
                     </li>
