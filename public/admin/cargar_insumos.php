@@ -7,6 +7,10 @@
     $txtCodigoInsumo = (isset($_POST['txtCodigoInsumo']))?$_POST['txtCodigoInsumo']:"";
     $txtCantidad = (isset($_POST['txtCantidad']))?$_POST['txtCantidad']:"";
 
+    $txtIDProvee = (isset($_POST['txtIDProvee']))?$_POST['txtIDProvee']:"";
+
+    $txtCodigoUnico = (isset($_POST['txtCodigoUnico']))?$_POST['txtCodigoUnico']:"";
+
     $accion = (isset($_POST['accion']))?$_POST['accion']:"";
 
     date_default_timezone_set('America/Santiago');
@@ -17,14 +21,12 @@
         
         case "Cargar":
 
-            // Para obtener la ID del insumo, debemos leer el Código del Insumo del proveedor (tabla Provee)
-            $sentenciaSQL = $conn->prepare("SELECT ID_Insumo FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);   
+            // Encontrar el ID de Provee de acuerdo al Codigo Insumo
+            $sentenciaSQL = $conn->prepare("SELECT ID_Provee FROM provee WHERE Codigo_Insumo = :Codigo_Insumo");
+            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
             $sentenciaSQL->execute();
-            // Recuperamos el ID
-            $txtID = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtID = $txtID['ID_Insumo'];
-            echo $txtID;
+            $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $txtIDProvee = $resultado['ID_Provee'];
 
             // Debemos crear un registro en la tabla registro_insumo
             $sentenciaSQL = $conn->prepare("SELECT MAX(ID_Registro_Insumo) AS lastIndex FROM registro_insumo");
@@ -32,13 +34,24 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
 
-            $sentenciaSQL = $conn->prepare("INSERT INTO registro_insumo (ID_Registro_Insumo, Fecha, Cantidad, ID_Administrador, ID_Insumo) VALUES (:ID_Registro_Insumo, :Fecha, :Cantidad, :ID_Administrador, :ID_Insumo)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO registro_insumo (ID_Registro_Insumo, Codigo_unico, Numero_lote, Fecha_recibo, Fecha_vencimiento, Cantidad, ID_Administrador, ID_Provee) VALUES (:ID_Registro_Insumo, :Codigo_unico, :Numero_lote, :Fecha_recibo, :Fecha_vencimiento, :Cantidad, :ID_Administrador, :ID_Provee)");
 
             // Indicamos la ID del registro
             $sentenciaSQL->bindParam(":ID_Registro_Insumo", $lastindex);
 
-            // Debemos indicar la fecha
-            $sentenciaSQL->bindParam(':Fecha', $txtFecha);
+            // Debemos indicar el código único
+            $sentenciaSQL->bindParam(':Codigo_unico', $txtCodigoUnico);
+
+            // Debemos indicar el número de lote
+            $txtNumLote = (isset($_POST['txtNumLote']))?$_POST['txtNumLote']:"";
+            $sentenciaSQL->bindParam(':Numero_lote', $txtNumLote);
+
+            // Debemos indicar la fecha de vencimiento
+            $txtFechaVencimiento = (isset($_POST['txtFechaVencimiento']))?$_POST['txtFechaVencimiento']:"";
+            $sentenciaSQL->bindParam(':Fecha_vencimiento', $txtFechaVencimiento);
+
+            // Debemos indicar la fecha de recibo
+            $sentenciaSQL->bindParam(':Fecha_recibo', $txtFecha);
 
             // Debemos indicar la cantidad de insumos
             $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);        
@@ -48,15 +61,21 @@
             $sentenciaSQL->bindParam(":ID_Administrador", $txtIDAdministrador);
 
             // Debemos indicar el ID del insumo
-            $sentenciaSQL->bindParam(':ID_Insumo', $txtID);        
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);        
 
             // Ejecutamos la sentencia SQL
             $sentenciaSQL->execute();
 
             // Ahora debemos incrementar la cantidad de insumos en la tabla insumos
-            $sentenciaSQL = $conn->prepare("UPDATE insumo SET Cantidad = Cantidad + :Cantidad WHERE ID = :ID");
-            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad); 
-            $sentenciaSQL->bindParam(':ID', $txtID); 
+            // $sentenciaSQL = $conn->prepare("UPDATE insumo SET Cantidad = Cantidad + :Cantidad WHERE ID = :ID");
+            // $sentenciaSQL->bindParam(':Cantidad', $txtCantidad); 
+            // $sentenciaSQL->bindParam(':ID', $txtID); 
+            // $sentenciaSQL->execute();
+
+            // Ahora debemos incrementar la cantidad de insumos en la tabla provee
+            $sentenciaSQL = $conn->prepare("UPDATE provee SET Cantidad = Cantidad + :Cantidad WHERE ID_Provee = :ID_Provee");
+            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
             $sentenciaSQL->execute();
 
             header("Location: http://localhost/SGSIVetLab/public/admin/cargar_insumos.php");
@@ -80,6 +99,10 @@
     $sentenciaSQL->execute();
     $listaProveedor=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
+    $sentenciaSQL= $conn->prepare("SELECT * FROM registro_insumo");
+    $sentenciaSQL->execute();
+    $listaRegistroInsumo=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!-- Agregar y modificar -->
 <div class="row justify-content-around">
@@ -97,6 +120,15 @@
                                 <div class="mb-3">
                                     <label for="txtCodigoInsumo" class="form-label">ID Insumo Proveedor</label>
                                     <input type="text" class="form-control" name="txtCodigoInsumo" id="txtCodigoInsumo" value="<?php echo $txtCodigoInsumo ?>" placeholder="Ingrese el código">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Código único -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="txtCodigoUnico" class="form-label">Código Único</label>
+                                    <input type="text" class="form-control" name="txtCodigoUnico" id="txtCodigoUnico" value="<?php echo $txtCodigoUnico ?>" placeholder="Ingrese el código">
                                 </div>
                             </div>
                         </div>
@@ -153,53 +185,108 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <!-- Listado -->
-<div class="card row m-5 p-2 shadow">
-    <table id="insumosTable" class="table">
-        <h4 class="p-2">Listado de insumos</h4>
-        <hr>
-        <thead>
-            <tr>
-                <th>Código Insumo</th>
-                <th>Proveedor</th>
-                <th>Área</th>
-                <th>Nombre insumo</th>
-                <th>Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <?php foreach($listaProvee as $provee){?>
-            <tr>
-                <td><?php echo $provee['Codigo_Insumo'] ?></td>
-                <td>
-                    <?php
-                        foreach($listaProveedor as $proveedor){
-                            if($proveedor['ID']==$provee['ID_Proveedor']){
-                                echo $proveedor['Nombre'];
+<div class="row">
+    <div class="col-5 card p-2">
+        <table id="insumosTable" class="table">
+            <h4 class="p-2">Listado de insumos</h4>
+            <hr>
+            <thead>
+                <tr>
+                    <th>Código Insumo</th>
+                    <th>Proveedor</th>
+                    <th>Área</th>
+                    <th>Nombre insumo</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <?php foreach($listaProvee as $provee){?>
+                <tr>
+                    <td><?php echo $provee['Codigo_Insumo'] ?></td>
+                    <td>
+                        <?php
+                            foreach($listaProveedor as $proveedor){
+                                if($proveedor['ID']==$provee['ID_Proveedor']){
+                                    echo $proveedor['Nombre'];
+                                }
                             }
-                        }
-                    ?>
-                <td>
-                    <?php
-                        foreach($listaArea as $area){
-                            if($area['ID']==$provee['ID_Area']){
-                                echo $area['Area'];
+                        ?>
+                    <td>
+                        <?php
+                            foreach($listaArea as $area){
+                                if($area['ID']==$provee['ID_Area']){
+                                    echo $area['Area'];
+                                }
                             }
-                        }
-                    ?>
-                </td>
-                <td><?php echo $provee['Descripcion']." - ".$provee['Presentacion'] ?></td>
-                <td><?php echo $provee['Cantidad'] ?></td>
-            </tr>
-            <?php }?>
-        </tbody>
-    </table>
+                        ?>
+                    </td>
+                    <td><?php echo $provee['Descripcion']." - ".$provee['Presentacion'] ?></td>
+                    <td><?php echo $provee['Cantidad'] ?></td>
+                </tr>
+                <?php }?>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-7 card p-2">
+        <table class="table" id="registroInsumosTable">
+            <h4 class="p-2">Registros de insumos</h4>
+            <hr>
+            <thead>
+                <tr>
+                    <th>N° Registro</th>
+                    <th>Codigo Único</th>
+                    <th>N° Lote</th>
+                    <th>Fecha Recibo</th>
+                    <th>Fecha Vencimiento</th>
+                    <th>Cantidad</th>
+                    <th>Administrador</th>
+                    <th>Proveedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($listaRegistroInsumo as $registro){?>
+                    <tr>
+                        <td><?php echo $registro['ID_Registro_Insumo'] ?></td>
+                        <td><?php echo $registro['Codigo_unico'] ?></td>
+                        <td><?php echo $registro['Numero_lote'] ?></td>
+                        <td><?php echo $registro['Fecha_recibo'] ?></td>
+                        <td><?php echo $registro['Fecha_vencimiento'] ?></td>
+                        <td><?php echo $registro['Cantidad'] ?></td>
+                        <td>
+                            <?php
+                                foreach($listaArea as $area){
+                                    if($area['ID']==$registro['ID_Administrador']){
+                                        echo $area['Area'];
+                                    }
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                                foreach($listaProveedor as $proveedor){
+                                    if($proveedor['ID']==$registro['ID_Provee']){
+                                        echo $proveedor['Nombre'];
+                                    }
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    
 </div>
 
 <!-- Inicializa DataTables -->
 <script>
 $(document).ready(function() {
     $('#insumosTable').DataTable();
+});
+
+$(document).ready(function() {
+    $('#registroInsumosTable').DataTable();
 });
 </script>
 
