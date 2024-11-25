@@ -72,7 +72,13 @@
     $sentenciaSQL->execute();
     $listaProvee=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-    
+    $sentenciaSQL= $conn->prepare("SELECT * FROM area");
+    $sentenciaSQL->execute();
+    $listaArea=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
+    $sentenciaSQL->execute();
+    $listaProveedor=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!-- Agregar y modificar -->
@@ -101,7 +107,21 @@
                                 <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" min=1 value=1 placeholder="Cantidad"></input>
                             </div>
                         </div>
-                        <!-- Fecha -->
+                        <!-- Número de lote -->
+                         <div class="row">
+                            <div class="mb-3">
+                                <label for="txtNumLote" class="form-label">N° de Lote</label>
+                                <input type="number" class="form-control" name="txtNumLote" id="txtNumLote" placeholder="N° de Lote"></input>
+                            </div>
+                         </div>
+                        <!-- Fecha de vencimiento -->
+                         <div class="row">
+                            <div class="mb-3">
+                                <label for="txtFechaVencimiento" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" name="txtFechaVencimiento" id="txtFechaVencimiento" value="<?php echo $txtFecha ?>"></input>
+                            </div>
+                        </div>
+                         <!-- Fecha -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="txtFecha" class="form-label">Fecha</label>
@@ -139,20 +159,37 @@
         <hr>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Código Insumo</th>
+                <th>Proveedor</th>
+                <th>Área</th>
                 <th>Nombre insumo</th>
                 <th>Cantidad</th>
-                <th>Stock mínimo</th>
             </tr>
         </thead>
         <tbody>
             
-            <?php foreach($listaInsumos as $lista){?>
+            <?php foreach($listaProvee as $provee){?>
             <tr>
-                <td><?php echo $lista['ID'] ?></td>
-                <td><?php echo $lista['Nombre'] ?></td>
-                <td><?php echo $lista['Cantidad'] ?></td>
-                <td><?php echo $lista['Stock_minimo'] ?></td>
+                <td><?php echo $provee['Codigo_Insumo'] ?></td>
+                <td>
+                    <?php
+                        foreach($listaProveedor as $proveedor){
+                            if($proveedor['ID']==$provee['ID_Proveedor']){
+                                echo $proveedor['Nombre'];
+                            }
+                        }
+                    ?>
+                <td>
+                    <?php
+                        foreach($listaArea as $area){
+                            if($area['ID']==$provee['ID_Area']){
+                                echo $area['Area'];
+                            }
+                        }
+                    ?>
+                </td>
+                <td><?php echo $provee['Descripcion']." - ".$provee['Presentacion'] ?></td>
+                <td><?php echo $provee['Cantidad'] ?></td>
             </tr>
             <?php }?>
         </tbody>
