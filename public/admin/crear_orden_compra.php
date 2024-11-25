@@ -195,7 +195,7 @@
 
     <!-- Ordenes de compra -->
     <div class="card col p-3 m-2 shadow">
-        <table id="ordenesCompraTable" class="table table-bordered">
+        <table id="ordenesCompraTable" class="table">
             <h4>Órdenes de compra</h4>
             <hr>
             <thead>    
