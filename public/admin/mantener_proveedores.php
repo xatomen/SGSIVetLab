@@ -338,7 +338,7 @@
             Agregar proveedor
         </button>
     </div>
-    <table id="tablaProveedores" class="table table-bordered">
+    <table id="tablaProveedores" class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -366,13 +366,11 @@
                 <td><?php echo $lista['Ciudad'] ?></td>
                 <td><?php echo $lista['Giro'] ?></td>
                 <td>
-                    <form method="POST">
-                        <div class="row border">
-                            <input type="hidden" name="txtID" id="txtIDEliminar">
-                            <div class="col">
-                                <div class="row m-1">
+                    <form method="POST" class="row m-0">
+                            <div class="btn-group m-0" role="group">
+                                <input type="hidden" name="txtID" id="txtIDEliminar" class="m-0">
                                     <!-- Botón para abrir el modal de edición -->
-                                    <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#editarProveedorModal"
+                                    <button type="button" class="btn btn-warning btn-sm m-0" data-bs-toggle="modal" data-bs-target="#editarProveedorModal"
                                             data-id="<?php echo $lista['ID'] ?>"
                                             data-rut="<?php echo $lista['RUT'] ?>"
                                             data-nombre="<?php echo $lista['Nombre'] ?>"
@@ -384,16 +382,12 @@
                                             data-giro="<?php echo $lista['Giro'] ?>">
                                         <i class="fas fa-edit"></i> <!-- Ícono de editar -->
                                     </button>
-                                </div>
-                                <div class="row m-1">
                                     <!-- Botón para abrir el modal de confirmación de eliminación -->
-                                    <button type="button" class="btn btn-danger w-100 mt-1" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal"
+                                    <button type="button" class="btn btn-danger btn-sm m-0" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal"
                                         data-id="<?php echo $lista['ID'] ?>">
                                         <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
                                     </button>
-                                </div>
                             </div>
-                        </div>
                     </form>
                 </td>
             </tr>
