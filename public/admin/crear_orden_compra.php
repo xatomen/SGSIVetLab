@@ -213,16 +213,14 @@
                     <td><?php echo $orden['Fecha'] ?></td>
                     <td><?php foreach($listaProveedores as $proveedor){if($orden['ID_Proveedor']==$proveedor['ID']){echo $proveedor['Nombre'];}}?></td>
                     <td>
-                        <div class="row text-center">
+                        <div class="row text-center m-0">
                             <!-- Botón para abrir el modal -->
-                            <div class="col">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#agregarInsumoModal<?php echo $orden['Num_Orden_de_Compra']; ?>" data-id="<?php echo $orden['Num_Orden_de_Compra']; ?>">
                                     <i class="fas fa-plus"></i> <!-- Icono de agregar -->
                                 </button>
-                            </div>
                             <!-- Botón para abrir el modal de la lista -->
-                            <div class="col">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listaInsumosModal<?php echo $orden['Num_Orden_de_Compra']; ?>">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#listaInsumosModal<?php echo $orden['Num_Orden_de_Compra']; ?>">
                                     <i class="fa-regular fa-eye"></i> <!-- Icono de lista -->
                                 </button>
                             </div>
