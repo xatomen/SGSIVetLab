@@ -449,12 +449,12 @@
                                 <td><?php echo $provee['Presentacion'] ?></td>
                                 <td><?php echo $provee['Precio'] ?></td>
                                 <td>
-                                    <form method="POST">
+                                    <form method="POST" class="m-0">
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarInsumoProveedorModal<?php echo $provee['ID_Provee']?>">
+                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarInsumoProveedorModal<?php echo $provee['ID_Provee']?>">
                                                 <i class="fas fa-edit"></i> <!-- Ícono de editar -->
                                             </button>
-                                            <button type="submit" name="accion_insumo_proveedor" value="Eliminar" class="btn btn-danger">
+                                            <button type="submit" name="accion_insumo_proveedor" value="Eliminar" class="btn btn-danger btn-sm">
                                               <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
                                             </button>
                                             <input type="hidden" name="txtIDProvee" value="<?php echo $provee['ID_Provee']; ?>">
