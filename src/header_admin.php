@@ -146,7 +146,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 <!--  -->
   
 <div class="col-md col-12">
-    <div class="card m-1 p-3">
+    <div class="card m-1 p-3" style="height:100%; height:95vh;">
 
 <!-- Botón dropdown -->
 <!-- <div class="dropdown">
