@@ -388,7 +388,7 @@
 
 <!-- Listado -->
 <div class="card row m-5 shadow p-3">
-    <h4 class="p-2">Listado de insumos</h4>
+    <h4 class="p-2">Gestionar insumos</h4>
     <hr>
     <div class="p-2">
         <!-- Botón para abrir el modal -->
