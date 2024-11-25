@@ -14,7 +14,7 @@
 
 <!-- Listado -->
 <div class="card row m-2 shadow">
-    <table id="insumosTable" class="table table-bordered">
+    <table id="insumosTable" class="table">
         <thead>
             <h4 class="p-2">Listado de insumos</h4>
             <tr>
