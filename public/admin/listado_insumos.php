@@ -30,7 +30,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <!-- Listado -->
-<div class="card col-9 row m-2 p-2 shadow">
+<div class="card col-11 row m-2 p-2 shadow">
     <table id="insumosTable" class="table">
         <thead>
             <h4 class="p-2">Listado de insumos</h4>
@@ -87,9 +87,12 @@
                     </td>
                     <td>
                         <!-- Botón para abrir el modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroModal<?php echo $provee['ID_Provee'] ?>">
-                        Abrir Registro
-                        </button>
+                        <div class="row m-0">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#registroModal<?php echo $provee['ID_Provee'] ?>">
+                            <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
 
                         <!-- Modal -->
                         <div class="modal fade" id="registroModal<?php echo $provee['ID_Provee'] ?>" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
