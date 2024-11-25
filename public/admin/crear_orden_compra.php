@@ -2,16 +2,17 @@
     include_once("../../config/database.php");
     include_once("../../src/header_admin.php");
 
-    $txtIDProveedor = isset($_POST['txtIDProveedor']) ? $_POST['txtIDProveedor'] : "";
+    $txtIDProveedor = (isset($_POST['txtIDProveedor'])) ? $_POST['txtIDProveedor'] : "";
 
-    $txtIDInsumo = isset($_POST['txtIDInsumo']) ? $_POST['txtIDInsumo'] : "";
-    // echo "Codigo_Insumo = ".$txtIDInsumo;
+    $txtIDInsumo = (isset($_POST['txtIDInsumo'])) ? $_POST['txtIDInsumo'] : "";
 
-    $txtNumOrden = isset($_POST['txtNumOrden']) ? $_POST['txtNumOrden'] : "";
+    $txtIDProvee = (isset($_POST['txtIDProvee'])) ? $_POST['txtIDProvee'] : "";
 
-    $txtCantidad = isset($_POST['txtCantidad']) ? $_POST['txtCantidad'] : "";
+    $txtNumOrden = (isset($_POST['txtNumOrden'])) ? $_POST['txtNumOrden'] : "";
 
-    $txtRegOrdenCompra = isset($_POST['txtRegOrdenCompra']) ? $_POST['txtRegOrdenCompra'] : "";
+    $txtCantidad = (isset($_POST['txtCantidad'])) ? $_POST['txtCantidad'] : "";
+
+    $txtRegOrdenCompra = (isset($_POST['txtRegOrdenCompra'])) ? $_POST['txtRegOrdenCompra'] : "";
 
     $accion = (isset($_POST['accion']))?$_POST['accion']:"";
 
@@ -59,41 +60,14 @@
     
         case "Agregar Insumo":
 
-            // Obtener el número de la órden de compra
-            // echo $txtNumOrden;
-            $txtCodigoInsumo = $txtIDInsumo;
-            // Obtener la ID del insumo de la tabla insumo
-            $sentenciaSQL = $conn->prepare("SELECT ID_Insumo FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
-            $sentenciaSQL->execute();
-            $txtIDInsumo = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtIDInsumo = $txtIDInsumo['ID_Insumo'];
+            $txtNumOrden = $_POST['txtNumOrden'];
+            $txtIDProvee = $_POST['txtIDProvee'];
+            $txtCantidad = $_POST['txtCantidad'];
 
-            // echo "Numero Orden ->".$txtNumOrden;
+            echo "Numero Orden ->".$txtNumOrden;
             // echo "Codigo Insumo ->".$txtCodigoInsumo;
-            // echo "ID ->".$txtIDInsumo;
-
-            // Obtener el precio del insumo
-            $sentenciaSQL = $conn->prepare("SELECT Precio FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
-            $sentenciaSQL->execute();
-            $txtPrecio = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtPrecio = $txtPrecio['Precio'];
-
-            // Obtener la descripción
-            $sentenciaSQL = $conn->prepare("SELECT Descripcion FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
-            $sentenciaSQL->execute();
-            $txtDescripcion = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtDescripcion = $txtDescripcion['Descripcion'];
-
-
-            // Obtener la presentacion
-            $sentenciaSQL = $conn->prepare("SELECT Presentacion FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
-            $sentenciaSQL->execute();
-            $txtPresentacion = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtPresentacion = $txtPresentacion['Presentacion'];
+            echo "ID Provee ->".$txtIDProvee;
+            // echo "ID ->" .$txtIDInsumo;
 
             // Obtener el último índice para la tabla registro_orden_de_compra
             $sentenciaSQL = $conn->prepare("SELECT MAX(Num_Registro_Orden_de_Compra) AS lastIndex FROM registro_orden_de_compra");
@@ -102,15 +76,11 @@
             $lastindex = $resultado['lastIndex']+1;
 
             // Insertar el insumo seleccionado
-            $sentenciaSQL = $conn->prepare("INSERT INTO registro_orden_de_compra (Num_Registro_Orden_de_Compra, Precio, Cantidad, Descripcion, Presentacion, Codigo_Insumo, ID_Orden_Compra, ID_Insumo) VALUES (:Num_Registro_Orden_de_Compra, :Precio, :Cantidad, :Descripcion, :Presentacion, :Codigo_Insumo, :ID_Orden_Compra, :ID_Insumo)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO registro_orden_de_compra (Num_Registro_Orden_de_Compra, Cantidad, ID_Orden_Compra, ID_Provee) VALUES (:Num_Registro_Orden_de_Compra, :Cantidad, :ID_Orden_Compra, :ID_Provee)");
             $sentenciaSQL->bindParam(':Num_Registro_Orden_de_Compra',$lastindex);
-            $sentenciaSQL->bindParam(':Precio',$txtPrecio);
             $sentenciaSQL->bindParam(':Cantidad',$txtCantidad);
-            $sentenciaSQL->bindParam(':Descripcion',$txtDescripcion);
-            $sentenciaSQL->bindParam(':Presentacion',$txtPresentacion);
-            $sentenciaSQL->bindParam(':Codigo_Insumo',$txtCodigoInsumo);
-            $sentenciaSQL->bindParam(':ID_Orden_Compra',$txtNumOrden);
-            $sentenciaSQL->bindParam(':ID_Insumo',$txtIDInsumo);
+            $sentenciaSQL->bindParam(':ID_Orden_Compra', $txtNumOrden);
+            $sentenciaSQL->bindParam(':ID_Provee',$txtIDProvee);
             $sentenciaSQL->execute();
 
             header("Location: crear_orden_compra.php");
@@ -342,12 +312,12 @@
                                             <!-- Seleccionamos el insumo a agregar -->
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                <label for="txtIDInsumo" class="form-label">Seleccione el insumo a agregar a la lista</label>
-                                                <select id="txtIDInsumo" name="txtIDInsumo" class="form-control">
+                                                <label for="txtIDProvee" class="form-label">Seleccione el insumo a agregar a la lista</label>
+                                                <select id="txtIDProvee" name="txtIDProvee" class="form-control">
                                                     <option value="">Seleccione un insumo</option>
                                                     <?php foreach ($listaInsumosProvee as $provee){ ?>
                                                     <?php if($provee['ID_Proveedor']==$orden['ID_Proveedor']){ ?>
-                                                    <option value="<?php echo $provee['Codigo_Insumo']; ?>">
+                                                    <option value="<?php echo $provee['ID_Provee']; ?>">
                                                         <?php echo $provee['Codigo_Insumo']. " - ". $provee['Descripcion']; ?>
                                                     </option>
                                                     <?php }} ?>
