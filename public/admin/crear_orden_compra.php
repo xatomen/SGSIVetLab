@@ -237,15 +237,17 @@
                                             <tbody>
                                                 <?php foreach($listaRegistrosOrdenCompra as $registro){
                                                     if($orden['Num_Orden_de_Compra'] == $registro['ID_Orden_Compra']){
-                                                        $totalInsumo = $registro['Cantidad']*$registro['Precio'];
+                                                        foreach($listaInsumosProvee as $provee){
+                                                            if($provee['ID_Provee']==$registro['ID_Provee']){
+                                                        $totalInsumo = $registro['Cantidad']*$provee['Precio'];
                                                         $totalOrdenCompra += $totalInsumo;
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $registro['Cantidad'] ?></td>
-                                                    <td><?php echo $registro['Descripcion'] ?></td>
-                                                    <td><?php echo $registro['Presentacion'] ?></td>
-                                                    <td><?php echo number_format($registro['Precio'], 0) ?></td>
-                                                    <td><?php echo number_format($registro['Cantidad']*$registro['Precio'], 0) ?></td>
+                                                    <td><?php echo $provee['Descripcion'] ?></td>
+                                                    <td><?php echo $provee['Presentacion'] ?></td>
+                                                    <td><?php echo number_format($provee['Precio'], 0) ?></td>
+                                                    <td><?php echo number_format($registro['Cantidad']*$provee['Precio'], 0) ?></td>
                                                     <td>
                                                     <form method="POST">
                                                         <div class="col">
@@ -255,7 +257,7 @@
                                                     </form>
                                                     </td>
                                                 </tr>
-                                                <?php } } ?>
+                                                <?php } } } } ?>
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
