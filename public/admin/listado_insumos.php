@@ -5,6 +5,10 @@
     $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
     $sentenciaSQL->execute();
     $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM provee");
+    $sentenciaSQL->execute();
+    $listaProvee=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Incluye las librerías de DataTables -->
@@ -19,10 +23,12 @@
             <h4 class="p-2">Listado de insumos</h4>
             <hr>
             <tr>
-                <th>ID</t>
+                <th>ID</th>
                 <th>Nombre insumo</th>
+                <th>Área</th>
                 <th>Cantidad</th>
                 <th>Stock mínimo</th>
+                <th>Insumos</th>
             </tr>
         </thead>
         <tbody>
@@ -30,8 +36,40 @@
             <tr>
                 <td><?php echo $lista['ID'] ?></td>
                 <td><?php echo $lista['Nombre'] ?></td>
+                <td><?php echo $lista['ID_Area'] ?></td>
                 <td><?php echo $lista['Cantidad'] ?></td>
                 <td><?php echo $lista['Stock_minimo'] ?></td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Código Proveedor</th>
+                                <th>Código Área</th>
+                                <th>Descripción</th>
+                                <th>Presentación</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($listaProvee as $provee){?>
+                                <?php if($provee['ID_insumo']==$lista['ID']){?>
+                                <tr>
+                                    <?php foreach($listaProvee as $provee){?>
+                                        <?php if($provee['ID_insumo']==$lista['ID']){?>
+                                            <td><?php echo $provee['ID_Proveedor'] ?></td>
+                                            <td><?php echo $provee['ID_Area'] ?></td>
+                                            <td><?php echo $provee['Descripcion'] ?></td>
+                                            <td><?php echo $provee['Presentacion'] ?></td>
+                                            <td><?php echo $provee['Cantidad'] ?></td>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    
+                                </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
             <?php }?>
         </tbody>
