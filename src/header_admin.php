@@ -107,11 +107,11 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                             <i class="fas fa-file-alt"></i> Crear órdenes de compra
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/imprimir_etiquetas.php"){echo "active";}?>">
                             <i class="fas fa-print"></i>    Imprimir etiquetas
                         </a>
-                    </li>
+                    </li> -->
                     
                     <hr>
                     
