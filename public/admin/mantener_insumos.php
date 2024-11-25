@@ -12,11 +12,19 @@
 
     $txtIDArea = (isset($_POST['txtIDArea']))?$_POST['txtIDArea']:"";
 
+    $txtIDProvee = (isset($_POST['txtIDProvee']))?$_POST['txtIDProvee']:"";
     $txtIDInsumoProveedor = (isset($_POST['txtIDInsumoProveedor']))?$_POST['txtIDInsumoProveedor']:"";
     $txtCodigoAgregar = (isset($_POST['txtCodigoAgregar']))?$_POST['txtCodigoAgregar']:"";
     $txtDescripcionAgregar = (isset($_POST['txtDescripcionAgregar']))?$_POST['txtDescripcionAgregar']:"";
     $txtPresentacionAgregar = (isset($_POST['txtPresentacionAgregar']))?$_POST['txtPresentacionAgregar']:"";
     $txtPrecioAgregar = (isset($_POST['txtPrecioAgregar']))?$_POST['txtPrecioAgregar']:"";
+
+    $txtCodigo = (isset($_POST['txtCodigo']))?$_POST['txtCodigo']:"";
+    $txtDescripcion = (isset($_POST['txtDescripcion']))?$_POST['txtDescripcion']:"";
+    $txtPresentacion = (isset($_POST['txtPresentacion']))?$_POST['txtPresentacion']:"";
+    $txtPrecio = (isset($_POST['txtPrecio']))?$_POST['txtPrecio']:"";
+
+    $txtIDInsumo = (isset($_POST['txtIDInsumo']))?$_POST['txtIDInsumo']:"";
 
     $accion = (isset($_POST['accion']))?$_POST['accion']:"";
     $accion_insumo_proveedor = (isset($_POST['accion_insumo_proveedor']))?$_POST['accion_insumo_proveedor']:"";
@@ -78,21 +86,21 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
     
-            // echo $lastindex;
-            // echo " - ";
-            // echo $txtCodigoAgregar;
-            // echo " - ";
-            // echo $txtPrecioAgregar;
-            // echo " - ";
-            // echo $txtDescripcionAgregar;
-            // echo " - ";
-            // echo $txtPresentacionAgregar;
-            // echo " - ";
-            // echo $txtIDArea;
-            // echo " - ";
-            // echo $txtIDProveedor;
-            // echo " - ";
-            // echo $txtID;
+            echo $lastindex;
+            echo " - ";
+            echo $txtCodigoAgregar;
+            echo " - ";
+            echo $txtPrecioAgregar;
+            echo " - ";
+            echo $txtDescripcionAgregar;
+            echo " - ";
+            echo $txtPresentacionAgregar;
+            echo " - ";
+            echo $txtIDArea;
+            echo " - ";
+            echo $txtIDProveedor;
+            echo " - ";
+            echo $txtID;
 
             $sentenciaSQL = $conn->prepare("INSERT INTO provee (ID_Provee, Codigo_Insumo, Precio, Descripcion, Presentacion, ID_Area, ID_Proveedor, ID_Insumo) VALUES (:ID_Provee, :Codigo_Insumo, :Precio, :Descripcion, :Presentacion, :ID_Area, :ID_Proveedor, :ID_Insumo)");
             $sentenciaSQL->bindParam(":ID_Provee", $lastindex);
@@ -110,20 +118,57 @@
 
     }
 
+    switch($accion_insumo_proveedor){
+        case "Eliminar":
+          $mensaje = "Insumo proveedor eliminado satisfactoriamente";
+          $sentenciaSQL = $conn->prepare("DELETE FROM provee WHERE ID_Provee=:ID_Provee");
+          $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+          $sentenciaSQL->execute();
+          header("Location: mantener_insumos.php");
+          exit();
+
+      case "Editar":
+          // ver los parámetros que se están enviando
+          // echo $txtIDProvee;
+          // echo " - ";
+          // // echo $txtIDProveedor;
+          // // echo " - ";
+          // echo $txtCodigo;
+          // echo " - ";
+          // echo $txtPrecio;
+          // echo " - ";
+          // echo $txtDescripcion;
+          // echo " - ";
+          // echo $txtPresentacion;
+          // echo " - ";
+          // echo $txtIDArea; 
+          // echo " - ";
+          // echo $txtIDInsumo;
+
+          $mensaje = "Insumo proveedor editado satisfactoriamente";
+          $sentenciaSQL = $conn->prepare("UPDATE provee SET Codigo_Insumo=:Codigo_Insumo, Precio=:Precio, Descripcion=:Descripcion, Presentacion=:Presentacion, ID_Area=:ID_Area WHERE ID_Provee=:ID_Provee");
+          $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+          $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigo);
+          $sentenciaSQL->bindParam(':Precio', $txtPrecio);
+          $sentenciaSQL->bindParam(':Descripcion', $txtDescripcion);
+          $sentenciaSQL->bindParam(':Presentacion', $txtPresentacion);
+          $sentenciaSQL->bindParam(':ID_Area', $txtIDArea);
+          $sentenciaSQL->execute();
+          // $txtID="";
+          $txtCodigo="";
+          $txtPrecio="";
+          $txtDescripcion="";
+          $txtPresentacion="";
+          $txtIDArea="";
+          // $txtIDProveedor="";
+          header("Location: mantener_insumos.php");
+          exit();
+    }
+
+
     $sentenciaSQL= $conn->prepare("SELECT * FROM insumo");
     $sentenciaSQL->execute();
     $listaInsumos=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-
-    // $orderColumn = isset($_GET['orderColumn']) ? $_GET['orderColumn'] : 'Nombre'; // Columna por defecto
-    // $orderType = isset($_GET['orderType']) && $_GET['orderType'] === 'DESC' ? 'DESC' : 'ASC'; // Tipo de orden por defecto
-
-    // // Consulta SQL dinámica
-    // $sentenciaSQL = $conn->prepare("SELECT * FROM insumo ORDER BY $orderColumn $orderType");
-    // $sentenciaSQL->execute();
-    // $listaInsumos = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-
-    // // Cambiar el orden para el próximo clic
-    // $nextOrderType = ($orderType === 'ASC') ? 'DESC' : 'ASC';
     
     $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
     $sentenciaSQL->execute();
@@ -374,11 +419,13 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Área</th>
                                 <th>Proveedor</th>
                                 <th>Código Insumo</th>
                                 <th>Descripción</th>
                                 <th>Presentación</th>
                                 <th>Precio</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -386,11 +433,81 @@
                             <?php foreach($listaProvee as $provee){ ?>
                             <?php if($insumo['ID']==$provee['ID_Insumo'] && $proveedor['ID']==$provee['ID_Proveedor']){ ?>
                             <tr>
+                                <td>
+                                  <?php 
+                                    foreach($listaAreas as $area) {
+                                      if($area['ID'] == $provee['ID_Area']) {
+                                        echo $area['Area'];
+                                        break;
+                                      }
+                                    }
+                                  ?>
+                                </td>
                                 <td><?php echo $proveedor['Nombre'] ?></td>
                                 <td><?php echo $provee['Codigo_Insumo'] ?></td>
                                 <td><?php echo $provee['Descripcion'] ?></td>
                                 <td><?php echo $provee['Presentacion'] ?></td>
                                 <td><?php echo $provee['Precio'] ?></td>
+                                <td>
+                                    <form method="POST">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarInsumoProveedorModal<?php echo $provee['ID_Provee']?>">
+                                                <i class="fas fa-edit"></i> <!-- Ícono de editar -->
+                                            </button>
+                                            <button type="submit" name="accion_insumo_proveedor" value="Eliminar" class="btn btn-danger">
+                                                <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <!-- Modal para editar insumo proveedor -->
+                                    <div class="modal fade" id="editarInsumoProveedorModal<?php echo $provee['ID_Provee']?>" tabindex="-1" aria-labelledby="editarInsumoProveedorModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editarInsumoProveedorModalLabel">Editar Insumo Proveedor</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="formEditarInsumoProveedor" method="POST">
+                                                        <div class="mb-3">
+                                                            <label for="txtIDProvee" class="form-label">ID Provee</label>
+                                                            <input type="text" class="form-control" value="<?php echo $provee['ID_Provee']?>" id="txtIDProvee" name="txtIDProvee" readonly>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="txtCodigo" class="form-label">Código Insumo</label>
+                                                            <input type="text" class="form-control" value="<?php echo $provee['Codigo_Insumo']?>" id="txtCodigo" name="txtCodigo">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="txtDescripcion" class="form-label">Descripción</label>
+                                                            <input type="text" class="form-control" value="<?php echo $provee['Descripcion']?>" id="txtDescripcion" name="txtDescripcion">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="txtPresentacion" class="form-label">Presentación</label>
+                                                            <input type="text" class="form-control" value="<?php echo $provee['Presentacion']?>" id="txtPresentacion" name="txtPresentacion">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                          <label for="txtIDArea" class="form-label">Área</label>
+                                                          <select class="form-control" id="txtIDArea" name="txtIDArea">
+                                                            <?php foreach ($listaAreas as $area): ?>
+                                                              <option value="<?php echo $area['ID']; ?>" <?php echo ($area['ID'] == $provee['ID_Area']) ? 'selected' : ''; ?>>
+                                                                <?php echo $area['Area']; ?>
+                                                              </option>
+                                                            <?php endforeach; ?>
+                                                          </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="txtPrecio" class="form-label">Precio</label>
+                                                            <input type="text" class="form-control" value="<?php echo $provee['Precio']?>" id="txtPrecio" name="txtPrecio">
+                                                        </div>
+                                                        <div class="text-center">
+                                                          <button type="submit" class="btn btn-primary" name="accion_insumo_proveedor" value="Editar">Guardar cambios</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <?php } ?>
                             <?php } ?>
@@ -402,26 +519,27 @@
                     <form method="POST">
                         <div class="row border">
                             <div class="col">
-                                <!-- <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $insumo['ID'] ?>"></input></div> -->
                                 <div class="row m-1"><input type="hidden" name="txtID" id="txtID"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtNombreEditar" id="txtNombreEditar" value="<?php echo $insumo['Nombre'] ?>"></input></div>
                                 <div class="row m-1"><input type="hidden" name="txtStockMinimoEditar" id="txtStockMinimoEditar" value="<?php echo $insumo['Stock_minimo'] ?>"></input></div>
-                                <div class="d-flex flex-column">
-                                    <!-- Botón para abrir el modal de agregar proveedor -->
-                                    <button type="button" class="btn btn-success w-auto mb-2" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
-                                            data-id="<?php echo $insumo['ID'] ?>">
-                                      <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
-                                    </button>
-                                    <!-- Botón para abrir el modal de modificar insumo -->
-                                    <button type="button" class="btn btn-warning w-auto mb-2" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
-                                            data-id="<?php echo $insumo['ID'] ?>"
-                                            data-nombre="<?php echo $insumo['Nombre'] ?>"
-                                            data-stock-minimo="<?php echo $insumo['Stock_minimo'] ?>">
-                                      <i class="fas fa-edit"></i> <!-- Ícono de editar -->
-                                    </button>
-                                    <button type="submit" name="accion" value="Eliminar" class="btn btn-danger w-auto">
-                                      <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
-                                    </button>
+                                <div class="row">
+                                  <div class="btn-group" role="group">
+                                      <!-- Botón para abrir el modal de agregar proveedor -->
+                                      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
+                                              data-id="<?php echo $insumo['ID'] ?>">
+                                        <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
+                                      </button>
+                                      <!-- Botón para abrir el modal de modificar insumo -->
+                                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
+                                              data-id="<?php echo $insumo['ID'] ?>"
+                                              data-nombre="<?php echo $insumo['Nombre'] ?>"
+                                              data-stock-minimo="<?php echo $insumo['Stock_minimo'] ?>">
+                                        <i class="fas fa-edit"></i> <!-- Ícono de editar -->
+                                      </button>
+                                      <button type="submit" name="accion" value="Eliminar" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
+                                      </button>
+                                  </div>
                                 </div>
                             </div>
                         </div>
