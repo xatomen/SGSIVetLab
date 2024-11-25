@@ -12,6 +12,8 @@
 
     $txtIDArea = (isset($_POST['txtIDArea']))?$_POST['txtIDArea']:"";
 
+    $txtAreaAgregar = (isset($_POST['txtAreaAgregar']))?$_POST['txtAreaAgregar']:"";
+
     $txtIDProvee = (isset($_POST['txtIDProvee']))?$_POST['txtIDProvee']:"";
     $txtIDInsumoProveedor = (isset($_POST['txtIDInsumoProveedor']))?$_POST['txtIDInsumoProveedor']:"";
     $txtCodigoAgregar = (isset($_POST['txtCodigoAgregar']))?$_POST['txtCodigoAgregar']:"";
@@ -64,10 +66,11 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
     
-            $sentenciaSQL = $conn->prepare("INSERT INTO insumo (ID, NOMBRE, STOCK_MINIMO) VALUES (:ID, :NOMBRE, :STOCK_MINIMO)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO insumo (ID, NOMBRE, STOCK_MINIMO, ID_AREA) VALUES (:ID, :NOMBRE, :STOCK_MINIMO, :ID_AREA)");
             $sentenciaSQL->bindParam(":ID", $lastindex);
             $sentenciaSQL->bindParam(':NOMBRE', $txtNombreAgregar);
             $sentenciaSQL->bindParam(':STOCK_MINIMO', $txtStockMinimoAgregar);
+            $sentenciaSQL->bindParam(':ID_AREA', $txtAreaAgregar);
             $sentenciaSQL->execute();
             header("Location: mantener_insumos.php");
             exit();
@@ -201,6 +204,15 @@
           <div class="mb-3">
             <label for="txtStockMinimoAgregar" class="form-label">Stock mínimo</label>
             <input class="form-control" name="txtStockMinimoAgregar" id="txtStockMinimoAgregar" placeholder="Ingrese el stock mínimo">
+          </div>
+          <div class="mb-3">
+            <label for="txtAreaAgregar" class="form-label">Área</label>
+            <select class="form-control" name="txtAreaAgregar" id="txtAreaAgregar">
+              <option value="">Seleccione un área</option>
+              <?php foreach ($listaAreas as $area): ?>
+                <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
           <div class="text-center">
             <input class="btn btn-warning" type="submit" value="Agregar" name="accion">
