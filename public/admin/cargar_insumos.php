@@ -133,9 +133,10 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <!-- Listado -->
-<div class="card row m-5 shadow">
-    <table id="insumosTable" class="table table-bordered">
+<div class="card row m-5 p-2 shadow">
+    <table id="insumosTable" class="table">
         <h4 class="p-2">Listado de insumos</h4>
+        <hr>
         <thead>
             <tr>
                 <th>ID</th>
