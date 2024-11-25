@@ -342,7 +342,7 @@
 
 <!-- Listado -->
     <div class="card row m-5 shadow">
-        <table id="tablaPerfilesMuestra" class="table table-bordered">
+        <table id="tablaPerfilesMuestra" class="table">
             <h4 class="p-2">Listado de perfiles de muestra</h4>
             <hr>
             <div class="p-2">
@@ -387,23 +387,22 @@
                                     <td><?php echo $insumo['Nombre']?></td>
                                     <td><?php echo $componente['Cantidad']?></td>
                                     <td>
-                                        <form method="POST">
-                                            <div class="row m-1"><input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input></div>
-                                            <div class="row m-1"><input type="hidden" name="txtIDMuestra" id="txtIDMuestra" value="<?php echo $componente['ID_Muestra'] ?>"></input></div>
-                                            <div class="row m-1"><input type="hidden" name="txtIDInsumo" id="txtIDInsumo" value="<?php echo $componente['ID_Insumo'] ?>"></input></div>
-                                            <div class="row m-1"><input type="hidden" name="txtIDComponentePerfilMuestra" id="txtIDComponentePerfilMuestra" value="<?php echo $componente['ID_Componentes_perfil_muestra'] ?>"></input></div>
-                                            <div class="row m-1">
-                                                <!-- Botón para abrir el modal de editar cantidad -->
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarCantidadModal" data-id="<?php echo $componente['ID_Componentes_perfil_muestra']; ?>">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
+                                        <form method="POST" class="m-0" >
+                                            <input type="hidden" name="txtID" id="txtID" value="<?php echo $lista['PerfilID'] ?>"></input>
+                                            <input type="hidden" name="txtIDMuestra" id="txtIDMuestra" value="<?php echo $componente['ID_Muestra'] ?>"></input>
+                                            <input type="hidden" name="txtIDInsumo" id="txtIDInsumo" value="<?php echo $componente['ID_Insumo'] ?>"></input>
+                                            <input type="hidden" name="txtIDComponentePerfilMuestra" id="txtIDComponentePerfilMuestra" value="<?php echo $componente['ID_Componentes_perfil_muestra'] ?>"></input>
+                                            <div class="row">
+                                              <div class="btn-group" role="group">
+                                                  <!-- Botón para abrir el modal de editar cantidad -->
+                                                  <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarCantidadModal" data-id="<?php echo $componente['ID_Componentes_perfil_muestra']; ?>">
+                                                      <i class="fas fa-edit"></i>
+                                                  </button>
+                                                  <button type="submit" name="accion_componente" value="Eliminar" class="btn btn-danger btn-sm">
+                                                      <i class="fas fa-trash-alt"></i>
+                                                  </button>
+                                              </div>
                                             </div>
-                                            <div class="row m-1">
-                                                <button type="submit" name="accion_componente" value="Eliminar" class="btn btn-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </div>
-                                            
                                         </form>
                                     </td>
                                 </tr>
@@ -427,23 +426,21 @@
                                     <div class="row m-1">
                                         <input type="hidden" name="txtIDAreaEditar" id="txtIDAreaEditar" value="<?php echo $lista['ID_Area'] ?>"></input>
                                     </div>
-                                    <!-- Botón para abrir el modal de añadir componente -->
-                                    <div class="row m-1">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirComponenteModal" data-id="<?php echo $lista['PerfilID']; ?>">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <!-- Botón para abrir el modal de edición -->
-                                    <div class="row m-1">
-                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarPerfilModal" data-id="<?php echo $lista['PerfilID']; ?>" data-tipo="<?php echo $lista['Tipo_de_muestra']; ?>" data-area="<?php echo $lista['ID_Area']; ?>">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </div>
-                                    <!-- Eliminar -->
-                                    <div class="row m-1">
-                                        <button type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                    <div class="row">
+                                      <!-- Botón para abrir el modal de añadir componente -->
+                                      <div class="btn-group" role="group">
+                                          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#añadirComponenteModal" data-id="<?php echo $lista['PerfilID']; ?>">
+                                              <i class="fas fa-plus"></i>
+                                          </button>
+                                      <!-- Botón para abrir el modal de edición -->
+                                          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarPerfilModal" data-id="<?php echo $lista['PerfilID']; ?>" data-tipo="<?php echo $lista['Tipo_de_muestra']; ?>" data-area="<?php echo $lista['ID_Area']; ?>">
+                                              <i class="fas fa-edit"></i>
+                                          </button>
+                                      <!-- Eliminar -->
+                                          <button type="submit" name="accion_perfil" value="Eliminar" class="btn btn-danger">
+                                              <i class="fas fa-trash-alt"></i>
+                                          </button>
+                                      </div>
                                     </div>
                                 </div>
                             </div>
