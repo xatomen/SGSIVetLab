@@ -29,6 +29,17 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
+<style>
+    .vencimiento-proximo {
+        background-color: red;
+        color: black;
+    }
+    .vencimiento-cercano {
+        background-color: yellow;
+        color: black;
+    }
+</style>
+
 <!-- Listado -->
 <div class="card col-11 row m-2 p-2 shadow">
     <table id="insumosTable" class="table">
@@ -44,6 +55,7 @@
                 <td>Presentación</td>
                 <td>Área</td>
                 <td>Proveedor</td>
+                <td>Fecha de vencimiento próxima</td>
                 <td>Acciones</td>
             </tr>
         </thead>
@@ -84,6 +96,39 @@
                                 }
                             }
                         ?>
+                    </td>
+                    <td>
+                        <?php 
+                            $fechaVencimiento = "";
+                            $fechaActual = new DateTime();
+                            $fechaMinima = null;
+
+                            foreach($listaRegistro as $registro) {
+                                if($registro['ID_Provee'] == $provee['ID_Provee']) {
+                                    $fechaVenc = new DateTime($registro['Fecha_vencimiento']);
+                                    if ($fechaMinima === null || $fechaVenc < $fechaMinima) {
+                                        $fechaMinima = $fechaVenc;
+                                    }
+                                }
+                            }
+
+                            if ($fechaMinima !== null) {
+                                $diferencia = $fechaActual->diff($fechaMinima)->days;
+                                if ($diferencia <= 7) {
+                                    $claseVencimiento = 'vencimiento-proximo';
+                                } elseif ($diferencia >= 8 && $diferencia <= 15) {
+                                    $claseVencimiento = 'vencimiento-cercano';
+                                } else {
+                                    $claseVencimiento = '';
+                                }
+                                $fechaVencimiento = $fechaMinima->format('Y-m-d');
+                            } else {
+                                $claseVencimiento = '';
+                            }
+                        ?>
+                        <span class="<?php echo $claseVencimiento; ?>">
+                            <?php echo $fechaVencimiento; ?>
+                        </span>
                     </td>
                     <td>
                         <!-- Botón para abrir el modal -->
