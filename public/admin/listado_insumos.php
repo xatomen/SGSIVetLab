@@ -30,15 +30,52 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
 <style>
-    .vencimiento-proximo {
-        background-color: red;
-        color: black;
+    .semaforo {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: inline-block;
+        border: 4px solid black; /* Agrega un borde negro */
     }
-    .vencimiento-cercano {
+
+    .semaforo.rojo {
+        background-color: red;
+    }
+
+    .semaforo.amarillo {
         background-color: yellow;
-        color: black;
+    }
+
+    .semaforo.verde {
+        background-color: green;
     }
 </style>
+
+<!-- Filtro de Área -->
+<div class="card col-11 row m-2 p-2 shadow">
+    <div class="col-12 mb-3">
+        <label for="filtroArea" class="form-label">Filtrar por Área:</label>
+        <select id="filtroArea" class="form-control">
+            <option value="">Todas las Áreas</option>
+            <?php foreach ($listaArea as $area): ?>
+                <option value="<?php echo $area['Area']; ?>"><?php echo $area['Area']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+
+<!-- Filtro de Semáforo -->
+<div class="card col-11 row m-2 p-2 shadow">
+    <div class="col-12 mb-3">
+        <label for="filtroSemaforo" class="form-label">Filtrar por Semáforo:</label>
+        <select id="filtroSemaforo" class="form-control">
+            <option value="">Todos los colores</option>
+            <option value="rojo">Rojo</option>
+            <option value="amarillo">Amarillo</option>
+            <option value="verde">Verde</option>
+        </select>
+    </div>
+</div>
 
 <!-- Listado -->
 <div class="card col-11 row m-2 p-2 shadow">
@@ -47,16 +84,17 @@
             <h4 class="p-2">Listado de insumos</h4>
             <hr>
             <tr>
-                <td>Codigo Insumo</td>
-                <td>Insumo</td>
-                <td>Cantidad</td>
-                <td>Precio</td>
-                <td>Descripción</td>
-                <td>Presentación</td>
-                <td>Área</td>
-                <td>Proveedor</td>
-                <td>Fecha de vencimiento próxima</td>
-                <td>Acciones</td>
+                <th>Codigo Insumo</th>
+                <th>Insumo</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Descripción</th>
+                <th>Presentación</th>
+                <th class="area">Área</th>
+                <th>Proveedor</th>
+                <th>Fecha de vencimiento próxima</th>
+                <th>Semáforo</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -77,7 +115,7 @@
                     <td><?php echo $provee['Precio'] ?></td>
                     <td><?php echo $provee['Descripcion'] ?></td>
                     <td><?php echo $provee['Presentacion'] ?></td>
-                    <td>
+                    <td class="area">
                         <?php 
                             foreach($listaArea as $area) {
                                 if($area['ID'] == $provee['ID_Area']) {
@@ -116,19 +154,26 @@
                                 $diferencia = $fechaActual->diff($fechaMinima)->days;
                                 if ($diferencia <= 7) {
                                     $claseVencimiento = 'vencimiento-proximo';
+                                    $colorSemaforo = 'rojo';
                                 } elseif ($diferencia >= 8 && $diferencia <= 15) {
                                     $claseVencimiento = 'vencimiento-cercano';
+                                    $colorSemaforo = 'amarillo';
                                 } else {
                                     $claseVencimiento = '';
+                                    $colorSemaforo = 'verde';
                                 }
                                 $fechaVencimiento = $fechaMinima->format('Y-m-d');
                             } else {
                                 $claseVencimiento = '';
+                                $colorSemaforo = '';
                             }
                         ?>
                         <span class="<?php echo $claseVencimiento; ?>">
                             <?php echo $fechaVencimiento; ?>
                         </span>
+                    </td>
+                    <td class="">
+                        <div class="semaforo <?php echo $colorSemaforo; ?>"></div>
                     </td>
                     <td>
                         <!-- Botón para abrir el modal -->
@@ -197,6 +242,29 @@
     $(document).ready( function () {
         $('#registroTable').DataTable();
     });
+
+    $(document).ready(function() {
+        var table = $('#insumosTable').DataTable();
+
+        $('#filtroArea').on('change', function() {
+            var area = $(this).val();
+            if (area) {
+                table.columns('.area').search('^' + area + '$', true, false).draw();
+            } else {
+                table.columns('.area').search('').draw();
+            }
+        });
+    });
+
+    $('#filtroSemaforo').on('change', function() {
+            var color = $(this).val();
+            if (color) {
+                table.columns(9).search(color, true, false).draw();
+            } else {
+                table.columns(9).search('').draw();
+            }
+        });
+
 </script>
 
 <?php
