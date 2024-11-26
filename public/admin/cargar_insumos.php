@@ -262,8 +262,12 @@
                         <td>
                             <?php
                                 foreach($listaArea as $area){
-                                    if($area['ID']==$registro['ID_Administrador']){
-                                        echo $area['Area'];
+                                    foreach($listaProvee as $provee){
+                                        if($provee['ID_Provee']==$registro['ID_Provee']){
+                                            if($area['ID']==$provee['ID_Area']){
+                                                echo $area['Area'];
+                                            }
+                                        }
                                     }
                                 }
                             ?>
