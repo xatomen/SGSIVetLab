@@ -20,7 +20,13 @@
     switch ($accion){
         
         case "Cargar":
-
+            // Encontrar el ID de Insumo de acuerdo al Codigo Insumo
+            $sentenciaSQL = $conn->prepare("SELECT ID_Insumo FROM provee WHERE Codigo_insumo = :Codigo_insumo");
+            $sentenciaSQL->bindParam(':Codigo_insumo', $txtCodigoInsumo);
+            $sentenciaSQL->execute();
+            $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $txtID = $resultado['ID_Insumo'];
+            
             // Encontrar el ID de Provee de acuerdo al Codigo Insumo
             $sentenciaSQL = $conn->prepare("SELECT ID_Provee FROM provee WHERE Codigo_Insumo = :Codigo_Insumo");
             $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);
@@ -67,10 +73,10 @@
             $sentenciaSQL->execute();
 
             // Ahora debemos incrementar la cantidad de insumos en la tabla insumos
-            // $sentenciaSQL = $conn->prepare("UPDATE insumo SET Cantidad = Cantidad + :Cantidad WHERE ID = :ID");
-            // $sentenciaSQL->bindParam(':Cantidad', $txtCantidad); 
-            // $sentenciaSQL->bindParam(':ID', $txtID); 
-            // $sentenciaSQL->execute();
+            $sentenciaSQL = $conn->prepare("UPDATE insumo SET Cantidad = Cantidad + :Cantidad WHERE ID = :ID");
+            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad); 
+            $sentenciaSQL->bindParam(':ID', $txtID); 
+            $sentenciaSQL->execute();
 
             // Ahora debemos incrementar la cantidad de insumos en la tabla provee
             $sentenciaSQL = $conn->prepare("UPDATE provee SET Cantidad = Cantidad + :Cantidad WHERE ID_Provee = :ID_Provee");
@@ -265,8 +271,12 @@
                         <td>
                             <?php
                                 foreach($listaProveedor as $proveedor){
-                                    if($proveedor['ID']==$registro['ID_Provee']){
-                                        echo $proveedor['Nombre'];
+                                    foreach($listaProvee as $provee){
+                                        if($provee['ID_Provee']==$registro['ID_Provee']){
+                                            if($proveedor['ID']==$provee['ID_Proveedor']){
+                                                echo $proveedor['Nombre'];
+                                            }
+                                        }
                                     }
                                 }
                             ?>
