@@ -22,12 +22,26 @@ if(empty($_SESSION['ID'])){
     <title>SGSI Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <style>
-        body{
-            background-color: #80BFFF;
-        }
-        
-    </style>
+    <!-- Incluye los archivos de jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Incluye los archivos de Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Incluye los archivos de DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    
+    <!-- Incluye los archivos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Estilos generados de manera manual -->
+    <link rel="stylesheet" type="text/css" href="http://localhost/SGSIVetLab/src/styles.css">
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </script>
 </head>
 <body>
 
@@ -35,7 +49,7 @@ if(empty($_SESSION['ID'])){
 
 <div class="row m-2">
         <div class="col-lg-2 col-12">
-            <div class="card m-1 p-3 text-bg-dark">
+            <div class="card m-1 p-3 text-bg-dark" style="background-color: #2f3e46">
                 <span class="fs-4 text-center">SGSI - VetLab</span>
                 <img src="http://localhost/SGSIVetLab/src/VetLab.png" alt="">
                 <hr>
@@ -45,6 +59,7 @@ if(empty($_SESSION['ID'])){
                         Inicio
                         </a>
                     </li>
+                    <hr>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/user/utilizar_stock.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/utilizar_stock.php"){echo "active";}?>">
                         Utilizar stock
@@ -59,7 +74,7 @@ if(empty($_SESSION['ID'])){
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white bg-danger">
+                        <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white cerrar-sesion">
                         Cerrar sesión y salir
                         </a>
                     </li>
