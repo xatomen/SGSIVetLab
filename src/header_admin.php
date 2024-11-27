@@ -37,36 +37,12 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     <!-- Incluye los archivos de Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <!-- Estilos generados de manera manual -->
     <link rel="stylesheet" type="text/css" href="../src/styles.css">
-
-    <style>
-        body{
-            background-color: #a6d1e6;
-            /* background-color: #f7f9fa; */
-            /* background-color: #2f3e46; */
-        }
-        
-    </style>
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </script>
-    <style>
-        .nav-link:hover {
-            /* background-color: #495057; */
-            background-color: #3c4d56;
-            color: white;
-        }
-
-        .active {
-            background-color: #253239 !important; 
-        }
-
-        .cerrar-sesion:hover {
-            background-color: #ce2727;
-            color: white;
-        }
-    </style>
 </head>
 <body>
 <!-- 2f3e46 -->
@@ -158,12 +134,6 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
         </div>
 
 <!--  -->
-  
-<style>
-    .titulo {
-        color: #4a4a4a;
-    }
-</style>
 
 <div class="col-md col-12">
     <div class="card m-1 p-3" style="height:100%; height:95vh; background-color: #f9f9f9;">
