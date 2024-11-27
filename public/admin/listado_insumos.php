@@ -29,28 +29,6 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-<style>
-    .semaforo {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        display: inline-block;
-        border: 4px solid black; /* Agrega un borde negro */
-    }
-
-    .semaforo.rojo {
-        background-color: red;
-    }
-
-    .semaforo.amarillo {
-        background-color: yellow;
-    }
-
-    .semaforo.verde {
-        background-color: green;
-    }
-</style>
-
 <!-- Filtro de Área -->
 <div class="card col-11 row m-2 p-2 shadow">
     <div class="col-12 mb-3">
@@ -173,7 +151,9 @@
                         </span>
                     </td>
                     <td class="">
-                        <div class="semaforo <?php echo $colorSemaforo; ?>"></div>
+                        <div class="semaforo <?php echo $colorSemaforo; ?>">
+                            <span class="text-hidden"><?php echo $colorSemaforo; ?></span>
+                        </div>
                     </td>
                     <td>
                         <!-- Botón para abrir el modal -->
@@ -243,10 +223,6 @@
         $('#insumosTable').DataTable();
     });
 
-    // $(document).ready( function () {
-    //     $('#registroTable').DataTable();
-    // });
-
     $(document).ready(function() {
         var table = $('#insumosTable').DataTable();
 
@@ -261,13 +237,14 @@
     });
 
     $('#filtroSemaforo').on('change', function() {
-            var color = $(this).val();
-            if (color) {
-                table.columns(9).search(color, true, false).draw();
-            } else {
-                table.columns(9).search('').draw();
-            }
-        });
+        var table = $('#insumosTable').DataTable();
+        var color = $(this).val();
+        if (color) {
+            table.columns(9).search(color, true, false).draw();
+        } else {
+            table.columns(9).search('').draw();
+        }
+    });
 
 </script>
 
