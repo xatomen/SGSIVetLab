@@ -34,55 +34,74 @@
     $sentenciaSQL = $conn->prepare("SELECT * FROM area");
     $sentenciaSQL->execute();
     $listaAreas = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $areaUsuario = $empleado['ID_Area'];
+
 ?>
 
 <!-- Listado -->
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
-            <thead>
-                <h4 class="p-2">Listado de perfiles de muestra</h4>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>Tipo de muestra</td>
-                    <td>Área</td>
-                    <td>Componentes</td>
-                </tr>
-                <?php foreach($listaPerfilMuestra as $lista){?>
-                <tr>
-                    <td><?php echo $lista["PerfilID"] ?></td>
-                    <td><?php echo $lista['Tipo_de_muestra'] ?></td>
-                    <td><?php echo $lista['Area'] ?></td>
-                    <td>
-                        <?php foreach($componentes as $componente){
-                            foreach($insumos as $insumo){
-                                if($componente['ID_Muestra'] == $lista['PerfilID'] && $componente['ID_Insumo'] == $insumo['ID_Insumo']){ ?>
-                        <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Nombre</td>
-                                <td>Cantidad</td>
-                            </tr>
-                        </thead>    
+    <!-- Listado -->
+     <div class="row">
+        <div class="card col p-2 m-2 shadow">
+            <h4 class="p-2">Listado de perfiles de muestra</h4>
+            <hr>
+            <table id="tablaPerfiles" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo de muestra</th>
+                        <th>Área</th>
+                        <th>Componentes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($listaPerfilMuestra as $lista){
+                        if ($lista['ID_Area'] == $areaUsuario) { ?>
+                    <tr>
+                        <td><?php echo $lista["PerfilID"] ?></td>
+                        <td><?php echo $lista['Tipo_de_muestra'] ?></td>
+                        <td><?php echo $lista['Area'] ?></td>
+                        <td>
+                            <?php foreach($componentes as $componente){
+                                foreach($insumos as $insumo){
+                                    if($componente['ID_Muestra'] == $lista['PerfilID'] && $componente['ID_Insumo'] == $insumo['ID_Insumo']){ ?>
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Nombre</td>
+                                    <td>Cantidad</td>
+                                </tr>
+                            </thead>    
                             <tbody>
                                 <tr>
-                                    <td><?php echo $insumo['ID_Insumo']?></td>
-                                    <td><?php echo $insumo['Nombre']?></td>
-                                    <td><?php echo $componente['Cantidad']?></td>
+                                    <td><?php echo $insumo['ID_Insumo'] ?></td>
+                                    <td><?php echo $insumo['Nombre'] ?></td>
+                                    <td><?php echo $componente['Cantidad'] ?></td>
                                 </tr>
                             </tbody>
-                        </table>
-                        <?php }
-                            }
-                        } ?>
-                    </td>
-                </tr>
-                <?php }?>
-            </tbody>
-        </table>
-    </div>
+                            </table>
+                            <?php }}} ?>
+                        </td>
+                    </tr>
+                    <?php }} ?>
+                </tbody>
+            </table>
+        </div>
+     </div>
+
+
+<!-- Inicializa DataTables -->
+<script>
+$(document).ready(function() {
+    var table = $('#tablaPerfiles').DataTable();
+
+    // Aplica la búsqueda personalizada
+    $('#searchBox').on('keyup', function() {
+        table.search(this.value).draw();
+    });
+});
+</script>
 
 <?php
     include_once("../../src/footer.php");
