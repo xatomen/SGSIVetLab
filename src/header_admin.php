@@ -38,7 +38,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Estilos generados de manera manual -->
-    <link rel="stylesheet" type="text/css" href="../src/styles.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/SGSIVetLab/src/styles.css">
 
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
