@@ -37,9 +37,13 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     <!-- Incluye los archivos de Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <link rel="stylesheet" type="text/css" href="../src/styles.css">
+
     <style>
         body{
-            background-color: #80BFFF;
+            background-color: #a6d1e6;
+            /* background-color: #f7f9fa; */
+            /* background-color: #2f3e46; */
         }
         
     </style>
@@ -49,17 +53,27 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     </script>
     <style>
         .nav-link:hover {
-            background-color: #495057;
+            /* background-color: #495057; */
+            background-color: #3c4d56;
+            color: white;
+        }
+
+        .active {
+            background-color: #253239 !important; 
+        }
+
+        .cerrar-sesion:hover {
+            background-color: #ce2727;
             color: white;
         }
     </style>
 </head>
 <body>
-
+<!-- 2f3e46 -->
 <!--  -->
 <div class="row m-2">
         <div class="col-lg-2 col-12">
-            <div class="card m-1 p-3 text-bg-dark">
+            <div class="card m-1 p-3 text-white" style="background-color: #2f3e46">
                 <span class="fs-4 text-center">SGSI - VetLab</span>
                 <img src="http://localhost/SGSIVetLab/src/VetLab.png" alt="">
                 <hr>
@@ -135,7 +149,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white bg-danger">
+                        <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white cerrar-sesion">
                             <i class="fas fa-door-open"></i> Cerrar sesión y salir
                         </a>
                     </li>
@@ -145,17 +159,11 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 <!--  -->
   
-<div class="col-md col-12">
-    <div class="card m-1 p-3" style="height:100%; height:95vh;">
+<style>
+    .titulo {
+        color: #4a4a4a;
+    }
+</style>
 
-<!-- Botón dropdown -->
-<!-- <div class="dropdown">
-        <a class="nav-link text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-            Mantener
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="../admin/mantener_insumos.php">Mantener insumos</a></li>
-            <li><a class="dropdown-item" href="../admin/mantener_proveedores.php">Mantener proveedores</a></li>
-            <li><a class="dropdown-item" href="../admin/mantener_perfiles_muestra.php">Mantener perfiles de muestra</a></li>
-        </ul>
-    </div> -->
+<div class="col-md col-12">
+    <div class="card m-1 p-3" style="height:100%; height:95vh; background-color: #f9f9f9;">
