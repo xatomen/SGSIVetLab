@@ -49,25 +49,25 @@ if(empty($_SESSION['ID'])){
 
 <div class="row m-2">
         <div class="col-lg-2 col-12">
-            <div class="card m-1 p-3 text-bg-dark" style="background-color: #2f3e46">
+            <div class="card m-1 p-3 text-white" style="background-color: #2f3e46">
                 <span class="fs-4 text-center">SGSI - VetLab</span>
                 <img src="http://localhost/SGSIVetLab/src/VetLab.png" alt="">
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/user.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user.php"){echo "active";}?>">
-                        Inicio
+                            <i class="fas fa-home"></i> Inicio
                         </a>
                     </li>
                     <hr>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/user/utilizar_stock.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/utilizar_stock.php"){echo "active";}?>">
-                        Utilizar stock
+                            <i class="fas fa-box"></i>  Utilizar stock
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/user/perfiles_muestra.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/perfiles_muestra.php"){echo "active";}?>">
-                        Perfiles de muestra
+                            <i class="fas fa-vial"></i> Perfiles de muestra
                         </a>
                     </li>
 
@@ -75,7 +75,7 @@ if(empty($_SESSION['ID'])){
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/src/controlador_sesion.php" class="nav-link text-white cerrar-sesion">
-                        Cerrar sesión y salir
+                            <i class="fas fa-door-open"></i>    Cerrar sesión y salir
                         </a>
                     </li>
                 </ul>
