@@ -147,10 +147,14 @@
             <label for="txtNombreAgregar" class="form-label">Nombre</label>
             <input class="form-control" name="txtNombreAgregar" id="txtNombreAgregar" placeholder="Ingrese el nombre"></input>
           </div>
-          <!-- Area -->
+          <!-- Área -->
           <div class="mb-3">
             <label for="txtAreaAgregar" class="form-label">Área</label>
-            <input class="form-control" name="txtAreaAgregar" id="txtAreaAgregar" placeholder="Ingrese el área"></input>
+            <select class="form-control" name="txtAreaAgregar" id="txtAreaAgregar">
+              <?php foreach($listaAreas as $area) { ?>
+                <option value="<?php echo $area['ID']; ?>"><?php echo $area['Area']; ?></option>
+              <?php } ?>
+            </select>
           </div>
           <!-- Usuario -->
           <div class="mb-3">
