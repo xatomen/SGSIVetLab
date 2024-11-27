@@ -71,6 +71,11 @@ if(empty($_SESSION['ID'])){
                             <i class="fas fa-vial"></i> Perfiles de muestra
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white">
+                            Ver retiros realizados
+                        </a>
+                    </li>
 
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
