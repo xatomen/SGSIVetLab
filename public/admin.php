@@ -2,33 +2,6 @@
     require_once '../config/database.php';
     require_once '../src/header_admin.php';
 ?>
-<style>
-.btn-fixed-size {
-    width: 200px; /* Ajusta el tamaño según tus necesidades */
-    height: 200px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 5px; /* Ajusta el margen según tus necesidades */
-    background-color: #2f95a3;
-    color: white;
-}
-
-.btn-fixed-size i {
-    font-size: 3em; /* Ajusta el tamaño según tus necesidades */
-    margin-bottom: 10px; /* Espacio entre el ícono y el texto */
-}
-
-.btn-fixed-size:hover {
-    /* background-color: #2f95a3; */
-    /* background-color: #45c9dc; */
-    background-color: #36b3c4;
-    color: white;
-}
-</style>
-
 
 <?php 
 
@@ -59,59 +32,6 @@ $total_insumos_a_vencer = $insumos['total_insumos'];
 
 ?>
 
-<style>
-.card-personas {
-    /* background-color: #a39a2f; */
-    /* background-color: #f7cb73; */
-    background-color: #e9c46a;
-}
-.card-insumos {
-    /* background-color: #a32f2f; */
-    /* background-color: #982fa3; */
-    /* background-color: tomato; */
-    background-color: #7fb77e;
-}
-
-.card-otro {
-    background-color: #5dade2;
-}
-
-.card-alerta {
-    background-color: #f28a8a;
-}
-
-.card-custom {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centra horizontalmente */
-    /* background-color: #2f95a3; */
-    color: white;
-    padding: 20px;
-    margin: 10px;
-    text-align: center; /* Centra el texto */
-}
-
-.card-custom i {
-    font-size: 6em; /* Tamaño grande del ícono */
-    margin-right: 20px;
-}
-
-.card-custom .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-custom .content .number {
-    font-size: 4em; /* Tamaño del número */
-    font-weight: bold;
-}
-
-.card-custom .content .text {
-    font-size: 1.5em; /* Tamaño del texto */
-}
-</style>
 <div class="row justify-content-center p-2">
 
     <h2 class="titulo">Bienvenido</h2>
