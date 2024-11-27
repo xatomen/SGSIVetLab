@@ -414,8 +414,8 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre insumo</th>
-                <th>Cantidad</th>
                 <th>Área</th>
+                <th>Cantidad</th>
                 <th>Stock mínimo</th>
                 <th></th>
                 <th>Editar elemento</th>
