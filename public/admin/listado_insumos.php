@@ -182,7 +182,6 @@
                             <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        
 
                         <!-- Modal -->
                         <div class="modal fade" id="registroModal<?php echo $provee['ID_Provee'] ?>" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
@@ -194,7 +193,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="card p-4">
-                                <table class="table" id="registroTable">
+                                <table class="table" id="registroTable<?php echo $provee['ID_Provee'] ?>">
                                     <thead>
                                     <tr>
                                         <th>N° Registro</th>
@@ -219,6 +218,11 @@
                                     <?php } } ?>
                                     </tbody>
                                 </table>
+                                <script>
+                                    $(document).ready( function () {
+                                        $('#registroTable<?php echo $provee['ID_Provee'] ?>').DataTable();
+                                    });
+                                </script>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -239,9 +243,9 @@
         $('#insumosTable').DataTable();
     });
 
-    $(document).ready( function () {
-        $('#registroTable').DataTable();
-    });
+    // $(document).ready( function () {
+    //     $('#registroTable').DataTable();
+    // });
 
     $(document).ready(function() {
         var table = $('#insumosTable').DataTable();
