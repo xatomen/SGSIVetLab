@@ -5,13 +5,8 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 session_start();
 
-echo $_SESSION['Usuario'];
-echo $_SESSION['ID'];
-
-$sentenciaSQL = $conn->prepare("SELECT * FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
-$sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
-$sentenciaSQL->execute();
-$empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+// echo $_SESSION['Usuario'];
+// echo $_SESSION['ID'];
 
 
 if(empty($_SESSION['ID'])){
