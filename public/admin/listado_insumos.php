@@ -29,34 +29,41 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-<!-- Filtro de Área -->
-<div class="card col-11 row m-2 p-2 shadow">
-    <div class="col-12 mb-3">
-        <label for="filtroArea" class="form-label">Filtrar por Área:</label>
-        <select id="filtroArea" class="form-control">
-            <option value="">Todas las Áreas</option>
-            <?php foreach ($listaArea as $area): ?>
-                <option value="<?php echo $area['Area']; ?>"><?php echo $area['Area']; ?></option>
-            <?php endforeach; ?>
-        </select>
+<div class="card row m-2 p-2 shadow">
+    <h4 class="p-2">Filtros</h4>
+    <hr>
+    <div class="row">
+        <!-- Filtro de Área -->
+        <div class="card col p-2">
+            <div class="col-12 mb-3">
+                <label for="filtroArea" class="form-label">Filtrar por Área:</label>
+                <select id="filtroArea" class="form-control">
+                    <option value="">Todas las Áreas</option>
+                    <?php foreach ($listaArea as $area): ?>
+                        <option value="<?php echo $area['Area']; ?>"><?php echo $area['Area']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filtro de Semáforo -->
+        <div class="card col p-2">
+            <div class="col-12 mb-3">
+                <label for="filtroSemaforo" class="form-label">Filtrar por Semáforo:</label>
+                <select id="filtroSemaforo" class="form-control">
+                    <option value="">Todos los colores</option>
+                    <option value="rojo">Rojo</option>
+                    <option value="amarillo">Amarillo</option>
+                    <option value="verde">Verde</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Filtro de Semáforo -->
-<div class="card col-11 row m-2 p-2 shadow">
-    <div class="col-12 mb-3">
-        <label for="filtroSemaforo" class="form-label">Filtrar por Semáforo:</label>
-        <select id="filtroSemaforo" class="form-control">
-            <option value="">Todos los colores</option>
-            <option value="rojo">Rojo</option>
-            <option value="amarillo">Amarillo</option>
-            <option value="verde">Verde</option>
-        </select>
-    </div>
-</div>
 
 <!-- Listado -->
-<div class="card col-11 row m-2 p-2 shadow">
+<div class="card col row m-2 p-2 shadow">
     <table id="insumosTable" class="table">
         <thead>
             <h4 class="p-2">Listado de insumos</h4>
