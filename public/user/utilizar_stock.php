@@ -13,7 +13,7 @@
 
     date_default_timezone_set('America/Santiago');
     $txtFecha = date('Y-m-d H:i:s'); // Formato: Año-Mes-Día Hora:Minuto:Segundo
-    echo $txtFecha;
+    // echo $txtFecha;
 
     switch ($accion){
         
@@ -74,7 +74,25 @@
     $sentenciaSQL->execute();
     $listaProvee=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-    
+    $sentenciaSQL = $conn->prepare("SELECT * FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
+    $sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
+    $sentenciaSQL->execute();
+    $empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+
+    $areaUsuario = $empleado['ID_Area'];
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM registro_insumo");
+    $sentenciaSQL->execute();
+    $listaRegistro=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM area");
+    $sentenciaSQL->execute();
+    $listaArea=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentenciaSQL= $conn->prepare("SELECT * FROM proveedor");
+    $sentenciaSQL->execute();
+    $listaProveedores=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 <!-- Agregar y modificar -->
@@ -130,32 +148,126 @@
 <!-- Fin -->
 
 <!-- Listado -->
-    <div class="card row m-5 shadow overflow-scroll">
-        <table class="table table-bordered">
+    <div class="card col row m-5 shadow">
+        <h4 class="p-2">Listado de insumos</h4>
+        <hr>
+        <table id="insumosTable" class="table">
             <thead>
-                <h4 class="p-2">Listado de insumos</h4>
+                <tr>
+                    <th>Código Único</th>
+                    <th>Insumo</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Descripcion</th>
+                    <th>Presentación</th>
+                    <th>Área</th>
+                    <th>Proveedor</th>
+                    <th>Fecha de vencimeinto próxima</th>
+                    <th>Semáforo</th>
+                </tr>                
             </thead>
             <tbody>
+                <?php foreach($listaProvee as $provee){ if($areaUsuario == $provee['ID_Area']){?>
                 <tr>
-                    <td>ID</td>
-                    <td>Nombre insumo</td>
-                    <td>Cantidad</td>
-                    <td>Stock mínimo</td>
+                    <td><?php echo $provee['Codigo_Insumo'] ?></td>
+                    <td>
+                        <?php 
+                            foreach($listaInsumos as $insumo) {
+                                if($insumo['ID'] == $provee['ID_Insumo']) {
+                                    echo $insumo['Nombre'];
+                                    break;
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td><?php echo $provee['Cantidad'] ?></td>
+                    <td><?php echo $provee['Precio'] ?></td>
+                    <td><?php echo $provee['Descripcion'] ?></td>
+                    <td><?php echo $provee['Presentacion'] ?></td>
+                    <td class="area">
+                        <?php 
+                            foreach($listaArea as $area) {
+                                if($area['ID'] == $provee['ID_Area']) {
+                                    echo $area['Area'];
+                                    break;
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                            foreach($listaProveedores as $proveedor) {
+                                if($proveedor['ID'] == $provee['ID_Proveedor']) {
+                                    echo $proveedor['Nombre'];
+                                    break;
+                                }
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                            $fechaVencimiento = "";
+                            $fechaActual = new DateTime();
+                            $fechaMinima = null;
+
+                            foreach($listaRegistro as $registro) {
+                                if($registro['ID_Provee'] == $provee['ID_Provee']) {
+                                    $fechaVenc = new DateTime($registro['Fecha_vencimiento']);
+                                    if ($fechaMinima === null || $fechaVenc < $fechaMinima) {
+                                        $fechaMinima = $fechaVenc;
+                                    }
+                                }
+                            }
+
+                            if ($fechaMinima !== null) {
+                                $diferencia = $fechaActual->diff($fechaMinima)->days;
+                                if ($diferencia <= 7) {
+                                    $claseVencimiento = 'vencimiento-proximo';
+                                    $colorSemaforo = 'rojo';
+                                } elseif ($diferencia >= 8 && $diferencia <= 15) {
+                                    $claseVencimiento = 'vencimiento-cercano';
+                                    $colorSemaforo = 'amarillo';
+                                } else {
+                                    $claseVencimiento = '';
+                                    $colorSemaforo = 'verde';
+                                }
+                                $fechaVencimiento = $fechaMinima->format('Y-m-d');
+                            } else {
+                                $claseVencimiento = '';
+                                $colorSemaforo = '';
+                            }
+                        ?>
+                        <span class="<?php echo $claseVencimiento; ?>">
+                            <?php echo $fechaVencimiento; ?>
+                        </span>
+                    </td>
+                    <td class="">
+                        <div class="semaforo <?php echo $colorSemaforo; ?>">
+                            <span class="text-hidden"><?php echo $colorSemaforo; ?></span>
+                        </div>
+                    </td>
                 </tr>
-                <?php foreach($listaInsumos as $lista){?>
-                <tr>
-                    <td><?php echo $lista['ID'] ?></td>
-                    <td><?php echo $lista['Nombre'] ?></td>
-                    <td><?php echo $lista['Cantidad'] ?></td>
-                    <td><?php echo $lista['Stock_minimo'] ?></td>
-                </tr>
-                <?php }?>
+                <?php }} ?>
             </tbody>
         </table>
     </div>
 
-</div>
+    </div>
 
-<?php
-    require_once '../../src/footer.php';
-?>
+    <?php
+        require_once '../../src/footer.php';
+    ?>
+
+    <script>
+        $(document).ready(function() {
+            // Inicializa DataTables
+            var table = $('#insumosTable').DataTable();
+
+            // Aplica la búsqueda al textbox
+            $('#searchBox').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
+</body>
+</html>
