@@ -35,6 +35,11 @@
     $sentenciaSQL->execute();
     $listaAreas = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
+    $sentenciaSQL = $conn->prepare("SELECT * FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
+    $sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
+    $sentenciaSQL->execute();
+    $empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+
     $areaUsuario = $empleado['ID_Area'];
 
 ?>
