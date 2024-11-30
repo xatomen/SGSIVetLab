@@ -15,50 +15,42 @@
     $txtFecha = date('Y-m-d H:i:s'); // Formato: Año-Mes-Día Hora:Minuto:Segundo
     // echo $txtFecha;
 
+    $txtCodigoUnico = (isset($_POST['txtCodigoUnico']))?$_POST['txtCodigoUnico']:"";
+
     switch ($accion){
         
         case "Usar":
 
-            // Para obtener la ID del insumo, debemos leer el Código del Insumo del proveedor (tabla Provee)
-            $sentenciaSQL = $conn->prepare("SELECT ID_Insumo FROM Provee WHERE Codigo_Insumo = :Codigo_Insumo");
-            $sentenciaSQL->bindParam(':Codigo_Insumo', $txtCodigoInsumo);   
-            $sentenciaSQL->execute();
-            // Recuperamos el ID
-            $txtID = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $txtID = $txtID['ID_Insumo'];
-            echo $txtID;
-
-            // Debemos crear un registro en la tabla registro_insumo
-            $sentenciaSQL = $conn->prepare("SELECT MAX(ID_Insumo_Empleado) AS lastIndex FROM insumo_usado_empleado");
-            $sentenciaSQL->execute();
-            $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
-            $lastindex = $resultado['lastIndex']+1;
-
-            $sentenciaSQL = $conn->prepare("INSERT INTO insumo_usado_empleado (ID_Insumo_Empleado, Fecha, Cantidad, ID_Empleado, ID_Insumo) VALUES (:ID_Insumo_Empleado, :Fecha, :Cantidad, :ID_Empleado, :ID_Insumo)");
-
-            // Indicamos la ID del registro
-            $sentenciaSQL->bindParam(":ID_Insumo_Empleado", $lastindex);
-
-            // Debemos indicar la fecha
-            $sentenciaSQL->bindParam(':Fecha', $txtFecha);
-
-            // Debemos indicar la cantidad de insumos
-            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);        
-            
-            // Debemos indicar el ID del administrador
-            $txtIDAdministrador = 1;
-            $sentenciaSQL->bindParam(":ID_Empleado", $_SESSION['ID']);
-
-            // Debemos indicar el ID del insumo
-            $sentenciaSQL->bindParam(':ID_Insumo', $txtID);        
-
-            // Ejecutamos la sentencia SQL
+            // Debemos decrementar la cantidad actual de insumos en la tabla registro_insumos
+            $sentenciaSQL = $conn->prepare("UPDATE registro_insumo SET Cantidad_actual = Cantidad_actual - :Cantidad_actual WHERE Codigo_unico = :Codigo_unico");
+            $sentenciaSQL->bindParam(':Cantidad_actual', $txtCantidad);
+            $sentenciaSQL->bindParam(':Codigo_unico', $txtCodigoUnico);
             $sentenciaSQL->execute();
 
-            // Ahora debemos incrementar la cantidad de insumos en la tabla insumos
+            // Debemos encontrar el ID Provee del registro_insumo
+            $sentenciaSQL = $conn->prepare("SELECT * FROM registro_insumo WHERE Codigo_unico = :Codigo_unico");
+            $sentenciaSQL->bindParam(':Codigo_unico', $txtCodigoUnico);
+            $sentenciaSQL->execute();
+            $registroInsumo = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $txtIDProvee = $registroInsumo['ID_Provee'];
+
+            // Ahora debemos decrementar la cantidad actual de insumos en la tabla Provee
+            $sentenciaSQL = $conn->prepare("UPDATE Provee SET Cantidad = Cantidad - :Cantidad WHERE ID_Provee = :ID_Provee");
+            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+            $sentenciaSQL->execute();
+
+            // Debemos encontrar el ID del insumo de la tabla Provee
+            $sentenciaSQL = $conn->prepare("SELECT * FROM Provee WHERE ID_Provee = :ID_Provee");
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+            $sentenciaSQL->execute();
+            $insumo = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $txtIDInsumo = $insumo['ID_Insumo'];
+
+            // Ahora debemos decrementar la cantidad actual de insumos en la tabla insumo
             $sentenciaSQL = $conn->prepare("UPDATE insumo SET Cantidad = Cantidad - :Cantidad WHERE ID = :ID");
-            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad); 
-            $sentenciaSQL->bindParam(':ID', $txtID); 
+            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);
+            $sentenciaSQL->bindParam(':ID', $txtIDInsumo);
             $sentenciaSQL->execute();
 
             header("Location: http://localhost/SGSIVetLab/public/user/utilizar_stock.php");
@@ -105,12 +97,12 @@
                     <h4 class="text-center">Usar insumo</h4>
                     <hr>
                     <form method="POST">
-                        <!-- ID -->
+                        <!-- ID único -->
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="txtCodigoInsumo" class="form-label">ID Insumo Proveedor</label>
-                                    <input type="text" class="form-control" name="txtCodigoInsumo" id="txtCodigoInsumo" value="<?php echo $txtCodigoInsumo ?>" placeholder="Ingrese el código">
+                                    <label for="txtCodigoUnico" class="form-label">ID Insumo Proveedor</label>
+                                    <input type="text" class="form-control" name="txtCodigoUnico" id="txtCodigoUnico" value="<?php echo $txtCodigoUnico ?>" placeholder="Ingrese el código">
                                 </div>
                             </div>
                         </div>
