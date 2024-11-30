@@ -40,7 +40,7 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
 
-            $sentenciaSQL = $conn->prepare("INSERT INTO registro_insumo (ID_Registro_Insumo, Codigo_unico, Numero_lote, Fecha_recibo, Fecha_vencimiento, Cantidad, ID_Administrador, ID_Provee) VALUES (:ID_Registro_Insumo, :Codigo_unico, :Numero_lote, :Fecha_recibo, :Fecha_vencimiento, :Cantidad, :ID_Administrador, :ID_Provee)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO registro_insumo (ID_Registro_Insumo, Codigo_unico, Numero_lote, Fecha_recibo, Fecha_vencimiento, Cantidad, Cantidad_actual, ID_Administrador, ID_Provee) VALUES (:ID_Registro_Insumo, :Codigo_unico, :Numero_lote, :Fecha_recibo, :Fecha_vencimiento, :Cantidad, :Cantidad_actual, :ID_Administrador, :ID_Provee)");
 
             // Indicamos la ID del registro
             $sentenciaSQL->bindParam(":ID_Registro_Insumo", $lastindex);
@@ -61,7 +61,10 @@
 
             // Debemos indicar la cantidad de insumos
             $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);        
-            
+
+            // Debemos indicar la cantidad actual de insumos
+            $sentenciaSQL->bindParam(':Cantidad_actual', $txtCantidad);
+
             // Debemos indicar el ID del administrador
             $txtIDAdministrador = 1;
             $sentenciaSQL->bindParam(":ID_Administrador", $txtIDAdministrador);
