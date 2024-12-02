@@ -15,7 +15,7 @@
 
     date_default_timezone_set('America/Santiago');
     $txtFecha = date('Y-m-d H:i:s'); // Formato: Año-Mes-Día Hora:Minuto:Segundo
-    echo $txtFecha;
+    // echo $txtFecha;
 
     switch ($accion){
         
