@@ -187,22 +187,25 @@
                                         <th>Código único</th>
                                         <th>N° Lote</th>
                                         <th>Cantidad</th>
+                                        <th>Cantidad actual</th>
                                         <th>Fecha recibo</th>
                                         <th>Fecha vencimeinto</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php foreach($listaRegistro as $registro){
-                                        if($registro['ID_Provee'] == $provee['ID_Provee']){ ?>
+                                        if($registro['ID_Provee'] == $provee['ID_Provee']){ 
+                                            if($registro['Cantidad_actual']>0){?>
                                         <tr>
                                             <td><?php echo $registro['ID_Registro_Insumo'] ?></td>
                                             <td><?php echo $registro['Codigo_unico'] ?></td>
                                             <td><?php echo $registro['Numero_lote'] ?></td>
                                             <td><?php echo $registro['Cantidad'] ?></td>
+                                            <td><?php echo $registro['Cantidad_actual'] ?></td>
                                             <td><?php echo $registro['Fecha_recibo'] ?></td>
                                             <td><?php echo $registro['Fecha_vencimiento'] ?></td>
                                         </tr>
-                                    <?php } } ?>
+                                    <?php } } } ?>
                                     </tbody>
                                 </table>
                                 <script>
