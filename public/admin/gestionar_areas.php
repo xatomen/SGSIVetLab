@@ -107,51 +107,51 @@
                 <td>
                     <form method="POST">
                         <input type="hidden" name="txtIDArea" value="<?php echo $area['ID']; ?>">
-                        <div class="btn-group" role="group">
-                            <!-- Botón para abrir el modal -->
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editarInsumoModal<?php echo $area['ID']; ?>">
-                            <i class="fas fa-edit"></i>
-                            </button>
-
-                            <!-- Modal para editar insumo -->
-                            <div class="modal fade" id="editarInsumoModal<?php echo $area['ID']; ?>" tabindex="-1" aria-labelledby="editarInsumoModal" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="agregarAreaModalLabel">Cargar insumo</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST">
-                                                <!-- ID Área -->
-                                                <input type="hidden" name="txtIDArea" value="<?php echo $area['ID']; ?>">
-                                                <!-- Nombre área -->
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="mb-3">
-                                                            <label for="txtArea" class="form-label">Nombre Área</label>
-                                                            <input type="text" class="form-control" name="txtArea" id="txtArea" value="<?php echo $area['Area'] ?>" placeholder="Ingrese el nombre del área">
+                        <div class="row m-0">
+                            <div class="btn-group" role="group">
+                                <!-- Botón para abrir el modal -->
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editarInsumoModal<?php echo $area['ID']; ?>">
+                                <i class="fas fa-edit"></i>
+                                </button>
+                                <!-- Botón para eliminar área -->
+                                <button type="submit" name="accion" value="Eliminar" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <!-- Modal para editar área -->
+                                <div class="modal fade" id="editarInsumoModal<?php echo $area['ID']; ?>" tabindex="-1" aria-labelledby="editarInsumoModal" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="agregarAreaModalLabel">Cargar insumo</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <!-- ID Área -->
+                                                    <input type="hidden" name="txtIDArea" value="<?php echo $area['ID']; ?>">
+                                                    <!-- Nombre área -->
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="mb-3">
+                                                                <label for="txtArea" class="form-label">Nombre Área</label>
+                                                                <input type="text" class="form-control" name="txtArea" id="txtArea" value="<?php echo $area['Area'] ?>" placeholder="Ingrese el nombre del área">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <!-- Editar área -->
-                                                <div class="row">
-                                                    <div class="text-center">
-                                                        <input class="btn btn-warning" type="submit" value="Editar" name="accion">
+                                                    <!-- Editar área -->
+                                                    <div class="row">
+                                                        <div class="text-center">
+                                                            <input class="btn btn-warning" type="submit" value="Editar" name="accion">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <button type="submit" name="accion" value="Eliminar" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
                         </div>
+                        
                     </form>
                 </td>
             </tr>
