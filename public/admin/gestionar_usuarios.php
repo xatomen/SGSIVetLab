@@ -179,7 +179,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <!-- Listado -->
-<div class="card row m-2 p-2 shadow overflow-scroll">
+<div class="card col m-2 p-2 shadow">
     <!-- Botón para abrir el modal -->
     <h4 class="p-2">Listado de usuarios</h4>
     <hr>
