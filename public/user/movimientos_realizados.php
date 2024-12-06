@@ -26,7 +26,9 @@
                 <th>ID</th>
                 <th>Fecha</th>
                 <th>Usuario</th>
-                <th>Descripción</th>
+                <th>ID Insumo</th>
+                <th>Nombre Insumo</th>
+                <th>Código Único</th>
                 <th>Cantidad</th>
             </tr>
         </thead>
@@ -35,7 +37,7 @@
             <tr>
                 <td><?php echo $movimiento['ID_Insumo_Empleado']; ?></td>
                 <td><?php echo $movimiento['Fecha']; ?></td>
-                <td><?php echo $movimiento['ID_empleado']; ?></td>
+                <td><?php echo $movimiento['ID_Empleado']; ?></td>
                 <td><?php echo $movimiento['ID_Provee']; ?></td>
                 <td>
                     <?php
@@ -46,6 +48,7 @@
                         }
                     ?>
                 </td>
+                <td><?php echo $movimiento['Codigo_unico']; ?></td>
                 <td><?php echo $movimiento['Cantidad']; ?></td>
             </tr>
             <?php } ?>
@@ -55,7 +58,9 @@
 
 <script>
     $(document).ready(function() {
-        $('#tablaMovimientos').DataTable();
+        $('#tablaMovimientos').DataTable({
+            "searching": true // Habilita el cuadro de búsqueda
+        });
     });
 </script>
 
