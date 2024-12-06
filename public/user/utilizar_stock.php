@@ -54,10 +54,11 @@
             $sentenciaSQL->execute();
 
             // Ahora debemos crear el registro en la tabla insumo_usado_empleado
-            $sentenciaSQL = $conn->prepare("INSERT INTO insumo_usado_empleado (ID_Empleado, ID_Provee, Cantidad, Fecha) VALUES (:ID_Empleado, :ID_Provee, :Cantidad, :Fecha)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO insumo_usado_empleado (ID_Empleado, ID_Provee, Cantidad, Codigo_unico, Fecha) VALUES (:ID_Empleado, :ID_Provee, :Cantidad, :Codigo_unico, :Fecha)");
             $sentenciaSQL->bindParam(':ID_Empleado', $_SESSION['ID']);
             $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
             $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);
+            $sentenciaSQL->bindParam(':Codigo_unico', $txtCodigoUnico);
             $sentenciaSQL->bindParam(':Fecha', $txtFecha);
             $sentenciaSQL->execute();
 
