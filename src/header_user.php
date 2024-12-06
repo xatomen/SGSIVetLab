@@ -56,6 +56,12 @@ if(empty($_SESSION['ID'])){
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
+                        <span class="nav-link text-white">
+                            <i class="fas fa-user"></i> <?php echo $_SESSION['Usuario']; ?>
+                        </span>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/user.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user.php"){echo "active";}?>">
                             <i class="fas fa-home"></i> Inicio
                         </a>
@@ -72,8 +78,8 @@ if(empty($_SESSION['ID'])){
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white">
-                            Ver retiros realizados
+                    <a href="http://localhost/SGSIVetLab/public/user/movimientos_realizados.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/user/movimientos_realizados.php"){echo "active";}?>">
+                        <i class="fas fa-exchange-alt"></i> Movimientos realizados
                         </a>
                     </li>
 
