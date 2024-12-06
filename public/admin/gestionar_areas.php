@@ -10,18 +10,33 @@
 
     switch($accion){
         case "Agregar":
+            // Debemos encontrar el último ID de la tabla area y sumarle 1 para obtener la ID nueva
+            $sentenciaSQL = $conn->prepare("SELECT MAX(ID) AS ID FROM area");
+            $sentenciaSQL->execute();
+            $ID = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $txtIDArea = $ID['ID'] + 1;
+
             $sentenciaSQL = $conn->prepare("INSERT INTO area (ID, Area) VALUES (:ID, :Area)");
             $sentenciaSQL->bindParam(':ID', $txtIDArea);
             $sentenciaSQL->bindParam(':Area', $txtArea);
             $sentenciaSQL->execute();
             header("Location: gestionar_areas.php");
-            break;
+            exit();
 
         case "Modificar":
-            break;
+            $sentenciaSQL = $conn->prepare("UPDATE area SET Area = :Area WHERE ID = :ID");
+            $sentenciaSQL->bindParam(':ID', $txtIDArea);
+            $sentenciaSQL->bindParam(':Area', $txtArea);
+            $sentenciaSQL->execute();
+            header("Location: gestionar_areas.php");
+            exit();
 
         case "Eliminar":
-            break;
+            $sentenciaSQL = $conn->prepare("DELETE FROM area WHERE ID = :ID");
+            $sentenciaSQL->bindParam(':ID', $txtIDArea);
+            $sentenciaSQL->execute();
+            header("Location: gestionar_areas.php");
+            exit();
     }
 
     $sentenciaSQL = $conn->prepare("SELECT * FROM area");
@@ -53,15 +68,6 @@
                     </div>
                     <div class="modal-body">
                         <form method="POST">
-                            <!-- ID -->
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="txtIDArea" class="form-label">ID Área</label>
-                                        <input type="text" class="form-control" name="txtIDArea" id="txtIDArea" value="<?php echo $txtIDArea ?>" placeholder="Ingrese el ID">
-                                    </div>
-                                </div>
-                            </div>
                             <!-- Nombre área -->
                             <div class="row">
                                 <div class="col">
@@ -97,14 +103,17 @@
                 <td><?php echo $area['ID']; ?></td>
                 <td><?php echo $area['Area']; ?></td>
                 <td>
-                    <div class="btn-group" role="group">
-                        <a href="editar_area.php?ID_Area=<?php echo $area['ID']; ?>" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="eliminar_area.php?ID_Area=<?php echo $area['ID']; ?>" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
-                    </div>
+                    <form method="POST" style="display:inline-block;">
+                        <input type="hidden" name="txtIDArea" value="<?php echo $area['ID']; ?>">
+                        <div class="btn-group" role="group">
+                            <button type="submit" name="accion" value="Modificar" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="submit" name="accion" value="Eliminar" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </form>
                 </td>
             </tr>
             <?php } ?>
