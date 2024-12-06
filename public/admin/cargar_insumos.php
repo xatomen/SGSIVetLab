@@ -181,47 +181,104 @@
         </div>
 
         <div class="col-5 card p-2">
-        <table id="insumosTable" class="table">
-            <h4 class="p-2">Listado de insumos</h4>
-            <hr>
-            <thead>
-                <tr>
-                    <th>Código Insumo</th>
-                    <th>Proveedor</th>
-                    <th>Área</th>
-                    <th>Nombre insumo</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <?php foreach($listaProvee as $provee){?>
-                <tr>
-                    <td><?php echo $provee['Codigo_Insumo'] ?></td>
-                    <td>
-                        <?php
-                            foreach($listaProveedor as $proveedor){
-                                if($proveedor['ID']==$provee['ID_Proveedor']){
-                                    echo $proveedor['Nombre'];
-                                }
-                            }
-                        ?>
-                    <td>
-                        <?php
-                            foreach($listaArea as $area){
-                                if($area['ID']==$provee['ID_Area']){
-                                    echo $area['Area'];
-                                }
-                            }
-                        ?>
-                    </td>
-                    <td><?php echo $provee['Descripcion']." - ".$provee['Presentacion'] ?></td>
-                    <td><?php echo $provee['Cantidad'] ?></td>
-                </tr>
-                <?php }?>
-            </tbody>
-        </table>
+    <h4 class="p-2">Listado de insumos</h4>
+    <hr>
+    <!-- Filtros -->
+    <div class="row mb-3">
+        <div class="col">
+            <label for="filtroProveedor" class="form-label">Proveedor</label>
+            <select class="form-control" id="filtroProveedor" onchange="filtrarTabla()">
+                <option value="">Todos</option>
+                <?php foreach($listaProveedor as $proveedor) { ?>
+                    <option value="<?php echo $proveedor['Nombre']; ?>"><?php echo $proveedor['Nombre']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col">
+            <label for="filtroArea" class="form-label">Área</label>
+            <select class="form-control" id="filtroArea" onchange="filtrarTabla()">
+                <option value="">Todas</option>
+                <?php foreach($listaArea as $area) { ?>
+                    <option value="<?php echo $area['Area']; ?>"><?php echo $area['Area']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col">
+            <label for="filtroNombreInsumo" class="form-label">Nombre de Insumo</label>
+            <input type="text" class="form-control" id="filtroNombreInsumo" placeholder="Nombre de Insumo" onkeyup="filtrarTabla()">
+        </div>
     </div>
+    <!-- Tabla de insumos -->
+    <table id="insumosTable" class="table">
+        <thead>
+            <tr>
+                <th>Código Insumo</th>
+                <th>Proveedor</th>
+                <th>Área</th>
+                <th>Nombre insumo</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($listaProvee as $provee) { ?>
+            <tr>
+                <td><?php echo $provee['Codigo_Insumo']; ?></td>
+                <td>
+                    <?php
+                    foreach($listaProveedor as $proveedor) {
+                        if($proveedor['ID'] == $provee['ID_Proveedor']) {
+                            echo $proveedor['Nombre'];
+                        }
+                    }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    foreach($listaArea as $area) {
+                        if($area['ID'] == $provee['ID_Area']) {
+                            echo $area['Area'];
+                        }
+                    }
+                    ?>
+                </td>
+                <td><?php echo $provee['Descripcion']." - ".$provee['Presentacion']; ?></td>
+                <td><?php echo $provee['Cantidad']; ?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function filtrarTabla() {
+    var filtroProveedor = document.getElementById('filtroProveedor').value.toLowerCase();
+    var filtroArea = document.getElementById('filtroArea').value.toLowerCase();
+    var filtroNombreInsumo = document.getElementById('filtroNombreInsumo').value.toLowerCase();
+    var tabla = document.getElementById('insumosTable');
+    var filas = tabla.getElementsByTagName('tr');
+
+    for (var i = 1; i < filas.length; i++) {
+        var celdas = filas[i].getElementsByTagName('td');
+        var proveedor = celdas[1].textContent.toLowerCase();
+        var area = celdas[2].textContent.toLowerCase();
+        var nombreInsumo = celdas[3].textContent.toLowerCase();
+        var mostrarFila = true;
+
+        if (filtroProveedor && proveedor.indexOf(filtroProveedor) === -1) {
+            mostrarFila = false;
+        }
+        if (filtroArea && area.indexOf(filtroArea) === -1) {
+            mostrarFila = false;
+        }
+        if (filtroNombreInsumo && nombreInsumo.indexOf(filtroNombreInsumo) === -1) {
+            mostrarFila = false;
+        }
+
+        filas[i].style.display = mostrarFila ? '' : 'none';
+    }
+}
+</script>
+
         <div class="col-xl"></div>
 </div>
 
