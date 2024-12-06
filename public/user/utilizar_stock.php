@@ -53,6 +53,14 @@
             $sentenciaSQL->bindParam(':ID', $txtIDInsumo);
             $sentenciaSQL->execute();
 
+            // Ahora debemos crear el registro en la tabla insumo_usado_empleado
+            $sentenciaSQL = $conn->prepare("INSERT INTO insumo_usado_empleado (ID_Empleado, ID_Provee, Cantidad, Fecha) VALUES (:ID_Empleado, :ID_Provee, :Cantidad, :Fecha)");
+            $sentenciaSQL->bindParam(':ID_Empleado', $_SESSION['ID']);
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+            $sentenciaSQL->bindParam(':Cantidad', $txtCantidad);
+            $sentenciaSQL->bindParam(':Fecha', $txtFecha);
+            $sentenciaSQL->execute();
+
             header("Location: http://localhost/SGSIVetLab/public/user/utilizar_stock.php");
             exit();
     
