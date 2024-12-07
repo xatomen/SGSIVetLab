@@ -1,9 +1,28 @@
+.icon-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.icon-number i {
+    margin-right: 10px; /* Ajusta el espacio entre el ícono y el número */
+}
+
+.number {
+    font-size: 1.5em; /* Ajusta el tamaño del número según sea necesario */
+}
+
+.text {
+    text-align: center;
+    margin-top: 10px; /* Ajusta el espacio entre el número y el texto */
+}
 
 .card-personas {
     /* background-color: #a39a2f; */
     /* background-color: #f7cb73; */
-    background-color: #e9c46a;
+    /* background-color: #e9c46a; */
+    background-color: #f7a278;
+    /* background-color: #D98E73; */
 }
 .card-insumos {
     /* background-color: #a32f2f; */
@@ -20,13 +39,18 @@
     background-color: #f28a8a;
 }
 
+.card-alerta-insumo {
+    /* background-color: #cf8af2; */
+    background-color: #e9c46a;
+}
+
 .card-custom {
     display: flex;
     align-items: center;
     justify-content: center; /* Centra horizontalmente */
     /* background-color: #2f95a3; */
     color: white;
-    padding: 20px;
+    padding: 30px;
     margin: 10px;
     text-align: center; /* Centra el texto */
 }
