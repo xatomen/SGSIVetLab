@@ -18,6 +18,10 @@
     $sentenciaSQL->execute();
     $listaProvee = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
+    $sentenciaSQL = $conn->prepare("SELECT * FROM proveedor;");
+    $sentenciaSQL->execute();
+    $listaProveedores = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- Incluye las librerías de DataTables -->
@@ -33,11 +37,12 @@
             <tr>
                 <th>ID</th>
                 <th>Fecha</th>
-                <th>Usuario</th>
+                <th>Nombre</th>
                 <th>ID Insumo</th>
                 <th>Nombre Insumo</th>
                 <th>Código Único</th>
                 <th>Cantidad</th>
+                <th>Proveedor</th>
             </tr>
         </thead>
         <tbody>
@@ -45,19 +50,33 @@
             <tr>
                 <td><?php echo $movimiento['ID_Insumo_Empleado']; ?></td>
                 <td><?php echo $movimiento['Fecha']; ?></td>
-                <td><?php echo $movimiento['ID_Empleado']; ?></td>
+                <td><?php echo $empleado['Nombre']; ?></td>
                 <td><?php echo $movimiento['ID_Provee']; ?></td>
                 <td>
                     <?php
                         foreach($listaProvee as $provee){
                             if($provee['ID_Provee'] == $movimiento['ID_Provee']){
-                                echo $provee['Descripcion'];
+                                echo $provee['Descripcion']." - ".$provee['Presentacion'];
                             }
                         }
                     ?>
                 </td>
                 <td><?php echo $movimiento['Codigo_unico']; ?></td>
                 <td><?php echo $movimiento['Cantidad']; ?></td>
+                <td>
+                    <?php
+                        foreach($listaProvee as $provee){
+                            if($provee['ID_Provee'] == $movimiento['ID_Provee']){
+                                $idProveedor = $provee['ID_Proveedor'];
+                                foreach($listaProveedores as $proveedor){
+                                    if($proveedor['ID'] == $idProveedor){
+                                        echo $proveedor['Nombre'];
+                                    }
+                                }
+                            }
+                        }
+                    ?>
+                </td>
             </tr>
             <?php } ?>
         </tbody>
