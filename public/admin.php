@@ -134,6 +134,15 @@ $total_insumos_a_vencer = $insumos['total_insumos'];
         </div>
         <div class="col-xl"></div>
     </div>
+    <div class="row m-2">
+    <div class="col-xl"></div>
+        <div class="col-auto">
+            <a href="http://localhost/SGSIVetLab/public/admin/gestionar_areas.php" class="btn m-1 btn-fixed-size <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
+                <i class="fas fa-id-card-clip"></i><br>Gestionar áreas
+            </a>
+        </div>
+        <div class="col-xl"></div>
+    </div>
 </div>
 
 <?php
