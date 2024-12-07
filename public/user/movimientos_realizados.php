@@ -38,11 +38,11 @@
                 <th>ID</th>
                 <th>Fecha</th>
                 <th>Nombre</th>
-                <th>ID Insumo</th>
-                <th>Nombre Insumo</th>
+                <th>Proveedor</th>
+                <th>Código proveedor</th>
+                <th>Insumo</th>
                 <th>Código Único</th>
                 <th>Cantidad</th>
-                <th>Proveedor</th>
             </tr>
         </thead>
         <tbody>
@@ -51,18 +51,6 @@
                 <td><?php echo $movimiento['ID_Insumo_Empleado']; ?></td>
                 <td><?php echo $movimiento['Fecha']; ?></td>
                 <td><?php echo $empleado['Nombre']; ?></td>
-                <td><?php echo $movimiento['ID_Provee']; ?></td>
-                <td>
-                    <?php
-                        foreach($listaProvee as $provee){
-                            if($provee['ID_Provee'] == $movimiento['ID_Provee']){
-                                echo $provee['Descripcion']." - ".$provee['Presentacion'];
-                            }
-                        }
-                    ?>
-                </td>
-                <td><?php echo $movimiento['Codigo_unico']; ?></td>
-                <td><?php echo $movimiento['Cantidad']; ?></td>
                 <td>
                     <?php
                         foreach($listaProvee as $provee){
@@ -77,6 +65,26 @@
                         }
                     ?>
                 </td>
+                <td>
+                    <?php
+                        foreach($listaProvee as $provee){
+                            if($provee['ID_Provee'] == $movimiento['ID_Provee']){
+                                echo $provee['Codigo_Insumo'];
+                            }
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        foreach($listaProvee as $provee){
+                            if($provee['ID_Provee'] == $movimiento['ID_Provee']){
+                                echo $provee['Descripcion']." - ".$provee['Presentacion'];
+                            }
+                        }
+                    ?>
+                </td>
+                <td><?php echo $movimiento['Codigo_unico']; ?></td>
+                <td><?php echo $movimiento['Cantidad']; ?></td>
             </tr>
             <?php } ?>
         </tbody>
