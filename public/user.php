@@ -2,8 +2,15 @@
     require_once '../config/database.php';
     require_once '../src/header_user.php';
 
+    // Ahora debemos buscar el ID del empleado considerando el ID de credenciales
+    $sentenciaSQL = $conn->prepare("SELECT * FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
+    $sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
+    $sentenciaSQL->execute();
+    $empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+    $txtIDEmpleado = $empleado['ID'];
+
     $sentenciaSQL = $conn->prepare("SELECT SUM(Cantidad) AS total_insumos FROM insumo_usado_empleado WHERE ID_Empleado = :ID_Empleado");
-    $sentenciaSQL->bindParam(":ID_Empleado", $_SESSION['ID']);
+    $sentenciaSQL->bindParam(":ID_Empleado", $txtIDEmpleado);
     $sentenciaSQL->execute();
     $insumos = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
     $total_insumos = $insumos['total_insumos'];
