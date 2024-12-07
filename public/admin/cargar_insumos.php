@@ -295,6 +295,45 @@ function filtrarTabla() {
     <div class="col card p-2">
         <h4 class="p-2">Registros de insumos</h4>
         <hr>    
+<!-- Filtro por rango de fecha -->
+<div class="row m-2">
+    <div class="col card p-2">
+        Filtrar por rango de fecha de registro
+        <div class="row">
+            <div class="col">
+                <label for="fechaInicio">Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" class="form-control" onchange="filtrarPorFecha()">
+            </div>
+            <div class="col">
+                <label for="fechaFin">Fecha Fin:</label>
+                <input type="date" id="fechaFin" class="form-control" onchange="filtrarPorFecha()">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function filtrarPorFecha() {
+    var fechaInicio = document.getElementById('fechaInicio').value;
+    var fechaFin = document.getElementById('fechaFin').value;
+    var table = document.getElementById('registroInsumosTable');
+    var tr = table.getElementsByTagName('tr');
+
+    for (var i = 1; i < tr.length; i++) {
+        var td = tr[i].getElementsByTagName('td')[4]; // Columna de Fecha Recibo
+        if (td) {
+            var fechaRecibo = new Date(td.textContent || td.innerText);
+            var inicio = new Date(fechaInicio);
+            var fin = new Date(fechaFin);
+
+            if (fechaRecibo >= inicio && fechaRecibo <= fin) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+</script>
         <table class="table" id="registroInsumosTable">    
             <thead>
                 <tr>
