@@ -124,7 +124,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                     <hr>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin/gestionar_areas.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_areas.php"){echo "active";}?>">
-                            <i class="fas fa-list-alt"></i> Gestionar áreas
+                            <i class="fas fa-id-card-clip"></i> Gestionar áreas
                         </a>
                     </li>
                 </ul>
