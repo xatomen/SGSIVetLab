@@ -29,8 +29,18 @@ $sentenciaSQL->execute();
 $insumos = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
 $total_insumos_a_vencer = $insumos['total_insumos'];
 
+// Consulta para obtener la cantidad de insumos que estén por debajo del stock crítico
+$sentenciaSQL = $conn->prepare("SELECT COUNT(*) AS total_insumos FROM insumo WHERE Cantidad <= Stock_minimo");
+$sentenciaSQL->execute();
+$insumos = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+$total_insumos_criticos = $insumos['total_insumos'];
 
 ?>
+<!-- Estilos generados de manera manual -->
+<link rel="stylesheet" type="text/css" href="http://localhost/SGSIVetLab/src/styles.css">
+<style>
+
+</style>
 
 <div class="row justify-content-center p-2">
 
@@ -40,34 +50,52 @@ $total_insumos_a_vencer = $insumos['total_insumos'];
     <div class="row m-2">
         <div class="col"></div>
         <div class="col card-custom card-personas">
-            <i class="fas fa-user"></i>
             <div class="content">
-                <div class="number"><?php echo $total_empleados; ?></div>
+                <div class="icon-number">
+                    <i class="fas fa-user"></i>
+                    <div class="number"><?php echo $total_empleados; ?></div>
+                </div>
                 <div class="text">Empleados</div>
             </div>
         </div> 
 
         <div class="col card-custom card-insumos">
-            <i class="fas ¿fa-solid fa-id-card-clip"></i>
             <div class="content">
-                <div class="number"><?php echo $total_areas; ?></div>
+                <div class="icon-number">
+                    <i class="fas fa-id-card-clip"></i>
+                    <div class="number"><?php echo $total_areas; ?></div>
+                </div>
                 <div class="text">Áreas</div>
             </div>
         </div>
 
         <div class="col card-custom card-otro">
-            <i class="fas fa-box"></i>
             <div class="content">
-                <div class="number"><?php echo $total_insumos; ?></div>
+                <div class="icon-number">
+                    <i class="fas fa-box"></i>
+                    <div class="number"><?php echo $total_insumos; ?></div>
+                </div>
                 <div class="text">Insumos</div>
             </div>
         </div>
 
         <div class="col card-custom card-alerta">
-            <i class="fas fa-solid fa-triangle-exclamation"></i>
             <div class="content">
-                <div class="number"><?php echo $total_insumos_a_vencer; ?></div>
-                <div class="text">Insumos próximos a vencer</div>
+                <div class="icon-number">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <div class="number"><?php echo $total_insumos_a_vencer; ?></div>
+                </div>
+                <div class="text">Insumos por vencer</div>
+            </div>
+        </div>
+
+        <div class="col card-custom card-alerta-insumo">
+            <div class="content">
+                <div class="icon-number">
+                    <i class="fas fa-circle-exclamation"></i>
+                    <div class="number"><?php echo $total_insumos_criticos; ?></div>
+                </div>
+                <div class="text">Insumos con bajo stock</div>
             </div>
         </div>
 
