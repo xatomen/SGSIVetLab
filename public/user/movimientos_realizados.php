@@ -2,7 +2,15 @@
     include_once("../../config/database.php");
     include_once("../../src/header_user.php");
 
-    $sentenciaSQL = $conn->prepare("SELECT * FROM insumo_usado_empleado;");
+    // Ahora debemos buscar el ID del empleado considerando el ID de credenciales
+    $sentenciaSQL = $conn->prepare("SELECT * FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
+    $sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
+    $sentenciaSQL->execute();
+    $empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+    $txtIDEmpleado = $empleado['ID'];
+
+    $sentenciaSQL = $conn->prepare("SELECT * FROM insumo_usado_empleado WHERE ID_Empleado = :ID_Empleado;");
+    $sentenciaSQL->bindParam(":ID_Empleado", $txtIDEmpleado);
     $sentenciaSQL->execute();
     $listaMovimientos = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
