@@ -40,6 +40,9 @@
             $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $lastindex = $resultado['lastIndex']+1;
 
+            // Debemos crear el código único, será conformado por VL000000 más el número de registro, ej: registro 1 va a ser VL000001
+            $txtCodigoUnico = "VL".str_pad($lastindex, 6, "0", STR_PAD_LEFT);
+
             $sentenciaSQL = $conn->prepare("INSERT INTO registro_insumo (ID_Registro_Insumo, Codigo_unico, Numero_lote, Fecha_recibo, Fecha_vencimiento, Cantidad, Cantidad_actual, ID_Administrador, ID_Provee) VALUES (:ID_Registro_Insumo, :Codigo_unico, :Numero_lote, :Fecha_recibo, :Fecha_vencimiento, :Cantidad, :Cantidad_actual, :ID_Administrador, :ID_Provee)");
 
             // Indicamos la ID del registro
@@ -129,15 +132,6 @@
                                 <div class="mb-3">
                                     <label for="txtCodigoInsumo" class="form-label">ID Insumo Proveedor</label>
                                     <input type="text" class="form-control" name="txtCodigoInsumo" id="txtCodigoInsumo" value="<?php echo $txtCodigoInsumo ?>" placeholder="Ingrese el código">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Código único -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="txtCodigoUnico" class="form-label">Código Único</label>
-                                    <input type="text" class="form-control" name="txtCodigoUnico" id="txtCodigoUnico" value="<?php echo $txtCodigoUnico ?>" placeholder="Ingrese el código">
                                 </div>
                             </div>
                         </div>
