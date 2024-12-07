@@ -1,4 +1,5 @@
 <?php 
+ob_start(); // Inicia el buffer de salida
 // Conexión a la BD
 // require_once '../config/database.php';
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
@@ -117,7 +118,7 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
                     </li>
                     <li class="nav-item">
                         <a href="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php" class="nav-link text-white <?php if($url=="http://localhost/SGSIVetLab/public/admin/mostrar_registros.php"){echo "active";}?>">
-                            <i class="fas fa-list-alt"></i> Mostrar registros
+                            <i class="fas fa-list-alt"></i> Movimientos de insumos
                         </a>
                     </li>
                     <hr>

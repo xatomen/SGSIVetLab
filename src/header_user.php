@@ -1,4 +1,5 @@
 <?php 
+ob_start(); // Inicia el buffer de salida
 // Conexión a la BD
 // require_once '../config/database.php';
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
