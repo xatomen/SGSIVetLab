@@ -69,6 +69,13 @@
             echo "ID Provee ->".$txtIDProvee;
             // echo "ID ->" .$txtIDInsumo;
 
+            // Obtener el precio del insumo seleccionado
+            $sentenciaSQL = $conn->prepare("SELECT Precio FROM provee WHERE ID_Provee = :ID_Provee");
+            $sentenciaSQL->bindParam(':ID_Provee', $txtIDProvee);
+            $sentenciaSQL->execute();
+            $resultado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+            $precioInsumo = $resultado['Precio'];
+
             // Obtener el último índice para la tabla registro_orden_de_compra
             $sentenciaSQL = $conn->prepare("SELECT MAX(Num_Registro_Orden_de_Compra) AS lastIndex FROM registro_orden_de_compra");
             $sentenciaSQL->execute();
@@ -76,9 +83,10 @@
             $lastindex = $resultado['lastIndex']+1;
 
             // Insertar el insumo seleccionado
-            $sentenciaSQL = $conn->prepare("INSERT INTO registro_orden_de_compra (Num_Registro_Orden_de_Compra, Cantidad, ID_Orden_Compra, ID_Provee) VALUES (:Num_Registro_Orden_de_Compra, :Cantidad, :ID_Orden_Compra, :ID_Provee)");
+            $sentenciaSQL = $conn->prepare("INSERT INTO registro_orden_de_compra (Num_Registro_Orden_de_Compra, Cantidad, Precio_unitario, ID_Orden_Compra, ID_Provee) VALUES (:Num_Registro_Orden_de_Compra, :Cantidad, :Precio_unitario, :ID_Orden_Compra, :ID_Provee)");
             $sentenciaSQL->bindParam(':Num_Registro_Orden_de_Compra',$lastindex);
             $sentenciaSQL->bindParam(':Cantidad',$txtCantidad);
+            $sentenciaSQL->bindParam(':Precio_unitario',$precioInsumo);
             $sentenciaSQL->bindParam(':ID_Orden_Compra', $txtNumOrden);
             $sentenciaSQL->bindParam(':ID_Provee',$txtIDProvee);
             $sentenciaSQL->execute();
