@@ -1,66 +1,65 @@
 <?php
-require_once '../../src/header_admin.php';
 include_once("../../config/database.php");
+require_once '../../src/header_admin.php';
 
-// // Conectar a la base de datos
-// $conn = new mysqli($servername, $username, $password, $dbname);
+// Verifica si se han enviado las fechas
+$fechaInicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
+$fechaFin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
 
-// // Verificar la conexión
-// if ($conn->connect_error) {
-//     die("Conexión fallida: " . $conn->connect_error);
-// }
+$sentenciaSQL = $conn->prepare("SELECT ID_Empleado, COUNT(*) AS cantidad FROM insumo_usado_empleado WHERE (:fecha_inicio = '' OR fecha >= :fecha_inicio) AND (:fecha_fin = '' OR fecha <= :fecha_fin) GROUP BY ID_Empleado");
+$sentenciaSQL->bindParam(':fecha_inicio', $fechaInicio);
+$sentenciaSQL->bindParam(':fecha_fin', $fechaFin);
+$sentenciaSQL->execute();
+$cantidadInsumosUsados = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
-// $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : '';
-// $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : '';
+// Prepara los datos para pasarlos a JavaScript
+$empleados = [];
+$cantidades = [];
+foreach ($cantidadInsumosUsados as $fila) {
+    // Obtener el nombre del empleado
+    $sentenciaNombre = $conn->prepare("SELECT Nombre FROM empleado WHERE ID = :ID");
+    $sentenciaNombre->bindParam(':ID', $fila['ID_Empleado']);
+    $sentenciaNombre->execute();
+    $nombreEmpleado = $sentenciaNombre->fetch(PDO::FETCH_ASSOC)['Nombre'];
+    $empleados[] = $nombreEmpleado;
+    $cantidades[] = $fila['cantidad'];
+}
 
-// // Obtener datos de métricas (cantidad de insumos utilizados por área)
-// $sql = "SELECT area.Area, SUM(insumo_usado_empleado.Cantidad) as TotalInsumosUsados 
-//         FROM insumo_usado_empleado 
-//         INNER JOIN empleado ON insumo_usado_empleado.ID_Empleado = empleado.ID
-//         INNER JOIN area ON empleado.ID_Area = area.ID 
-//         WHERE insumo_usado_empleado.Fecha BETWEEN '$fechaInicio' AND '$fechaFin'
-//         GROUP BY area.Area";
-// $result = $conn->query($sql);
 
-// $areas = [];
-// $totales = [];
 
-// if ($result->num_rows > 0) {
-//     while($row = $result->fetch_assoc()) {
-//         $areas[] = $row['Area'];
-//         $totales[] = $row['TotalInsumosUsados'];
-//     }
-// } else {
-//     echo "0 resultados";
-// }
-// $conn->close();
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
-    <h2>Listado de Métricas</h2>
-    <form method="post" action="">
-        <label for="fechaInicio">Fecha Inicio:</label>
-        <input type="date" id="fechaInicio" name="fechaInicio" value="<?php echo $fechaInicio; ?>" required>
-        <label for="fechaFin">Fecha Fin:</label>
-        <input type="date" id="fechaFin" name="fechaFin" value="<?php echo $fechaFin; ?>" required>
-        <button type="submit">Filtrar</button>
+    <h4>Mostrar la cantidad de insumos utilizados por empleado</h4>
+    <hr>
+    <form method="post" id="filtroFechas">
+        <label for="fecha_inicio">Fecha Inicio:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
+        <label for="fecha_fin">Fecha Fin:</label>
+        <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
+        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
     </form>
-    <canvas id="metricasChart"></canvas>
+    <canvas id="insumosUsadosPorEmpleado"></canvas>
 </div>
 
 <script>
-    var ctx = document.getElementById('metricasChart').getContext('2d');
-    var metricasChart = new Chart(ctx, {
+    // Datos de PHP a JavaScript
+    const empleados = <?php echo json_encode($empleados); ?>;
+    const cantidades = <?php echo json_encode($cantidades); ?>;
+
+    // Configuración del gráfico
+    const ctx = document.getElementById('insumosUsadosPorEmpleado').getContext('2d');
+    const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <?php echo json_encode($areas); ?>,
+            labels: empleados,
             datasets: [{
-                label: 'Cantidad de Insumos Utilizados por Área',
-                data: <?php echo json_encode($totales); ?>,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                label: 'Cantidad de insumos usados',
+                data: cantidades,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
         },
@@ -71,6 +70,12 @@ include_once("../../config/database.php");
                 }
             }
         }
+    });
+
+    // Actualiza el gráfico cuando se envía el formulario
+    document.getElementById('filtroFechas').addEventListener('submit', function(event) {
+        event.preventDefault();
+        this.submit();
     });
 </script>
 
