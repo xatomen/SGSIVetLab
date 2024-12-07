@@ -29,9 +29,28 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-<div class="row col card">
-    <h2 class="p-2">Movimientos realizados</h2>
+<div class="row col card p-4 m-4">
+    <h2>Movimientos realizados</h2>
     <hr>
+    <!-- Campos de filtro -->
+    <div class="row mb-3">
+        <div class="col">
+            <select id="filtroProveedor" class="form-control">
+                <option value="">Filtrar por proveedor</option>
+                <?php foreach($listaProveedores as $proveedor) { ?>
+                    <option value="<?php echo $proveedor['Nombre']; ?>"><?php echo $proveedor['Nombre']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="col">
+            <select id="filtroInsumo" class="form-control">
+                <option value="">Filtrar por nombre de insumo</option>
+                <?php foreach($listaProvee as $insumo) { ?>
+                    <option value="<?php echo $insumo['Descripcion']." - ".$insumo['Presentacion']; ?>"><?php echo $insumo['Descripcion']." - ".$insumo['Presentacion']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
     <table id="tablaMovimientos" class="table">
         <thead>
             <tr>
@@ -97,6 +116,22 @@
             "searching": true // Habilita el cuadro de búsqueda
         });
     });
+</script>
+
+<script>
+$(document).ready(function() {
+    var table = $('#tablaMovimientos').DataTable();
+
+    // Filtro por proveedor
+    $('#filtroProveedor').on('change', function() {
+        table.column(3).search(this.value).draw();
+    });
+
+    // Filtro por nombre de insumo
+    $('#filtroInsumo').on('change', function() {
+        table.column(5).search(this.value).draw();
+    });
+});
 </script>
 
 <?php
