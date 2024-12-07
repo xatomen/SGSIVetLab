@@ -184,7 +184,6 @@
     $sentenciaSQL= $conn->prepare("SELECT * FROM area");
     $sentenciaSQL->execute();
     $listaAreas=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!-- Modal Agregar Insumo -->
