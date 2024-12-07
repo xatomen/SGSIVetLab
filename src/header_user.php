@@ -9,6 +9,13 @@ session_start();
 // echo $_SESSION['Usuario'];
 // echo $_SESSION['ID'];
 
+// Encontrar el nombre del usuario
+$sentenciaSQL = $conn->prepare("SELECT Nombre FROM empleado WHERE ID_Credenciales = :ID_Credenciales");
+$sentenciaSQL->bindParam(':ID_Credenciales', $_SESSION['ID']);
+$sentenciaSQL->execute();
+$empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
+$nombreUsuario = $empleado['Nombre'];
+
 
 if(empty($_SESSION['ID'])){
     header('location: ../index.php');
@@ -58,7 +65,7 @@ if(empty($_SESSION['ID'])){
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <span class="nav-link text-white">
-                            <i class="fas fa-user"></i> <?php echo $_SESSION['Usuario']; ?>
+                            <i class="fas fa-user"></i> <?php echo $nombreUsuario; ?>
                         </span>
                     </li>
                     <hr>
