@@ -1,8 +1,6 @@
 <?php
-    
-    require_once '../../src/header_user.php';
-
     require_once '../../config/database.php';
+    require_once '../../src/header_user.php';
 
     // $txtID = (isset($_POST['txtID']))?$_POST['txtID']:"";
     
