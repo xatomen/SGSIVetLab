@@ -292,15 +292,15 @@ function filtrarTabla() {
 
 <!-- Listado -->
 <div class="row m-2 text-center">
-    
     <div class="col card p-2">
-        <table class="table" id="registroInsumosTable">
-            <h4 class="p-2">Registros de insumos</h4>
-            <hr>
+        <h4 class="p-2">Registros de insumos</h4>
+        <hr>    
+        <table class="table" id="registroInsumosTable">    
             <thead>
                 <tr>
                     <th>N° Registro</th>
                     <th>Codigo Único</th>
+                    <th>Insumo</th>
                     <th>N° Lote</th>
                     <th>Fecha Recibo</th>
                     <th>Fecha Vencimiento</th>
@@ -315,6 +315,17 @@ function filtrarTabla() {
                     <tr>
                         <td><?php echo $registro['ID_Registro_Insumo'] ?></td>
                         <td><?php echo $registro['Codigo_unico'] ?></td>
+                        <td>
+                            <?php
+                                foreach($listaProvee as $provee){
+                                    if($provee['ID_Provee']==$registro['ID_Provee']){
+                                        if($registro['ID_Provee']==$provee['ID_Provee']){
+                                            echo $provee['Descripcion']." - ".$provee['Presentacion'];
+                                        }
+                                    }
+                                }
+                            ?>
+                        </td>
                         <td><?php echo $registro['Numero_lote'] ?></td>
                         <td><?php echo $registro['Fecha_recibo'] ?></td>
                         <td><?php echo $registro['Fecha_vencimiento'] ?></td>
