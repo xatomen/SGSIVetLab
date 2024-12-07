@@ -2,6 +2,8 @@
 include_once("../../config/database.php");
 require_once '../../src/header_admin.php';
 
+// Mostrar la cantidad de insumos utilizados por empleado
+
 // Verifica si se han enviado las fechas
 $fechaInicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
 $fechaFin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
@@ -25,7 +27,17 @@ foreach ($cantidadInsumosUsados as $fila) {
     $cantidades[] = $fila['cantidad'];
 }
 
+// Mostrar la cantidad de insumos utilizados por área
 
+// Verifica si se han enviado las fechas
+$fechaInicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
+$fechaFin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
+
+// Debemos encontrar la cantidad de insumos por empleado
+
+// Debemos encontrar el área de los empleados
+
+// Ahora contamos la cantidad de insumos usados por área
 
 ?>
 
