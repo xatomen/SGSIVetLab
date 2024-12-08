@@ -122,10 +122,6 @@ $total_insumos_criticos = $insumos['total_insumos'];
                 <i class="fas fa-upload"></i><br>Cargar insumos
             </a>
         </div>
-        <div class="col-xl"></div>
-    </div>
-    <div class="row m-2">
-        <div class="col-xl"></div>
         <div class="col-auto">
             <a href="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php" class="btn m-1 btn-fixed-size <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_insumos.php"){echo "active";}?>">
                 <i class="fas fa-boxes"></i><br>Gestionar insumos
@@ -136,15 +132,16 @@ $total_insumos_criticos = $insumos['total_insumos'];
                 <i class="fas fa-vials"></i><br>Gestionar perfiles de muestra
             </a>
         </div>
+        <div class="col-xl"></div>
+    </div>
+    <div class="row m-2">
+        <div class="col-xl"></div>
+        
         <div class="col-auto">
             <a href="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php" class="btn m-1 btn-fixed-size <?php if($url=="http://localhost/SGSIVetLab/public/admin/mantener_proveedores.php"){echo "active";}?>">
                 <i class="fas fa-truck"></i><br>Gestionar proveedores
             </a>
         </div>
-        <div class="col-xl"></div>
-    </div>
-    <div class="row m-2">
-        <div class="col-xl"></div>
         <div class="col-auto">
             <a href="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php" class="btn m-1 btn-fixed-size <?php if($url=="http://localhost/SGSIVetLab/public/admin/crear_orden_compra.php"){echo "active";}?>">
                 <i class="fas fa-file-alt"></i><br>Crear órdenes de compra
@@ -160,15 +157,21 @@ $total_insumos_criticos = $insumos['total_insumos'];
                 <i class="fas fa-list-alt"></i><br>Mostrar registros
             </a>
         </div>
-        <div class="col-xl"></div>
-    </div>
-    <div class="row m-2">
-    <div class="col-xl"></div>
         <div class="col-auto">
             <a href="http://localhost/SGSIVetLab/public/admin/gestionar_areas.php" class="btn m-1 btn-fixed-size <?php if($url=="http://localhost/SGSIVetLab/public/admin/gestionar_usuarios.php"){echo "active";}?>">
                 <i class="fas fa-id-card-clip"></i><br>Gestionar áreas
             </a>
         </div>
+        <div class="col-xl"></div>
+    </div>
+    <div class="row m-2">
+        <div class="col-xl"></div>
+        
+        <div class="col-xl"></div>
+    </div>
+    <div class="row m-2">
+    <div class="col-xl"></div>
+        
         <div class="col-xl"></div>
     </div>
 </div>
