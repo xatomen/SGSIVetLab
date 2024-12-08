@@ -17,7 +17,7 @@ $empleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
 $nombreUsuario = $empleado['Nombre'];
 
 
-if(empty($_SESSION['ID'])){
+if(empty($_SESSION['ID']) || $_SESSION['Tipo_Usuario']!="Usuario"){
     header('location: ../index.php');
 }
 

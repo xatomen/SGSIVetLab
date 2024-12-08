@@ -4,14 +4,14 @@ ob_start(); // Inicia el buffer de salida
 // require_once '../config/database.php';
 $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
-// session_start();
+session_start();
 
 // echo $_SESSION['Usuario'];
 
 // session_start();
-// if(empty($_SESSION['ID'])){
-    // header('location: ../index.php');
-// }
+if(empty($_SESSION['ID']) || $_SESSION['Tipo_Usuario']!="Administrador"){
+    header('location: http://localhost/SGSIVetLab/index.php');
+}
 
 ?>
 

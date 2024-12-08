@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_start();
         $_SESSION['ID'] = $user['ID'];
         $_SESSION['Usuario'] = $user['Usuario'];
+        $_SESSION['Tipo_Usuario'] = $user['Tipo_Usuario'];
 
         // Verificar el tipo de usuario y redirigir
         if ($user['Tipo_Usuario'] == 'Administrador') {
