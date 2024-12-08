@@ -216,6 +216,7 @@
                                     <div class="card row m-2 p-2 shadow">
                                         <table class="table table-bordered">
                                             <h4 class="p-2">Orden de compra N°<?php echo $orden['Num_Orden_de_Compra']; ?></h4>
+                                            <?php $txtNumOrden = $orden['Num_Orden_de_Compra'] ?>
                                             <hr>
                                             <h5 class="text-center">Información del proveedor</h5>
                                             <hr>
