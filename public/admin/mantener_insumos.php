@@ -416,6 +416,7 @@
                 <th>Área</th>
                 <th>Cantidad</th>
                 <th>Stock mínimo</th>
+                <th>Semáforo</th>
                 <th></th>
                 <th>Editar elemento</th>
             </tr>
@@ -437,6 +438,7 @@
                 </td>
                 <td><?php echo $insumo['Cantidad'] ?></td>
                 <td><?php echo $insumo['Stock_minimo'] ?></td>
+                <td>Semáforo</td>
                 <td>
                     <table class="table">
                         <thead>
