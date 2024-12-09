@@ -59,10 +59,11 @@
             $txtIDEmpleado = $empleado['ID'];
 
             // Debemos encontrar el último registro de la tabla insumo_usado_empleado para obtener el ID
-            $sentenciaSQL = $conn->prepare("SELECT MAX(ID_Insumo_Empleado) FROM insumo_usado_empleado");
+            $sentenciaSQL = $conn->prepare("SELECT * FROM insumo_usado_empleado ORDER BY ID_Insumo_Empleado DESC LIMIT 1");
             $sentenciaSQL->execute();
             $insumoUsadoEmpleado = $sentenciaSQL->fetch(PDO::FETCH_ASSOC);
             $txtID = $insumoUsadoEmpleado['ID_Insumo_Empleado'] + 1;
+            echo $txtID;
 
             // Ahora debemos crear el registro en la tabla insumo_usado_empleado
             $sentenciaSQL = $conn->prepare("INSERT INTO insumo_usado_empleado (ID_Insumo_Empleado, ID_Empleado, ID_Provee, Cantidad, Codigo_unico, Fecha) VALUES (:ID_Insumo_Empleado, :ID_Empleado, :ID_Provee, :Cantidad, :Codigo_unico, :Fecha)");
