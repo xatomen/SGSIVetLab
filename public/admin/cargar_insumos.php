@@ -130,7 +130,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="txtCodigoInsumo" class="form-label">ID Insumo Proveedor</label>
+                                    <label for="txtCodigoInsumo" class="form-label">Código Insumo Proveedor</label>
                                     <input type="text" class="form-control" name="txtCodigoInsumo" id="txtCodigoInsumo" value="<?php echo $txtCodigoInsumo ?>" placeholder="Ingrese el código">
                                 </div>
                             </div>
@@ -152,14 +152,14 @@
                         <!-- Fecha de vencimiento -->
                          <div class="row">
                             <div class="mb-3">
-                                <label for="txtFechaVencimiento" class="form-label">Fecha</label>
+                                <label for="txtFechaVencimiento" class="form-label">Fecha de vencimiento</label>
                                 <input type="date" class="form-control" name="txtFechaVencimiento" id="txtFechaVencimiento" value="<?php echo $txtFecha ?>"></input>
                             </div>
                         </div>
                          <!-- Fecha -->
                         <div class="row">
                             <div class="mb-3">
-                                <label for="txtFecha" class="form-label">Fecha</label>
+                                <label for="txtFecha" class="form-label">Fecha de ingreso</label>
                                 <input type="text" class="form-control" name="txtFecha" id="txtFecha" value="<?php echo $txtFecha ?>" readonly></input>
                             </div>
                         </div>
