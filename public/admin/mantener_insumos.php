@@ -438,7 +438,9 @@
                 </td>
                 <td><?php echo $insumo['Cantidad'] ?></td>
                 <td><?php echo $insumo['Stock_minimo'] ?></td>
-                <td>Semáforo</td>
+                <td>
+                  <span class="semaforo <?php echo ($insumo['Cantidad'] < $insumo['Stock_minimo']) ? 'rojo' : 'verde'; ?>"></span>
+                </td>
                 <td>
                     <table class="table">
                         <thead>
@@ -471,7 +473,7 @@
                                 <td><?php echo $provee['Codigo_Insumo'] ?></td>
                                 <td><?php echo $provee['Descripcion'] ?></td>
                                 <td><?php echo $provee['Presentacion'] ?></td>
-                                <td><?php echo $provee['Precio'] ?></td>
+                                <td><?php echo "$".number_format($provee['Precio'], 0, '', '.')  ?></td>
                                 <td>
                                     <form method="POST" class="m-0">
                                         <div class="btn-group" role="group">
