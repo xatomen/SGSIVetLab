@@ -551,18 +551,18 @@
                                 <div class="row m-0">
                                   <div class="btn-group" role="group">
                                       <!-- Botón para abrir el modal de agregar proveedor -->
-                                      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
+                                      <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal"
                                               data-id="<?php echo $insumo['ID'] ?>">
                                         <i class="fas fa-plus"></i> <!-- Ícono de agregar -->
                                       </button>
                                       <!-- Botón para abrir el modal de modificar insumo -->
-                                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
+                                      <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarInsumoModal"
                                               data-id="<?php echo $insumo['ID'] ?>"
                                               data-nombre="<?php echo $insumo['Nombre'] ?>"
                                               data-stock-minimo="<?php echo $insumo['Stock_minimo'] ?>">
                                         <i class="fas fa-edit"></i> <!-- Ícono de editar -->
                                       </button>
-                                      <button type="submit" name="accion" value="Eliminar" class="btn btn-danger">
+                                      <button type="submit" name="accion" value="Eliminar" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash"></i> <!-- Ícono de basurero -->
                                       </button>
                                   </div>

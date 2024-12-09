@@ -187,7 +187,7 @@
                         ?>
                     </td>
                     <td><?php echo $provee['Cantidad'] ?></td>
-                    <td><?php echo $provee['Precio'] ?></td>
+                    <td><?php echo "$".number_format($provee['Precio'], 0, '', '.')  ?></td>
                     <td><?php echo $provee['Descripcion'] ?></td>
                     <td><?php echo $provee['Presentacion'] ?></td>
                     <td class="area">
