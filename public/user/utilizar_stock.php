@@ -115,7 +115,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="txtCodigoUnico" class="form-label">ID Insumo Proveedor</label>
+                                    <label for="txtCodigoUnico" class="form-label">Código único</label>
                                     <input type="text" class="form-control" name="txtCodigoUnico" id="txtCodigoUnico" value="<?php echo $txtCodigoUnico ?>" placeholder="Ingrese el código">
                                 </div>
                             </div>
