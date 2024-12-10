@@ -74,44 +74,51 @@ foreach ($cantidadInsumosUsados as $fila) {
 }
 
 ?>
+<div class="row">
 
-<div class="container">
-    <h4>Mostrar la cantidad de insumos utilizados por empleado</h4>
-    <hr>
-    <form method="post" id="filtroFechasEmpleado">
-        <label for="fecha_inicio">Fecha Inicio:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
-        <label for="fecha_fin">Fecha Fin:</label>
-        <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
-        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-    </form>
-    <canvas id="insumosUsadosPorEmpleado"></canvas>
+    <div class="col card p-4 m-4 container">
+        <h4>Mostrar la cantidad de insumos utilizados por empleado</h4>
+        <hr>
+        <form method="post" id="filtroFechasEmpleado">
+            <label for="fecha_inicio">Fecha Inicio:</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
+            <label for="fecha_fin">Fecha Fin:</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
+            <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+        </form>
+        <canvas id="insumosUsadosPorEmpleado"></canvas>
+    </div>
+
+    <div class="col card p-4 m-4 container">
+        <h4>Mostrar la cantidad de insumos utilizados por área</h4>
+        <hr>
+        <form method="post" id="filtroFechasArea">
+            <label for="fecha_inicio">Fecha Inicio:</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
+            <label for="fecha_fin">Fecha Fin:</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
+            <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+        </form>
+        <canvas id="insumosUsadosPorArea"></canvas>
+    </div>
+
 </div>
 
-<div class="container">
-    <h4>Mostrar la cantidad de insumos utilizados por área</h4>
-    <hr>
-    <form method="post" id="filtroFechasArea">
-        <label for="fecha_inicio">Fecha Inicio:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
-        <label for="fecha_fin">Fecha Fin:</label>
-        <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
-        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-    </form>
-    <canvas id="insumosUsadosPorArea"></canvas>
-</div>
-
-<div class="container">
-    <h4>Mostrar la cantidad de insumos utilizados por fecha</h4>
-    <hr>
-    <form method="post" id="filtroFechasFecha">
-        <label for="fecha_inicio">Fecha Inicio:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
-        <label for="fecha_fin">Fecha Fin:</label>
-        <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
-        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-    </form>
-    <canvas id="insumosUsadosPorFecha"></canvas>
+<div class="row">
+    <div class="col-xl"></div>
+    <div class="col-6 card p-4 m-4 container">
+        <h4>Mostrar la cantidad de insumos utilizados por fecha</h4>
+        <hr>
+        <form method="post" id="filtroFechasFecha">
+            <label for="fecha_inicio">Fecha Inicio:</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fechaInicio; ?>">
+            <label for="fecha_fin">Fecha Fin:</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $fechaFin; ?>">
+            <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+        </form>
+        <canvas id="insumosUsadosPorFecha"></canvas>
+    </div>
+    <div class="col-xl"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
