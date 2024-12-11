@@ -408,7 +408,7 @@
         </button>
     </div>
     
-    <table id="tablaInsumos" class="table ">
+    <table id="tablaInsumos" class="table table-responsive">
         <thead>
             <tr>
                 <th>ID</th>
@@ -442,7 +442,7 @@
                   <span class="semaforo <?php echo ($insumo['Cantidad'] < $insumo['Stock_minimo']) ? 'rojo' : 'verde'; ?>"></span>
                 </td>
                 <td>
-                    <table class="table">
+                    <table class="table-responsive">
                         <thead>
                             <tr>
                                 <th>Área</th>
@@ -580,7 +580,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Inicializa DataTables
         var table = $('#tablaInsumos').DataTable({
-            "order": [[0, "asc"]]
+            "order": [[0, "asc"]],
+            "responsive": true
         });
 
         // Filtrado personalizado usando la búsqueda integrada de DataTables
