@@ -396,7 +396,8 @@
 <!-- Incluye los archivos de DataTables -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 <!-- Listado -->
 <div class="card row m-5 shadow p-3">
     <h4 class="p-2">Gestionar insumos</h4>
@@ -408,7 +409,7 @@
         </button>
     </div>
     
-    <table id="tablaInsumos" class="table table-responsive">
+    <table id="tablaInsumos" class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -442,10 +443,10 @@
                   <span class="semaforo <?php echo ($insumo['Cantidad'] < $insumo['Stock_minimo']) ? 'rojo' : 'verde'; ?>"></span>
                 </td>
                 <td>
-                    <table class="table-responsive">
+                    <table class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Área</th>
+                                <!-- <th>Área</th> -->
                                 <th>Proveedor</th>
                                 <th>Código Insumo</th>
                                 <th>Descripción</th>
@@ -459,7 +460,7 @@
                             <?php foreach($listaProvee as $provee){ ?>
                             <?php if($insumo['ID']==$provee['ID_Insumo'] && $proveedor['ID']==$provee['ID_Proveedor']){ ?>
                             <tr>
-                                <td>
+                                <!-- <td>
                                   <?php 
                                     foreach($listaAreas as $area) {
                                       if($area['ID'] == $provee['ID_Area']) {
@@ -468,7 +469,7 @@
                                       }
                                     }
                                   ?>
-                                </td>
+                                </td> -->
                                 <td><?php echo $proveedor['Nombre'] ?></td>
                                 <td><?php echo $provee['Codigo_Insumo'] ?></td>
                                 <td><?php echo $provee['Descripcion'] ?></td>
@@ -580,8 +581,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Inicializa DataTables
         var table = $('#tablaInsumos').DataTable({
-            "order": [[0, "asc"]],
-            "responsive": true
+            "order": [[0, "asc"]]
         });
 
         // Filtrado personalizado usando la búsqueda integrada de DataTables
