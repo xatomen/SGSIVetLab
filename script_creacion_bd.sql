@@ -154,8 +154,8 @@ CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`proveedor` (
   `Correo` VARCHAR(150) NOT NULL,
   `Telefono` VARCHAR(150) NOT NULL,
   `Direccion` VARCHAR(150) NOT NULL,
-  `Comuna` VARCHAR(45) NOT NULL,
-  `Ciudad` VARCHAR(45) NOT NULL,
+  `Comuna` VARCHAR(150) NOT NULL,
+  `Ciudad` VARCHAR(150) NOT NULL,
   `Giro` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB
@@ -202,11 +202,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`insumo_usado_empleado` (
   `ID_Insumo_Empleado` INT(11) NOT NULL,
+  `Codigo_unico` VARCHAR(45) NOT NULL,
   `Cantidad` FLOAT NOT NULL,
   `Fecha` DATE NOT NULL,
   `ID_Empleado` INT(11) NOT NULL,
   `ID_Provee` INT NOT NULL,
-  PRIMARY KEY (`ID_Insumo_Empleado`, `ID_Provee`),
+  PRIMARY KEY (`ID_Insumo_Empleado`),
   INDEX `fk_insumo_usado_empleado_empleado1_idx` (`ID_Empleado` ASC) ,
   INDEX `fk_insumo_usado_empleado_Provee1_idx` (`ID_Provee` ASC) ,
   CONSTRAINT `fk_insumo_usado_empleado_empleado1`
@@ -256,8 +257,9 @@ CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`registro_insumo` (
   `Codigo_unico` VARCHAR(45) NOT NULL,
   `Numero_lote` VARCHAR(45) NOT NULL,
   `Fecha_recibo` DATE NOT NULL,
-  `Fecha_vencimiento` VARCHAR(45) NOT NULL,
+  `Fecha_vencimiento` DATE NOT NULL,
   `Cantidad` INT NOT NULL,
+  `Cantidad_actual` FLOAT NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Provee` INT NOT NULL,
   PRIMARY KEY (`ID_Registro_Insumo`),
@@ -282,11 +284,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`registro_orden_de_compra` (
   `Num_Registro_Orden_de_Compra` INT(11) NOT NULL,
-  `Precio` INT(11) NOT NULL,
   `Cantidad` INT(11) NOT NULL,
-  `Descripcion` VARCHAR(45) NOT NULL,
-  `Presentacion` VARCHAR(45) NOT NULL,
-  `Codigo_Insumo` VARCHAR(45) NOT NULL,
+  `Precio_unitario` FLOAT NOT NULL,
   `ID_Orden_Compra` INT(11) NOT NULL,
   `ID_Provee` INT NOT NULL,
   PRIMARY KEY (`Num_Registro_Orden_de_Compra`),
@@ -312,6 +311,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`Mantiene_Empleado` (
   `ID_Mantener` INT NOT NULL,
   `Fecha` DATE NOT NULL,
+  `Accion` VARCHAR(150) NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Empleado` INT(11) NOT NULL,
   PRIMARY KEY (`ID_Mantener`),
@@ -336,6 +336,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`Mantiene_Insumo` (
   `ID_Mantener` INT NOT NULL,
   `Fecha` DATE NOT NULL,
+  `Accion` VARCHAR(150) NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Insumo` INT(11) NOT NULL,
   PRIMARY KEY (`ID_Mantener`),
@@ -360,6 +361,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`Mantiene_Perfil_Muestra` (
   `ID_Mantener` INT NOT NULL,
   `Fecha` DATE NOT NULL,
+  `Accion` VARCHAR(150) NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Muestra` INT(11) NOT NULL,
   PRIMARY KEY (`ID_Mantener`),
@@ -384,6 +386,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`Mantiene_Proveedor` (
   `ID_Mantener` INT NOT NULL,
   `Fecha` DATE NOT NULL,
+  `Accion` VARCHAR(150) NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Proveedor` INT(11) NOT NULL,
   PRIMARY KEY (`ID_Mantener`),
@@ -406,13 +409,14 @@ ENGINE = InnoDB;
 -- Table `sgsi_vetlab`.`Mantiene_Provee`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sgsi_vetlab`.`Mantiene_Provee` (
-  `ID` VARCHAR(45) NOT NULL,
+  `ID_Mantener` INT NOT NULL,
   `Fecha` DATE NOT NULL,
+  `Accion` VARCHAR(150) NOT NULL,
   `ID_Administrador` INT(11) NOT NULL,
   `ID_Provee` INT NOT NULL,
   INDEX `fk_Mantiene_Provee_administrador1_idx` (`ID_Administrador` ASC) ,
   INDEX `fk_Mantiene_Provee_Provee1_idx` (`ID_Provee` ASC) ,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`ID_Mantener`),
   CONSTRAINT `fk_Mantiene_Provee_administrador1`
     FOREIGN KEY (`ID_Administrador`)
     REFERENCES `sgsi_vetlab`.`administrador` (`ID`)
